@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="Account"
+  buttons="accept,cancel"
+  ondialogaccept="return accountDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="accountDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="prefs.js" />
+
+  <!-- inputs -->
+  <label control="account-dialog-accessKeyId" value="AWS Access Key ID" />
+  <textbox id="account-dialog-accessKeyId"/>
+  <label control="account-dialog-secretAccessKey" value="AWS Secret Access Key" />
+  <textbox id="account-dialog-secretAccessKey" type="password" />
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function accountDialogOnLoad() {
+      document.getElementById('account-dialog-accessKeyId').value = Prefs.accessKeyId;
+      document.getElementById('account-dialog-secretAccessKey').value = Prefs.secretAccessKey;
+    }
+
+    function accountDialogDoOK() {
+      var accessKeyId = (document.getElementById('account-dialog-accessKeyId').value || '').trim();
+      var secretAccessKey = (document.getElementById('account-dialog-secretAccessKey').value || '').trim();
+
+      if (!accessKeyId || !secretAccessKey) {
+        alert("Please input 'AWS Access Key ID' and 'AWS Secret Access Key'.");
+        return false;
+      } else {
+        Prefs.accessKeyId = accessKeyId;
+        Prefs.secretAccessKey = secretAccessKey;
+        var views = window.arguments[0].views;
+        var newIAMClient = window.arguments[0].newIAMClient;
+
+        for (var i = 0; i < views.length; i++) {
+          views[i].iamcli = newIAMClient();
+        }
+
+        return true;
+      }
+    }
+  ]]></script>
+</dialog>

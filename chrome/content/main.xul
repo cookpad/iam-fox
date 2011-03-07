@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<!-- main window -->
+<window  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  width="640" height="480" title="IAM Fox" onload="windowOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="prefs.js" />
+  <script src="sha1.js" />
+  <script src="iam-client.js" />
+  <script src="main.js" />
+  <script src="group_tree_view.js" />
+  <script src="user_tree_view.js" />
+
+  <!-- menu -->
+  <toolbox>
+    <menubar>
+      <menu label="File">
+        <menupopup>
+          <menuitem label="Account" oncommand="openAccountDialog(); selectedView().refresh();" />
+          <menuitem label="Exit" oncommand="close();" />
+        </menupopup>
+      </menu>
+    </menubar>
+  </toolbox>
+
+  <!-- tabbox -->
+  <tabbox flex="1">
+    <tabs id="main-tabs" onselect="tabOnSelect(event);">
+      <tab id="group-tab" label="Group" />
+      <tab id="user-tab"  label="User" />
+    </tabs>
+
+    <tabpanels flex="1">
+      <!-- Group -->
+      <tabpanel>
+        <vbox flex="1">
+
+          <!-- Buttons -->
+          <hbox>
+            <button label="Refresh" oncommand="selectedView().refresh();" />
+          </hbox>
+
+          <!-- Tree -->
+          <tree id="group-tree" flex="1">
+            <treecols>
+              <treecol id="GroupName" label="Group Name" flex="1"/>
+              <treecol id="Arn" label="ARN" flex="2"/>
+            </treecols>
+            <treechildren />
+          </tree>
+        </vbox>
+      </tabpanel>
+
+      <!-- User -->
+      <tabpanel>
+        <vbox flex="1">
+
+          <!-- Buttons -->
+          <hbox>
+            <button label="Refresh" oncommand="selectedView().refresh();" />
+          </hbox>
+
+          <!-- Tree -->
+          <tree id="user-tree" flex="1">
+            <treecols>
+              <treecol id="UserName" label="User Name" flex="1"/>
+              <treecol id="Arn" label="ARN" flex="2"/>
+            </treecols>
+            <treechildren />
+          </tree>
+        </vbox>
+      </tabpanel>
+    </tabpanels>
+  </tabbox>
+</window>
