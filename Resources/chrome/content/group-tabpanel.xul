@@ -15,10 +15,13 @@
       </hbox>
 
       <!-- Tree -->
-      <tree id="group-tree" flex="1">
+      <tree id="group-tree" flex="1" ondblclick="this._view.onDblclick(event);">
         <treecols>
-          <treecol id="GroupName" label="Group Name" flex="1"/>
-          <treecol id="Arn" label="ARN" flex="2"/>
+          <treecol id="GroupId" label="Group ID" flex="1" />
+          <treecol id="GroupName" label="Group Name" flex="1" />
+          <treecol id="Path" label="Path Name" flex="1" />
+          <treecol id="Arn" label="ARN" flex="1" />
+          <treecol id="CreateDate" label="Create Date" flex="1" />
         </treecols>
         <treechildren />
       </tree>

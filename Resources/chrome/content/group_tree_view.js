@@ -2,6 +2,7 @@ function GroupTreeView(iamcli) {
   this.iamcli = iamcli;
   this.rows = [];
   this.rowCount = 0;
+  this.selection= null;
 }
 
 GroupTreeView.prototype = {
@@ -46,5 +47,14 @@ GroupTreeView.prototype = {
     } catch (e) {
       alert(e);
     }
+  },
+
+  onDblclick: function(event) {
+    alert(this.selectedRow());
+  },
+
+  selectedRow: function() {
+    var idx = this.selection.currentIndex;
+    return (idx != -1) ? this.rows[idx] : null;
   }
 };
