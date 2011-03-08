@@ -16,7 +16,7 @@
       </hbox>
 
       <!-- Tree -->
-      <tree id="user-tree" flex="1" ondblclick="this._view.onDblclick(event);">
+      <tree id="user-tree" seltype="single" flex="1" ondblclick="this._view.onDblclick(event);">
         <treecols>
           <treecol id="UserId" label="User Id" flex="1" />
           <treecol id="UserName" label="User Name" flex="1" />

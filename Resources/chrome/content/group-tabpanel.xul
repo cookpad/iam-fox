@@ -15,7 +15,7 @@
       </hbox>
 
       <!-- Tree -->
-      <tree id="group-tree" flex="1" ondblclick="this._view.onDblclick(event);">
+      <tree id="group-tree" seltype="single" flex="1" ondblclick="this._view.onDblclick(event);">
         <treecols>
           <treecol id="GroupId" label="Group ID" flex="1" />
           <treecol id="GroupName" label="Group Name" flex="1" />
