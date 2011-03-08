@@ -31,9 +31,9 @@ function treeViews() {
   var views = [];
   var tabs = document.getElementById('main-tabs').getElementsByTagName('tab');
 
-  for each (tab in tabs) {
-    if (tab.view) {
-      views.push(tab.view);
+  for (var i = 0; i < tabs.length; i++) {
+    if (tabs[i].view) {
+      views.push(tabs[i].view);
     }
   }
 

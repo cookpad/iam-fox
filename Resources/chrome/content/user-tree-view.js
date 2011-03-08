@@ -61,7 +61,8 @@ UserTreeView.prototype = {
           names.push(member);
         }
 
-        for each (var name in names) {
+        for (var i = 0; i < names.length; i++) {
+          var name = names[i];
           var params =  [['UserName', userName], ['PolicyName', name]];
           var getUserPolicy = this.iamcli.query('GetUserPolicy', params);
           policies.push(getUserPolicy.xml().GetUserPolicyResult);
@@ -71,7 +72,8 @@ UserTreeView.prototype = {
       if (policies.length > 0) {
         buf = "";
 
-        for each (policy in policies) {
+        for (var i = 0; i < policies.length; i++) {
+          var policy = policies[i];
           buf += policy.PolicyName + '\n';
           buf += '---\n';
           buf += decodeURIComponent(policy.PolicyDocument) + '\n';

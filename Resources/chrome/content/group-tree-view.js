@@ -61,7 +61,8 @@ GroupTreeView.prototype = {
           names.push(member);
         }
 
-        for each (name in names) {
+        for (var i = 0; i < names.length; i++) {
+          var name = names[i];
           var params =  [['GroupName', groupName], ['PolicyName', name]];
           var getGroupPolicy = this.iamcli.query('GetGroupPolicy', params);
           policies.push(getGroupPolicy.xml().GetGroupPolicyResult);
@@ -71,7 +72,8 @@ GroupTreeView.prototype = {
       if (policies.length > 0) {
         buf = "";
 
-        for each (policy in policies) {
+        for (var i = 0; i < policies.length; i++) {
+          var policy = policies[i];
           buf += policy.PolicyName + '\n';
           buf += '---\n';
           buf += decodeURIComponent(policy.PolicyDocument) + '\n';

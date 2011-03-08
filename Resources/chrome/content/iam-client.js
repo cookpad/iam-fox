@@ -76,8 +76,8 @@ IAMClient.prototype = {
     kvs.push(['Timestamp', this.timestamp()]);
     kvs.push(['AWSAccessKeyId', this.accessKeyId]);
 
-    for each (var param in params) {
-      kvs.push(param);
+    for (var i = 0; i < params.length; i++) {
+      kvs.push(params[i]);
     }
 
     kvs.sort(function(a, b) {
@@ -87,9 +87,9 @@ IAMClient.prototype = {
 
     var queryParams = [];
 
-    for each (var kv in kvs) {
-      var key = kv[0];
-      var val = encodeURIComponent(kv[1]);
+    for (var i = 0; i < kvs.length; i++) {
+      var key = kvs[i][0];
+      var val = encodeURIComponent(kvs[i][1]);
       queryParams.push(key + '=' + val);
     }
 
