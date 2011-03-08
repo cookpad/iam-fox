@@ -4,10 +4,11 @@
 
 <!DOCTYPE overlay SYSTEM "chrome://iamfox/locale/iamfox.dtd">
 
-<!-- group tabpanel -->
+<!-- user tabpanel -->
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <tabpanel id="group-tabpanel">
+  <tabpanel id="user-tabpanel">
     <vbox flex="1">
+
       <!-- Buttons -->
       <hbox>
         <button label="Account" oncommand="openAccountDialog();" />
@@ -15,9 +16,9 @@
       </hbox>
 
       <!-- Tree -->
-      <tree id="group-tree" flex="1">
+      <tree id="user-tree" flex="1">
         <treecols>
-          <treecol id="GroupName" label="Group Name" flex="1"/>
+          <treecol id="UserName" label="User Name" flex="1"/>
           <treecol id="Arn" label="ARN" flex="2"/>
         </treecols>
         <treechildren />

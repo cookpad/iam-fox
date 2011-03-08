@@ -3,6 +3,7 @@
 <?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
 
 <?xul-overlay href="chrome://iamfox/content/group-tabpanel.xul"?>
+<?xul-overlay href="chrome://iamfox/content/user-tabpanel.xul"?>
 
 <!DOCTYPE window SYSTEM "chrome://iamfox/locale/iamfox.dtd">
 
@@ -39,29 +40,11 @@
 
     <tabpanels flex="1">
       <tabpanel id="group-tabpanel" />
-
-      <!-- User -->
-      <tabpanel>
-        <vbox flex="1">
-
-          <!-- Buttons -->
-          <hbox>
-            <button label="Account" oncommand="openAccountDialog();" />
-            <button label="Refresh" oncommand="selectedView().refresh();" />
-          </hbox>
-
-          <!-- Tree -->
-          <tree id="user-tree" flex="1">
-            <treecols>
-              <treecol id="UserName" label="User Name" flex="1"/>
-              <treecol id="Arn" label="ARN" flex="2"/>
-            </treecols>
-            <treechildren />
-          </tree>
-        </vbox>
-      </tabpanel>
+      <tabpanel id="user-tabpanel" />
     </tabpanels>
   </tabbox>
+
+  <!-- progress meter -->
   <hbox align="right" style="padding:3px;">
     <progressmeter id="main-progressmeter" mode="determined" value="100"/>
   </hbox>
