@@ -27,7 +27,10 @@ GroupTreeView.prototype = {
     this.rows.length = 0;
 
     try {
-      var xhr = this.iamcli.query('ListGroups');
+
+      var xhr = inProgress(function(self) {
+        return self.iamcli.query('ListGroups');
+      }, this);
 
       if (!xhr.success()) {
         alert(xhr.responseText);

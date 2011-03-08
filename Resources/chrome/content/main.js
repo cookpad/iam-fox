@@ -55,3 +55,29 @@ function newIAMClient() {
     return new IAMClient(Prefs.accessKeyId, Prefs.secretAccessKey);
   }
 }
+
+function inProgress(callback, self) {
+try {
+  var progressmeter = document.getElementById('main-progressmeter');
+  var retval = null;
+  var exception = null;
+
+  progressmeter.mode = 'undetermined';
+
+  try {
+    retval = callback(self);
+  } catch (e) {
+    exception = e;
+  }
+
+  progressmeter.mode = 'determined';
+
+  if (exception) {
+    throw exception;
+  }
+
+  return retval;
+  } catch (e) {
+  alert(e);
+  }
+}

@@ -4,7 +4,7 @@ function IAMClient(accessKeyId, secretAccessKey) {
 }
 
 IAMClient.prototype = {
-  USER_AGENT: 'Watashi_ha_Kitsune_desu/0.1.0',
+  USER_AGENT: 'IAMClient/0.1.0',
   API_VERSION: '2010-05-08',
   HOST: 'iam.amazonaws.com',
   TIMEOUT: 30000,

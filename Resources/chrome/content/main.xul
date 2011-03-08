@@ -61,6 +61,7 @@
 
           <!-- Buttons -->
           <hbox>
+            <button label="Account" oncommand="openAccountDialog();" />
             <button label="Refresh" oncommand="selectedView().refresh();" />
           </hbox>
 
@@ -76,4 +77,7 @@
       </tabpanel>
     </tabpanels>
   </tabbox>
+  <hbox align="right" style="padding:3px;">
+    <progressmeter id="main-progressmeter" mode="determined" value="0%" />
+  </hbox>
 </window>
