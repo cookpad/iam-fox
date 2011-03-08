@@ -47,7 +47,43 @@ GroupTreeView.prototype = {
   },
 
   onDblclick: function(event) {
-    alert(this.selectedRow());
+    var group = this.selectedRow();
+    var policies = [];
+
+    protect(function() {
+      var groupName = group.GroupName;
+
+      inProgress(function() {
+        var listGroupPolicies = this.iamcli.query('ListGroupPolicies', [['GroupName',  groupName]]);
+        var names = [];
+
+        for each (var member in listGroupPolicies.xml()..PolicyNames.member) {
+          names.push(member);
+        }
+
+        for (var i = 0; i < names.length; i++) {
+          var name = names[i];
+          var params =  [['GroupName',  groupName], ['PolicyName', name]];
+          var getGroupPolicy = this.iamcli.query('GetGroupPolicy', params);
+          policies.push(getGroupPolicy.xml().GetGroupPolicyResult);
+        }
+      }.bind(this));
+
+      if (policies.length > 0) {
+        buf = "";
+
+        for (var i = 0; i < policies.length; i++) {
+          var policy = policies[i];
+          buf += policy.PolicyName + '\n';
+          buf += '---\n';
+          buf += decodeURIComponent(policy.PolicyDocument) + '\n';
+        }
+
+        alert(buf);
+      } else {
+        alert('empty action');
+      }
+    }.bind(this));
   },
 
   selectedRow: function() {
