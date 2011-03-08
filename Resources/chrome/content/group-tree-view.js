@@ -54,7 +54,7 @@ GroupTreeView.prototype = {
       var groupName = group.GroupName;
 
       inProgress(function() {
-        var listGroupPolicies = this.iamcli.query('ListGroupPolicies', [['GroupName',  groupName]]);
+        var listGroupPolicies = this.iamcli.query('ListGroupPolicies', [['GroupName', groupName]]);
         var names = [];
 
         for each (var member in listGroupPolicies.xml()..PolicyNames.member) {
@@ -63,7 +63,7 @@ GroupTreeView.prototype = {
 
         for (var i = 0; i < names.length; i++) {
           var name = names[i];
-          var params =  [['GroupName',  groupName], ['PolicyName', name]];
+          var params =  [['GroupName', groupName], ['PolicyName', name]];
           var getGroupPolicy = this.iamcli.query('GetGroupPolicy', params);
           policies.push(getGroupPolicy.xml().GetGroupPolicyResult);
         }

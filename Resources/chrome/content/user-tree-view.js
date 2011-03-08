@@ -47,7 +47,43 @@ UserTreeView.prototype = {
   },
 
   onDblclick: function(event) {
-    alert(this.selectedRow());
+    var user = this.selectedRow();
+    var policies = [];
+
+    protect(function() {
+      var userName = user.UserName;
+
+      inProgress(function() {
+        var listUserPolicies = this.iamcli.query('ListUserPolicies', [['UserName', userName]]);
+        var names = [];
+
+        for each (var member in listUserPolicies.xml()..PolicyNames.member) {
+          names.push(member);
+        }
+
+        for (var i = 0; i < names.length; i++) {
+          var name = names[i];
+          var params =  [['UserName', userName], ['PolicyName', name]];
+          var getUserPolicy = this.iamcli.query('GetUserPolicy', params);
+          policies.push(getUserPolicy.xml().GetUserPolicyResult);
+        }
+      }.bind(this));
+
+      if (policies.length > 0) {
+        buf = "";
+
+        for (var i = 0; i < policies.length; i++) {
+          var policy = policies[i];
+          buf += policy.PolicyName + '\n';
+          buf += '---\n';
+          buf += decodeURIComponent(policy.PolicyDocument) + '\n';
+        }
+
+        alert(buf);
+      } else {
+        alert('empty action');
+      }
+    }.bind(this));
   },
 
   selectedRow: function() {
