@@ -2,6 +2,8 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
 
+<?xul-overlay href="chrome://iamfox/content/group-tabpanel.xul"?>
+
 <!DOCTYPE window SYSTEM "chrome://iamfox/locale/iamfox.dtd">
 
 <!-- main window -->
@@ -36,26 +38,7 @@
     </tabs>
 
     <tabpanels flex="1">
-      <!-- Group -->
-      <tabpanel>
-        <vbox flex="1">
-
-          <!-- Buttons -->
-          <hbox>
-            <button label="Account" oncommand="openAccountDialog();" />
-            <button label="Refresh" oncommand="selectedView().refresh();" />
-          </hbox>
-
-          <!-- Tree -->
-          <tree id="group-tree" flex="1">
-            <treecols>
-              <treecol id="GroupName" label="Group Name" flex="1"/>
-              <treecol id="Arn" label="ARN" flex="2"/>
-            </treecols>
-            <treechildren />
-          </tree>
-        </vbox>
-      </tabpanel>
+      <tabpanel id="group-tabpanel" />
 
       <!-- User -->
       <tabpanel>
