@@ -9,10 +9,6 @@
   ondialogcancel="return true;"
   onload="accountDialogOnLoad();">
 
-  <!-- scripts -->
-  <script src="chrome://global/content/nsUserSettings.js" />
-  <script src="prefs.js" />
-
   <!-- inputs -->
   <label control="account-dialog-accessKeyId" value="AWS Access Key ID" />
   <textbox id="account-dialog-accessKeyId"/>
@@ -22,11 +18,14 @@
   <!-- dialog script -->
   <script><![CDATA[
     function accountDialogOnLoad() {
+      moveToAlertPosition()
+      var Prefs = window.arguments[0].prefs;
       document.getElementById('account-dialog-accessKeyId').value = Prefs.accessKeyId;
       document.getElementById('account-dialog-secretAccessKey').value = Prefs.secretAccessKey;
     }
 
     function accountDialogDoOK() {
+      var Prefs = window.arguments[0].prefs;
       var accessKeyId = (document.getElementById('account-dialog-accessKeyId').value || '').trim();
       var secretAccessKey = (document.getElementById('account-dialog-secretAccessKey').value || '').trim();
 
@@ -41,6 +40,7 @@
 
         for (var i = 0; i < views.length; i++) {
           views[i].iamcli = newIAMClient();
+          views[i].refresh();
         }
 
         return true;

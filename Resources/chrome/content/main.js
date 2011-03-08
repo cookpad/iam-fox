@@ -38,8 +38,8 @@ function treeViews() {
 }
 
 function openAccountDialog() {
-  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'modal',
-             {views:treeViews(), newIAMClient:newIAMClient});
+  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'modeless',
+             {prefs:Prefs, views:treeViews(), newIAMClient:newIAMClient});
 }
 
 function newIAMClient() {

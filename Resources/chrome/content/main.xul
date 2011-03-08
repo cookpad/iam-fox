@@ -4,11 +4,11 @@
 
 <!-- main window -->
 <window  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  width="640" height="480" title="IAM Fox" onload="windowOnLoad();">
+  title="IAM Fox" onload="windowOnLoad();">
 
   <!-- scripts -->
   <script src="chrome://global/content/nsUserSettings.js" />
-  <script src="prefs.js" />
+  <script src="preferences.js" />
   <script src="sha1.js" />
   <script src="iam-client.js" />
   <script src="main.js" />
@@ -20,8 +20,7 @@
     <menubar>
       <menu label="File">
         <menupopup>
-          <menuitem label="Account" oncommand="openAccountDialog(); selectedView().refresh();" />
-          <menuitem label="Exit" oncommand="close();" />
+          <menuitem label="About" oncommand="alert('IAM Fox 0.0.1');" />
         </menupopup>
       </menu>
     </menubar>
@@ -41,6 +40,7 @@
 
           <!-- Buttons -->
           <hbox>
+            <button label="Account" oncommand="openAccountDialog();" />
             <button label="Refresh" oncommand="selectedView().refresh();" />
           </hbox>
 
