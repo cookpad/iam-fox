@@ -33,7 +33,7 @@ IAMClient.prototype = {
       }
 
       xhr.xml = function() {
-        var xml = new XML(xhr.responseText.replace(/xmlns="[^"]*"/, ""));
+        var xml = new XML(xhr.responseText.replace(/xmlns="[^"]*"/, '')); // "
         return xml;
       }
 
