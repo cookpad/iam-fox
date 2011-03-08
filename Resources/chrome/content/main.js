@@ -83,6 +83,14 @@ function inProgress(callback) {
   return retval;
 }
 
+function protect(callback) {
+  try {
+    callback();
+  } catch (e) {
+    alert(e);
+  }
+}
+
 Function.prototype.bind = function(context) {
   var slice = Array.prototype.slice;
 

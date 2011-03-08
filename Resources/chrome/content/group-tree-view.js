@@ -27,8 +27,7 @@ GroupTreeView.prototype = {
   refresh: function() {
     this.rows.length = 0;
 
-    try {
-
+    protect(function() {
       var xhr = inProgress(function() {
         return this.iamcli.query('ListGroups');
       }.bind(this));
@@ -44,9 +43,7 @@ GroupTreeView.prototype = {
 
       this.updateRowCount();
       this.tree.invalidate();
-    } catch (e) {
-      alert(e);
-    }
+    }.bind(this));
   },
 
   onDblclick: function(event) {

@@ -27,7 +27,7 @@ UserTreeView.prototype = {
   refresh: function(noupdate) {
     this.rows.length = 0;
 
-    try {
+    protect(function() {
       var xhr = inProgress(function() {
         return this.iamcli.query('ListUsers');
       }.bind(this));
@@ -43,9 +43,7 @@ UserTreeView.prototype = {
 
       this.updateRowCount();
       this.tree.invalidate();
-    } catch (e) {
-      alert(e);
-    }
+    }.bind(this));
   },
 
   onDblclick: function(event) {
