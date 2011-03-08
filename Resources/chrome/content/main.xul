@@ -2,6 +2,8 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
 
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/iamfox.dtd">
+
 <!-- main window -->
 <window  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   title="IAM Fox" onload="windowOnLoad();">
@@ -18,7 +20,7 @@
   <!-- menu -->
   <toolbox>
     <menubar>
-      <menu label="File">
+      <menu label="Help">
         <menupopup>
           <menuitem label="About" oncommand="alert('IAM Fox 0.0.1');" />
         </menupopup>
