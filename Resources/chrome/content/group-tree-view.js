@@ -29,9 +29,9 @@ GroupTreeView.prototype = {
 
     try {
 
-      var xhr = inProgress(function(self) {
-        return self.iamcli.query('ListGroups');
-      }, this);
+      var xhr = inProgress(function() {
+        return this.iamcli.query('ListGroups');
+      }.bind(this));
 
       if (!xhr.success()) {
         alert(xhr.responseText);

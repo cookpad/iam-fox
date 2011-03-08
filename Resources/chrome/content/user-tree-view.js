@@ -28,9 +28,9 @@ UserTreeView.prototype = {
     this.rows.length = 0;
 
     try {
-      var xhr = inProgress(function(self) {
-        return self.iamcli.query('ListUsers');
-      }, this);
+      var xhr = inProgress(function() {
+        return this.iamcli.query('ListUsers');
+      }.bind(this));
 
       if (!xhr.success()) {
         alert(xhr.responseText);
