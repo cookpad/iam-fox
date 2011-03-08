@@ -1,2 +1,3 @@
-content	iamfox		file:content/
-locale	iamfox	en-US	file:locale/en-US/
+content iamfox             file:content/
+locale  iamfox en-US       file:locale/en-US/
+skin    iamfox classic/1.0 file:skin/classic/

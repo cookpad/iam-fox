@@ -57,12 +57,12 @@ function newIAMClient() {
 }
 
 function inProgress(callback, self) {
-try {
   var progressmeter = document.getElementById('main-progressmeter');
   var retval = null;
   var exception = null;
 
   progressmeter.mode = 'undetermined';
+  progressmeter.value = 0;
 
   try {
     retval = callback(self);
@@ -71,13 +71,11 @@ try {
   }
 
   progressmeter.mode = 'determined';
+  progressmeter.value = 100;
 
   if (exception) {
     throw exception;
   }
 
   return retval;
-  } catch (e) {
-  alert(e);
-  }
 }
