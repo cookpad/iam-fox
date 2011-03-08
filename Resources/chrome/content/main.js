@@ -3,8 +3,11 @@ function windowOnLoad() {
 
   function bind(clazz, name) {
     var obj = new clazz(iamcli);
-    document.getElementById(name + '-tab').view = obj;
-    document.getElementById(name + '-tree').view = obj;
+    var tab = document.getElementById(name + '-tab');
+    tab.view = obj;
+    var tree = document.getElementById(name + '-tree');
+    tree.view = obj;
+    tree._view = obj;
   }
 
   if (iamcli) {
