@@ -12,23 +12,23 @@
   <script src="chrome://global/content/nsUserSettings.js" />
   <script src="preferences.js" />
   <script src="utils.js" />
-  <script src="group-detail-window.js" />
+  <script src="user-detail-window.js" />
 
   <!-- content -->
   <hbox flex="1">
     <groupbox flex="1">
       <caption label="Policy Name" />
-      <listbox id="group-policy-listbox" flex="1" onselect="listboxOnSelect(event);">
+      <listbox id="user-policy-listbox" flex="1" onselect="listboxOnSelect(event);">
       </listbox>
     </groupbox>
     <groupbox flex="2">
       <caption label="PolicyDocument" />
-      <textbox id="group-policy-textbox" multiline="true" flex="1" />
+      <textbox id="user-policy-textbox" multiline="true" flex="1" />
     </groupbox>
   </hbox>
 
   <!-- progress meter -->
   <hbox align="right" style="padding:3px;">
-    <progressmeter id="group-policy-progressmeter" mode="determined" value="100"/>
+    <progressmeter id="user-policy-progressmeter" mode="determined" value="100"/>
   </hbox>
 </window>

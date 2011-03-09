@@ -49,7 +49,6 @@ GroupTreeView.prototype = {
   onDblclick: function(event) {
     var group = this.selectedRow();
     var groupName = group.GroupName;
-    var policies = [];
     var policyNames = [];
 
     protect(function() {
