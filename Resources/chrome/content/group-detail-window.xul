@@ -14,5 +14,19 @@
   <!-- scripts -->
   <script src="chrome://global/content/nsUserSettings.js" />
   <script src="preferences.js" />
+  <script src="main.js" />
   <script src="group-detail-window.js" />
+
+  <!-- content -->
+  <hbox flex="1">
+    <groupbox flex="1">
+      <caption label="Policy Name" />
+      <listbox id="group-policy-listbox" flex="1" onselect="listboxOnSelect(event);">
+      </listbox>
+    </groupbox>
+    <groupbox flex="2">
+      <caption label="PolicyDocument" />
+      <textbox id="group-policy-textbox" multiline="true" flex="1" />
+    </groupbox>
+  </hbox>
 </window>

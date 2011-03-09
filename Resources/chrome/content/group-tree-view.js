@@ -48,45 +48,22 @@ GroupTreeView.prototype = {
 
   onDblclick: function(event) {
     var group = this.selectedRow();
+    var groupName = group.GroupName;
     var policies = [];
+    var policyNames = [];
 
     protect(function() {
-      var groupName = group.GroupName;
-      var policyNames = [];
-
       inProgress(function() {
         var listGroupPolicies = this.iamcli.query('ListGroupPolicies', [['GroupName', groupName]]);
-        var policyNames = [];
 
         for each (var member in listGroupPolicies.xml()..PolicyNames.member) {
           policyNames.push(member);
         }
-
-        for (var i = 0; i < policyNames.length; i++) {
-          var name = policyNames[i];
-          var params =  [['GroupName', groupName], ['PolicyName', name]];
-          var getGroupPolicy = this.iamcli.query('GetGroupPolicy', params);
-          policies.push(getGroupPolicy.xml().GetGroupPolicyResult);
-        }
       }.bind(this));
-
-      //if (policies.length > 0) {
-        buf = "";
-
-        for (var i = 0; i < policies.length; i++) {
-          var policy = policies[i];
-          buf += policy.PolicyName + '\n';
-          buf += '---\n';
-          buf += decodeURIComponent(policy.PolicyDocument) + '\n';
-        }
-
-        //alert(buf);
-        openModalWindow('group-detail-window.xul', 'group-datail-window', 640, 480,
-                        {groupName:groupName});
-      //} else {
-      //  alert('empty action');
-      //}
     }.bind(this));
+
+    openModalWindow('group-detail-window.xul', 'group-datail-window', 640, 480,
+                    {iamcli:this.iamcli, groupName:groupName, policyNames:policyNames});
   },
 
   selectedRow: function() {
