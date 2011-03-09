@@ -22,7 +22,7 @@
       </listbox>
     </groupbox>
     <groupbox flex="2">
-      <caption label="PolicyDocument" />
+      <caption label="Policy Document" />
       <textbox id="group-policy-textbox" multiline="true" flex="1" />
     </groupbox>
   </hbox>
