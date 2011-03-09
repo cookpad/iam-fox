@@ -91,6 +91,17 @@ function protect(callback) {
   }
 }
 
+function openModalWindow(xul, name, width, height) {
+  var uri = 'chrome://iamfox/content/' + xul;
+  var left = window.screenX + (window.outerWidth - width) / 2;
+  var top = window.screenY + (window.outerHeight - height) / 2;
+  var features = 'chrome,modal,resizable,width=' + width + ',height=' + height + ',left=' + left + ',top=' + top;
+
+  var w = window.open(uri, name, features);
+
+  return w;
+}
+
 Function.prototype.bind = function(context) {
   var slice = Array.prototype.slice;
 
