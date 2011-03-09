@@ -16,6 +16,7 @@
   <script src="preferences.js" />
   <script src="sha1.js" />
   <script src="iam-client.js" />
+  <script src="utils.js" />
   <script src="main.js" />
   <script src="group-tree-view.js" />
   <script src="user-tree-view.js" />

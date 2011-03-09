@@ -14,7 +14,7 @@
   <!-- scripts -->
   <script src="chrome://global/content/nsUserSettings.js" />
   <script src="preferences.js" />
-  <script src="main.js" />
+  <script src="utils.js" />
   <script src="group-detail-window.js" />
 
   <!-- content -->
