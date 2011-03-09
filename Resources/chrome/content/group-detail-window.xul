@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
+
+<?xul-overlay href="chrome://iamfox/content/group-tabpanel.xul"?>
+<?xul-overlay href="chrome://iamfox/content/user-tabpanel.xul"?>
+
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/iamfox.dtd">
+
+<!-- main window -->
+<window  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  id="group-detail-window" onload="windowOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="group-detail-window.js" />
+</window>

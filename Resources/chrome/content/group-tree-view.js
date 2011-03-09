@@ -52,24 +52,25 @@ GroupTreeView.prototype = {
 
     protect(function() {
       var groupName = group.GroupName;
+      var policyNames = [];
 
       inProgress(function() {
         var listGroupPolicies = this.iamcli.query('ListGroupPolicies', [['GroupName', groupName]]);
-        var names = [];
+        var policyNames = [];
 
         for each (var member in listGroupPolicies.xml()..PolicyNames.member) {
-          names.push(member);
+          policyNames.push(member);
         }
 
-        for (var i = 0; i < names.length; i++) {
-          var name = names[i];
+        for (var i = 0; i < policyNames.length; i++) {
+          var name = policyNames[i];
           var params =  [['GroupName', groupName], ['PolicyName', name]];
           var getGroupPolicy = this.iamcli.query('GetGroupPolicy', params);
           policies.push(getGroupPolicy.xml().GetGroupPolicyResult);
         }
       }.bind(this));
 
-      if (policies.length > 0) {
+      //if (policies.length > 0) {
         buf = "";
 
         for (var i = 0; i < policies.length; i++) {
@@ -79,10 +80,12 @@ GroupTreeView.prototype = {
           buf += decodeURIComponent(policy.PolicyDocument) + '\n';
         }
 
-        alert(buf);
-      } else {
-        alert('empty action');
-      }
+        //alert(buf);
+        openModalWindow('group-detail-window.xul', 'group-datail-window', 640, 480,
+                        {groupName:groupName});
+      //} else {
+      //  alert('empty action');
+      //}
     }.bind(this));
   },
 

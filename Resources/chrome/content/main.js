@@ -91,13 +91,13 @@ function protect(callback) {
   }
 }
 
-function openModalWindow(xul, name, width, height) {
+function openModalWindow(xul, name, width, height, args) {
   var uri = 'chrome://iamfox/content/' + xul;
   var left = window.screenX + (window.outerWidth - width) / 2;
   var top = window.screenY + (window.outerHeight - height) / 2;
-  var features = 'chrome,modal,resizable,width=' + width + ',height=' + height + ',left=' + left + ',top=' + top;
+  var features = 'chrome,modal,dialog=no,resizable,width=' + width + ',height=' + height + ',left=' + left + ',top=' + top;
 
-  var w = window.open(uri, name, features);
+  var w = window.openDialog(uri, name, features, args);
 
   return w;
 }
