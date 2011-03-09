@@ -21,10 +21,36 @@ function listboxOnSelect(event) {
   var policy = null;
 
   protect(function() {
-    var params =  [['GroupName', groupName], ['PolicyName', policyName]];
-    var getGroupPolicy = iamcli.query('GetGroupPolicy', params);
-    policy = getGroupPolicy.xml().GetGroupPolicyResult;
+    inProgress(function() {
+      var params =  [['GroupName', groupName], ['PolicyName', policyName]];
+      var getGroupPolicy = iamcli.query('GetGroupPolicy', params);
+      policy = getGroupPolicy.xml().GetGroupPolicyResult;
+    }.bind(this));
   }.bind(this));
 
   textbox.value = decodeURIComponent(policy.PolicyDocument);
+}
+
+function inProgress(callback) {
+  var progressmeter = document.getElementById('group-policy-progressmeter');
+  var retval = null;
+  var exception = null;
+
+  progressmeter.mode = 'undetermined';
+  progressmeter.value = 0;
+
+  try {
+    retval = callback();
+  } catch (e) {
+    exception = e;
+  }
+
+  progressmeter.mode = 'determined';
+  progressmeter.value = 100;
+
+  if (exception) {
+    throw exception;
+  }
+
+  return retval;
 }

@@ -29,4 +29,9 @@
       <textbox id="group-policy-textbox" multiline="true" flex="1" />
     </groupbox>
   </hbox>
+
+  <!-- progress meter -->
+  <hbox align="right" style="padding:3px;">
+    <progressmeter id="group-policy-progressmeter" mode="determined" value="100"/>
+  </hbox>
 </window>
