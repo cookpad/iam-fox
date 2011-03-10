@@ -49,22 +49,8 @@ UserTreeView.prototype = {
     var userName = user.UserName;
     var xhr = null;
 
-    protect(function() {
-      inProgress(function() {
-        xhr = this.iamcli.query('ListUserPolicies', [['UserName', userName]]);
-      }.bind(this));
-    }.bind(this));
-
-    if_xhr_success(xhr, function() {
-      var policyNames = [];
-
-      for each (var member in xhr.xml()..PolicyNames.member) {
-        policyNames.push(member);
-      }
-
-      openModalWindow('user-detail-window.xul', 'user-datail-window', 640, 480,
-                      {iamcli:this.iamcli, userName:userName, policyNames:policyNames});
-    }.bind(this));
+    openModalWindow('user-detail-window.xul', 'user-datail-window', 640, 480,
+                    {iamcli:this.iamcli, userName:userName});
   },
 
   selectedRow: function() {
