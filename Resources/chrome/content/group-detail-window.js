@@ -29,6 +29,7 @@ function listboxOnSelect(event) {
     var textbox = $('group-policy-textbox');
     var policy = xhr.xml().GetGroupPolicyResult;
     textbox.value = decodeURIComponent(policy.PolicyDocument);
+    disableUpdateButton();
   });
 }
 
@@ -98,6 +99,7 @@ function addGroupPolicy() {
     var item = listbox.appendItem(policyName, policyName);
     listbox.selectItem(item);
     textbox.value = POLICY_ALLOW_ALL;
+    disableUpdateButton();
   });
 }
 
@@ -159,6 +161,7 @@ function refreshGroupPolicy() {
 
     listbox.clearSelection();
     textbox.value = null;
+    disableUpdateButton();
 
     for (var i = listbox.itemCount - 1; i >= 0; i--) {
       listbox.removeItemAt(i);
@@ -169,4 +172,12 @@ function refreshGroupPolicy() {
       listbox.appendItem(policyName, policyName);
     }
   });
+}
+
+function enableUpdateButton() {
+  $('group-policy-update-button').disabled = false;
+}
+
+function disableUpdateButton() {
+  $('group-policy-update-button').disabled = true;
 }
