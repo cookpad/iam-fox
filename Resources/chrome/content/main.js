@@ -3,11 +3,7 @@ function windowOnLoad() {
 
   function bind(clazz, name) {
     var obj = new clazz(iamcli);
-    try {
     var tab = $(name + '-tab');
-    } catch (e) {
-      alert(e);
-    }
     tab.view = obj;
     var tree = $(name + '-tree');
     tree.view = obj;
