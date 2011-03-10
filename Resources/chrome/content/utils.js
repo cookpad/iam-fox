@@ -1,3 +1,5 @@
+POLICY_ALLOW_ALL = '{\n  "Statement": [\n    {\n      "Effect":"Allow",\n      "Action":"*",\n      "Resource":"*"\n    }\n  ]\n}\n';
+
 function protect(callback) {
   var retval = null;
 
@@ -42,4 +44,14 @@ Function.prototype.bind = function(context) {
   };
 }
 
-POLICY_ALLOW_ALL = '{\n  "Statement": [\n    {\n      "Effect":"Allow",\n      "Action":"*",\n      "Resource":"*"\n    }\n  ]\n}\n';
+function if_xhr_success(xhr, callback) {
+  var retval = null;
+
+  if (xhr.success()) {
+    retval = callback();
+  } else {
+    alert(xhr.responseText);
+  }
+
+  return retval;
+}
