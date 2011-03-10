@@ -38,13 +38,11 @@
       } else {
         Prefs.accessKeyId = accessKeyId;
         Prefs.secretAccessKey = secretAccessKey;
-        var views = window.arguments[0].views;
+        var view = window.arguments[0].currentView;
         var newIAMClient = window.arguments[0].newIAMClient;
 
-        for (var i = 0; i < views.length; i++) {
-          views[i].iamcli = newIAMClient();
-          views[i].refresh();
-        }
+        view.iamcli = newIAMClient();
+        view.refresh();
 
         return true;
       }
