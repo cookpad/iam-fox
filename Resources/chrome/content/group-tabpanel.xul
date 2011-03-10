@@ -8,13 +8,7 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <tabpanel id="group-tabpanel">
     <vbox flex="1">
-      <!-- Buttons -->
-      <hbox>
-        <button label="Account" oncommand="openAccountDialog();" />
-        <button label="Refresh" oncommand="selectedView().refresh();" />
-      </hbox>
-
-      <!-- Tree -->
+      <!-- tree -->
       <tree id="group-tree" seltype="single" enableColumnDrag="true" flex="1" ondblclick="this._view.onDblclick(event);">
         <treecols>
           <treecol id="GroupId" label="Group ID" flex="1" />
@@ -29,6 +23,19 @@
         </treecols>
         <treechildren />
       </tree>
+
+      <!-- buttons -->
+      <hbox>
+        <hbox flex="1">
+          <button label="Add" oncommand="" />
+          <button label="Edit" oncommand="" />
+          <button label="Delete" oncommand="" />
+          <button label="Refresh" oncommand="selectedView().refresh();" />
+        </hbox>
+        <hbox pack="end" flex="1">
+          <button label="Account" oncommand="openAccountDialog();" />
+        </hbox>
+      </hbox>
     </vbox>
   </tabpanel>
 </overlay>
