@@ -1,3 +1,4 @@
+
 function windowOnLoad() {
   var args = window.arguments[0];
   document.title = 'Group - ' + args.groupName;
@@ -18,17 +19,21 @@ function listboxOnSelect(event) {
   var textbox = document.getElementById('group-policy-textbox');
 
   var policyName = item.value;
-  var policy = null;
+  var xhr = null;
 
   protect(function() {
     inProgress(function() {
       var params =  [['GroupName', groupName], ['PolicyName', policyName]];
-      var getGroupPolicy = iamcli.query('GetGroupPolicy', params);
-      policy = getGroupPolicy.xml().GetGroupPolicyResult;
+      xhr = iamcli.query('GetGroupPolicy', params);
     }.bind(this));
   }.bind(this));
 
-  textbox.value = decodeURIComponent(policy.PolicyDocument);
+  if (xhr.success()) {
+    var policy = xhr.xml().GetGroupPolicyResult;
+    textbox.value = decodeURIComponent(policy.PolicyDocument);
+  } else {
+    alert(xhr.responseText);
+  }
 }
 
 function inProgress(callback) {
@@ -53,4 +58,41 @@ function inProgress(callback) {
   }
 
   return retval;
+}
+
+function addGroupPolicy() {
+  var args = window.arguments[0];
+  var iamcli = args.iamcli;
+  var groupName = args.groupName;
+  var xhr = null;
+
+  var policyName = prompt('Policy Name');
+  policyName = (policyName || '').trim();
+
+  if (policyName.length < 1) {
+    return;
+  }
+
+  protect(function() {
+    inProgress(function() {
+      var params = [
+        ['GroupName', groupName],
+        ['PolicyName', policyName],
+        ['PolicyDocument', POLICY_ALLOW_ALL]
+        ];
+
+      xhr = iamcli.query('PutGroupPolicy', params);
+    }.bind(this));
+  }.bind(this));
+
+  if (xhr.success()) {
+    var listbox = document.getElementById('group-policy-listbox');
+    var textbox = document.getElementById('group-policy-textbox');
+
+    var item = listbox.appendItem(policyName, policyName);
+    listbox.selectItem(item);
+    textbox.value = POLICY_ALLOW_ALL;
+  } else {
+    alert(xhr.responseText);
+  }
 }

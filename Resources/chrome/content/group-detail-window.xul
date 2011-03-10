@@ -27,6 +27,11 @@
     </groupbox>
   </hbox>
 
+  <!-- buttons -->
+  <hbox>
+    <button label="Add" oncommand="addGroupPolicy();" />
+  </hbox>
+
   <!-- progress meter -->
   <hbox align="right" style="padding:3px;">
     <progressmeter id="group-policy-progressmeter" mode="determined" value="100"/>

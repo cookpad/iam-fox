@@ -1,9 +1,13 @@
 function protect(callback) {
+  var retval = null;
+
   try {
-    callback();
+    retval = callback();
   } catch (e) {
     alert(e);
   }
+
+  return retval;
 }
 
 Function.prototype.bind = function(context) {
@@ -37,3 +41,5 @@ Function.prototype.bind = function(context) {
     return __method.apply(context, a);
   };
 }
+
+POLICY_ALLOW_ALL = '{\n  "Statement": [\n    {\n      "Effect":"Allow",\n      "Action":"*",\n      "Resource":"*"\n    }\n  ]\n}\n';

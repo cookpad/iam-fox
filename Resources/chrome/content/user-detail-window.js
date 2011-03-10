@@ -18,17 +18,21 @@ function listboxOnSelect(event) {
   var textbox = document.getElementById('user-policy-textbox');
 
   var policyName = item.value;
-  var policy = null;
+  var xhr = null;
 
   protect(function() {
     inProgress(function() {
       var params =  [['UserName', userName], ['PolicyName', policyName]];
-      var getUserPolicy = iamcli.query('GetUserPolicy', params);
-      policy = getUserPolicy.xml().GetUserPolicyResult;
+      xhr = iamcli.query('GetUserPolicy', params);
     }.bind(this));
   }.bind(this));
 
-  textbox.value = decodeURIComponent(policy.PolicyDocument);
+  if (xhr.success()) {
+    var policy = xhr.xml().GetUserPolicyResult;
+    textbox.value = decodeURIComponent(policy.PolicyDocument);
+  } else {
+    alert(xhr.responseText);
+  }
 }
 
 function inProgress(callback) {

@@ -87,9 +87,32 @@ IAMClient.prototype = {
 
     var queryParams = [];
 
+    function encode(str) {
+      str = encodeURIComponent(str);
+
+      var func = function(m) {
+        switch(m) {
+        case '!':
+          return '%21';
+        case "'":
+          return '%27';
+        case '(':
+          return '%28';
+        case ')':
+          return '%29';
+        case '*':
+          return '%2A';
+        default:
+          return m;
+        }
+      };
+
+      return str.replace(/[!'()*~]/g, func); // '
+    }
+
     for (var i = 0; i < kvs.length; i++) {
       var key = kvs[i][0];
-      var val = encodeURIComponent(kvs[i][1]);
+      var val = encode(kvs[i][1]);
       queryParams.push(key + '=' + val);
     }
 
