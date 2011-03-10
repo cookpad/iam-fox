@@ -14,13 +14,21 @@
   <script src="utils.js" />
   <script src="user-detail-window.js" />
 
-  <!-- content -->
   <hbox flex="1">
+    <!-- policy names -->
     <groupbox flex="1">
       <caption label="Policy Name" />
       <listbox id="user-policy-listbox" flex="1" onselect="listboxOnSelect(event);">
       </listbox>
+
+      <hbox>
+        <button label="Add" oncommand="addGroupPolicy();" />
+        <button label="Delete" oncommand="deleteGroupPolicy();" />
+        <button label="Refresh" oncommand="refreshGroupPolicy();" />
+      </hbox>
     </groupbox>
+
+    <!-- policy document -->
     <groupbox flex="2">
       <caption label="Policy Document" />
       <textbox id="user-policy-textbox" multiline="true" flex="1" />
