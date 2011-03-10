@@ -24,8 +24,8 @@ function listboxOnSelect(event) {
     inProgress(function() {
       var params =  [['UserName', userName], ['PolicyName', policyName]];
       xhr = iamcli.query('GetUserPolicy', params);
-    }.bind(this));
-  }.bind(this));
+    });
+  });
 
   if (xhr.success()) {
     var policy = xhr.xml().GetUserPolicyResult;
