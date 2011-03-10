@@ -58,6 +58,86 @@ function inProgress(callback) {
   return retval;
 }
 
+function addUserPolicy() {
+  var args = window.arguments[0];
+  var iamcli = args.iamcli;
+  var userName = args.userName;
+  var xhr = null;
+
+  var policyName = prompt('Policy Name');
+  policyName = (policyName || '').trim();
+
+  if (policyName.length < 1) {
+    return;
+  }
+
+  var listbox = $('user-policy-listbox');
+
+  for (var i = 0; i < listbox.itemCount; i++) {
+    var item = listbox.getItemAtIndex(i);
+
+    if (item.value == policyName) {
+      alert('Duplicate policy');
+      return;
+    }
+  }
+
+  protect(function() {
+    inProgress(function() {
+      var params = [
+        ['UserName', userName],
+        ['PolicyName', policyName],
+        ['PolicyDocument', POLICY_ALLOW_ALL]
+        ];
+
+      xhr = iamcli.query('PutUserPolicy', params);
+    });
+  });
+
+  if_xhr_success(xhr, function() {
+    var textbox = $('user-policy-textbox');
+
+    var item = listbox.appendItem(policyName, policyName);
+    listbox.selectItem(item);
+    textbox.value = POLICY_ALLOW_ALL;
+  });
+}
+
+function deleteUserPolicy() {
+  var args = window.arguments[0];
+  var iamcli = args.iamcli;
+  var userName = args.userName;
+  var xhr = null;
+
+  var listbox = $('user-policy-listbox');
+  var item = listbox.selectedItem;
+
+  if (!item || !item.value) {
+    return;
+  }
+
+  var policyName = item.value;
+
+  if (!confirm("Are you sure you want to delete '" + policyName + " ' ?")) {
+    return;
+  }
+
+  protect(function() {
+    inProgress(function() {
+      var params = [['UserName', userName], ['PolicyName', policyName]];
+      xhr = iamcli.query('DeleteUserPolicy', params);
+    });
+  });
+
+  if_xhr_success(xhr, function() {
+    var textbox = $('user-policy-textbox');
+
+    listbox.removeItemAt(listbox.currentIndex);
+    listbox.clearSelection();
+    textbox.value = null;
+  });
+}
+
 function refreshUserPolicy() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;
