@@ -38,7 +38,7 @@
       } else {
         Prefs.accessKeyId = accessKeyId;
         Prefs.secretAccessKey = secretAccessKey;
-        var view = window.arguments[0].currentView;
+        var view = window.arguments[0].selectedView();
         var newIAMClient = window.arguments[0].newIAMClient;
 
         view.iamcli = newIAMClient();

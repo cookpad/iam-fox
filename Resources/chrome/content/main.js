@@ -42,7 +42,7 @@ function treeViews() {
 
 function openAccountDialog() {
   openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'modeless',
-             {currentView:selectedView(), newIAMClient:newIAMClient});
+             {selectedView:selectedView, newIAMClient:newIAMClient});
 }
 
 function newIAMClient() {
