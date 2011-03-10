@@ -1,3 +1,15 @@
+function $(element) {
+  if (arguments.length > 1) {
+    for (var i = 0, elements = [], length = arguments.length; i < length; i++) {
+      elements.push(document.getElementById(arguments[i]));
+    }
+
+    return elements;
+  }
+
+  return document.getElementById(element + '');
+}
+
 POLICY_ALLOW_ALL = '{\n  "Statement": [\n    {\n      "Effect":"Allow",\n      "Action":"*",\n      "Resource":"*"\n    }\n  ]\n}\n';
 
 function protect(callback) {

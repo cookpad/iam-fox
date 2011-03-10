@@ -1,7 +1,7 @@
 function windowOnLoad() {
   var args = window.arguments[0];
   document.title = 'User - ' + args.userName;
-  var listbox = document.getElementById('user-policy-listbox');
+  var listbox = $('user-policy-listbox');
 
   for (var i = 0; i < args.policyNames.length; i++) {
     var policyName = args.policyNames[i];
@@ -15,7 +15,7 @@ function listboxOnSelect(event) {
   var userName = args.userName;
 
   var item = event.currentTarget;
-  var textbox = document.getElementById('user-policy-textbox');
+  var textbox = $('user-policy-textbox');
 
   var policyName = item.value;
   var xhr = null;
@@ -34,7 +34,7 @@ function listboxOnSelect(event) {
 }
 
 function inProgress(callback) {
-  var progressmeter = document.getElementById('user-policy-progressmeter');
+  var progressmeter = $('user-policy-progressmeter');
   var retval = null;
   var exception = null;
 

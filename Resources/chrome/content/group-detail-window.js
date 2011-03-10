@@ -26,14 +26,14 @@ function listboxOnSelect(event) {
   });
 
   if_xhr_success(xhr, function() {
-    var textbox = document.getElementById('group-policy-textbox');
+    var textbox = $('group-policy-textbox');
     var policy = xhr.xml().GetGroupPolicyResult;
     textbox.value = decodeURIComponent(policy.PolicyDocument);
   });
 }
 
 function inProgress(callback) {
-  var progressmeter = document.getElementById('group-policy-progressmeter');
+  var progressmeter = $('group-policy-progressmeter');
   var retval = null;
   var exception = null;
 
@@ -82,8 +82,8 @@ function addGroupPolicy() {
   });
 
   if_xhr_success(xhr, function() {
-    var listbox = document.getElementById('group-policy-listbox');
-    var textbox = document.getElementById('group-policy-textbox');
+    var listbox = $('group-policy-listbox');
+    var textbox = $('group-policy-textbox');
 
     var item = listbox.appendItem(policyName, policyName);
     listbox.selectItem(item);
@@ -97,7 +97,7 @@ function deleteGroupPolicy() {
   var groupName = args.groupName;
   var xhr = null;
 
-  var listbox = document.getElementById('group-policy-listbox');
+  var listbox = $('group-policy-listbox');
   var item = listbox.selectedItem;
 
   if (!item || !item.value) {
@@ -118,7 +118,7 @@ function deleteGroupPolicy() {
   });
 
   if_xhr_success(xhr, function() {
-    var textbox = document.getElementById('group-policy-textbox');
+    var textbox = $('group-policy-textbox');
 
     listbox.removeItemAt(listbox.currentIndex);
     listbox.clearSelection();
@@ -139,8 +139,8 @@ function refreshGroupPolicy() {
   });
 
   if_xhr_success(xhr, function() {
-    var listbox = document.getElementById('group-policy-listbox');
-    var textbox = document.getElementById('group-policy-textbox');
+    var listbox = $('group-policy-listbox');
+    var textbox = $('group-policy-textbox');
     var policyNames = [];
 
     for each (var member in xhr.xml()..PolicyNames.member) {

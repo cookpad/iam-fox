@@ -3,9 +3,13 @@ function windowOnLoad() {
 
   function bind(clazz, name) {
     var obj = new clazz(iamcli);
-    var tab = document.getElementById(name + '-tab');
+    try {
+    var tab = $(name + '-tab');
+    } catch (e) {
+      alert(e);
+    }
     tab.view = obj;
-    var tree = document.getElementById(name + '-tree');
+    var tree = $(name + '-tree');
     tree.view = obj;
     tree._view = obj;
   }
@@ -23,13 +27,13 @@ function tabOnSelect(event) {
 }
 
 function selectedView() {
-  var tab = document.getElementById('main-tabs').selectedItem;
+  var tab = $('main-tabs').selectedItem;
   return tab ? tab.view : null;
 }
 
 function treeViews() {
   var views = [];
-  var tabs = document.getElementById('main-tabs').getElementsByTagName('tab');
+  var tabs = $('main-tabs').getElementsByTagName('tab');
 
   for (var i = 0; i < tabs.length; i++) {
     if (tabs[i].view) {
@@ -60,7 +64,7 @@ function newIAMClient() {
 }
 
 function inProgress(callback) {
-  var progressmeter = document.getElementById('main-progressmeter');
+  var progressmeter = $('main-progressmeter');
   var retval = null;
   var exception = null;
 
