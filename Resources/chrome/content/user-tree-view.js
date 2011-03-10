@@ -49,20 +49,26 @@ UserTreeView.prototype = {
   onDblclick: function(event) {
     var user = this.selectedRow();
     var userName = user.UserName;
-    var policyNames = [];
+    var xhr = null;
 
     protect(function() {
       inProgress(function() {
-        var listUserPolicies = this.iamcli.query('ListUserPolicies', [['UserName', userName]]);
-
-        for each (var member in listUserPolicies.xml()..PolicyNames.member) {
-          policyNames.push(member);
-        }
+        xhr = this.iamcli.query('ListUserPolicies', [['UserName', userName]]);
       }.bind(this));
     }.bind(this));
 
-    openModalWindow('user-detail-window.xul', 'user-datail-window', 640, 480,
-                    {iamcli:this.iamcli, userName:userName, policyNames:policyNames});
+    if (xhr.success()) {
+      var policyNames = [];
+
+      for each (var member in xhr.xml()..PolicyNames.member) {
+        policyNames.push(member);
+      }
+
+      openModalWindow('user-detail-window.xul', 'user-datail-window', 640, 480,
+                      {iamcli:this.iamcli, userName:userName, policyNames:policyNames});
+    } else {
+      alert(xhr.responseText);
+    }
   },
 
   selectedRow: function() {
