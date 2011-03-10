@@ -55,7 +55,7 @@ UserTreeView.prototype = {
       }.bind(this));
     }.bind(this));
 
-    if (xhr.success()) {
+    if_xhr_success(xhr, function() {
       var policyNames = [];
 
       for each (var member in xhr.xml()..PolicyNames.member) {
@@ -64,9 +64,7 @@ UserTreeView.prototype = {
 
       openModalWindow('user-detail-window.xul', 'user-datail-window', 640, 480,
                       {iamcli:this.iamcli, userName:userName, policyNames:policyNames});
-    } else {
-      alert(xhr.responseText);
-    }
+    }.bind(this));
   },
 
   selectedRow: function() {
