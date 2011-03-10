@@ -24,8 +24,8 @@ function listboxOnSelect(event) {
     inProgress(function() {
       var params =  [['GroupName', groupName], ['PolicyName', policyName]];
       xhr = iamcli.query('GetGroupPolicy', params);
-    }.bind(this));
-  }.bind(this));
+    });
+  });
 
   if_xhr_success(xhr, function() {
     var policy = xhr.xml().GetGroupPolicyResult;
@@ -79,8 +79,8 @@ function addGroupPolicy() {
         ];
 
       xhr = iamcli.query('PutGroupPolicy', params);
-    }.bind(this));
-  }.bind(this));
+    });
+  });
 
   if_xhr_success(xhr, function() {
     var listbox = document.getElementById('group-policy-listbox');
@@ -104,8 +104,8 @@ function refreshGroupPolicy() {
   protect(function() {
     inProgress(function() {
       xhr = iamcli.query('ListGroupPolicies', [['GroupName', groupName]]);
-    }.bind(this));
-  }.bind(this));
+    });
+  });
 
   if_xhr_success(xhr, function() {
     var listbox = document.getElementById('group-policy-listbox');
