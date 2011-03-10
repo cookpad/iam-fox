@@ -27,12 +27,10 @@ function listboxOnSelect(event) {
     });
   });
 
-  if (xhr.success()) {
+  if_xhr_success(xhr, function() {
     var policy = xhr.xml().GetUserPolicyResult;
     textbox.value = decodeURIComponent(policy.PolicyDocument);
-  } else {
-    alert(xhr.responseText);
-  }
+  });
 }
 
 function inProgress(callback) {
