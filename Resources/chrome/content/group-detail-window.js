@@ -69,6 +69,17 @@ function addGroupPolicy() {
     return;
   }
 
+  var listbox = $('group-policy-listbox');
+
+  for (var i = 0; i < listbox.itemCount; i++) {
+    var item = listbox.getItemAtIndex(i);
+
+    if (item.value == policyName) {
+      alert('Duplicate policy');
+      return;
+    }
+  }
+
   protect(function() {
     inProgress(function() {
       var params = [
@@ -82,7 +93,6 @@ function addGroupPolicy() {
   });
 
   if_xhr_success(xhr, function() {
-    var listbox = $('group-policy-listbox');
     var textbox = $('group-policy-textbox');
 
     var item = listbox.appendItem(policyName, policyName);
