@@ -2,11 +2,7 @@ function windowOnLoad() {
   var args = window.arguments[0];
   document.title = 'User - ' + args.userName;
   var listbox = $('user-policy-listbox');
-
-  for (var i = 0; i < args.policyNames.length; i++) {
-    var policyName = args.policyNames[i];
-    listbox.appendItem(policyName, policyName);
-  }
+  refreshUserPolicy();
 }
 
 function listboxOnSelect(event) {
@@ -15,6 +11,11 @@ function listboxOnSelect(event) {
   var userName = args.userName;
 
   var item = event.currentTarget;
+
+  if (!item || !item.value) {
+    return;
+  }
+
   var textbox = $('user-policy-textbox');
 
   var policyName = item.value;
@@ -55,4 +56,39 @@ function inProgress(callback) {
   }
 
   return retval;
+}
+
+function refreshUserPolicy() {
+  var args = window.arguments[0];
+  var iamcli = args.iamcli;
+  var userName = args.userName;
+  var xhr = null;
+
+  protect(function() {
+    inProgress(function() {
+      xhr = iamcli.query('ListUserPolicies', [['UserName', userName]]);
+    });
+  });
+
+  if_xhr_success(xhr, function() {
+    var listbox = $('user-policy-listbox');
+    var textbox = $('user-policy-textbox');
+    var policyNames = [];
+
+    for each (var member in xhr.xml()..PolicyNames.member) {
+      policyNames.push(member);
+    }
+
+    listbox.clearSelection();
+    textbox.value = null;
+
+    for (var i = listbox.itemCount - 1; i >= 0; i--) {
+      listbox.removeItemAt(i);
+    }
+
+    for (var i = 0; i < policyNames.length; i++) {
+      var policyName = policyNames[i];
+      listbox.appendItem(policyName, policyName);
+    }
+  });
 }

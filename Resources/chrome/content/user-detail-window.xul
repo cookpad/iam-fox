@@ -6,7 +6,7 @@
 
 <!-- main window -->
 <window  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  id="group-detail-window" onload="windowOnLoad();">
+  id="user-detail-window" onload="windowOnLoad();">
 
   <!-- scripts -->
   <script src="chrome://global/content/nsUserSettings.js" />
@@ -22,9 +22,9 @@
       </listbox>
 
       <hbox>
-        <button label="Add" oncommand="addGroupPolicy();" />
-        <button label="Delete" oncommand="deleteGroupPolicy();" />
-        <button label="Refresh" oncommand="refreshGroupPolicy();" />
+        <button label="Add" oncommand="addUserPolicy();" />
+        <button label="Delete" oncommand="deleteUserPolicy();" />
+        <button label="Refresh" oncommand="refreshUserPolicy();" />
       </hbox>
     </groupbox>
 
