@@ -15,8 +15,6 @@ function listboxOnSelect(event) {
     return;
   }
 
-  var textbox = document.getElementById('group-policy-textbox');
-
   var policyName = item.value;
   var xhr = null;
 
@@ -28,6 +26,7 @@ function listboxOnSelect(event) {
   });
 
   if_xhr_success(xhr, function() {
+    var textbox = document.getElementById('group-policy-textbox');
     var policy = xhr.xml().GetGroupPolicyResult;
     textbox.value = decodeURIComponent(policy.PolicyDocument);
   });
@@ -93,6 +92,38 @@ function addGroupPolicy() {
 }
 
 function deleteGroupPolicy() {
+  var args = window.arguments[0];
+  var iamcli = args.iamcli;
+  var groupName = args.groupName;
+  var xhr = null;
+
+  var listbox = document.getElementById('group-policy-listbox');
+  var item = listbox.selectedItem;
+
+  if (!item || !item.value) {
+    return;
+  }
+
+  var policyName = item.value;
+
+  if (!confirm("Are you sure you want to delete '" + policyName + " ' ?")) {
+    return;
+  }
+
+  protect(function() {
+    inProgress(function() {
+      var params = [['GroupName', groupName], ['PolicyName', policyName]];
+      xhr = iamcli.query('DeleteGroupPolicy', params);
+    });
+  });
+
+  if_xhr_success(xhr, function() {
+    var textbox = document.getElementById('group-policy-textbox');
+
+    listbox.removeItemAt(listbox.currentIndex);
+    listbox.clearSelection();
+    textbox.value = null;
+  });
 }
 
 function refreshGroupPolicy() {
