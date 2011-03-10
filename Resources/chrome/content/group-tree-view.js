@@ -49,26 +49,9 @@ GroupTreeView.prototype = {
   onDblclick: function(event) {
     var group = this.selectedRow();
     var groupName = group.GroupName;
-    var xhr = null;
 
-    protect(function() {
-      inProgress(function() {
-        xhr = this.iamcli.query('ListGroupPolicies', [['GroupName', groupName]]);
-      }.bind(this));
-    }.bind(this));
-
-    if (xhr.success()) {
-      var policyNames = [];
-
-      for each (var member in xhr.xml()..PolicyNames.member) {
-        policyNames.push(member);
-      }
-
-      openModalWindow('group-detail-window.xul', 'group-datail-window', 640, 480,
-                      {iamcli:this.iamcli, groupName:groupName, policyNames:policyNames});
-    } else {
-      alert(xhr.responseText);
-    }
+    openModalWindow('group-detail-window.xul', 'group-datail-window', 640, 480,
+                    {iamcli:this.iamcli, groupName:groupName});
   },
 
   selectedRow: function() {

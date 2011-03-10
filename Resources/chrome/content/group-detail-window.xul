@@ -14,22 +14,25 @@
   <script src="utils.js" />
   <script src="group-detail-window.js" />
 
-  <!-- content -->
   <hbox flex="1">
-    <groupbox flex="1">
+    <!-- policy names -->
+    <groupbox orient="vertical" flex="1">
       <caption label="Policy Name" />
       <listbox id="group-policy-listbox" flex="1" onselect="listboxOnSelect(event);">
       </listbox>
+
+      <hbox>
+        <button label="Add" oncommand="addGroupPolicy();" />
+        <button label="Delete" oncommand="deleteGroupPolicy();" />
+        <button label="Refresh" oncommand="refreshGroupPolicy();" />
+      </hbox>
     </groupbox>
+
+    <!-- policy document -->
     <groupbox flex="2">
       <caption label="Policy Document" />
       <textbox id="group-policy-textbox" multiline="true" flex="1" />
     </groupbox>
-  </hbox>
-
-  <!-- buttons -->
-  <hbox>
-    <button label="Add" oncommand="addGroupPolicy();" />
   </hbox>
 
   <!-- progress meter -->

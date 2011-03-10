@@ -25,7 +25,7 @@ IAMClient.prototype = {
 
     function extxhr() {
       xhr.success = function() {
-        return (xhr.status >= 200 && xhr.status < 300);
+        return (xhr.status && xhr.status >= 200 && xhr.status < 300);
       }
 
       xhr.callback = function(xhr) {
