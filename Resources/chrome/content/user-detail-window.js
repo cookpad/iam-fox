@@ -31,6 +31,7 @@ function listboxOnSelect(event) {
   if_xhr_success(xhr, function() {
     var policy = xhr.xml().GetUserPolicyResult;
     textbox.value = decodeURIComponent(policy.PolicyDocument);
+    disableUpdateButton();
   });
 }
 
@@ -100,6 +101,7 @@ function addUserPolicy() {
     var item = listbox.appendItem(policyName, policyName);
     listbox.selectItem(item);
     textbox.value = POLICY_ALLOW_ALL;
+    disableUpdateButton();
   });
 }
 
@@ -135,6 +137,7 @@ function deleteUserPolicy() {
     listbox.removeItemAt(listbox.currentIndex);
     listbox.clearSelection();
     textbox.value = null;
+    disableUpdateButton();
   });
 }
 
@@ -161,6 +164,7 @@ function refreshUserPolicy() {
 
     listbox.clearSelection();
     textbox.value = null;
+    disableUpdateButton();
 
     for (var i = listbox.itemCount - 1; i >= 0; i--) {
       listbox.removeItemAt(i);
@@ -171,4 +175,48 @@ function refreshUserPolicy() {
       listbox.appendItem(policyName, policyName);
     }
   });
+}
+
+function updateUserPolicy() {
+  var args = window.arguments[0];
+  var iamcli = args.iamcli;
+  var userName = args.userName;
+  var xhr = null;
+
+  var listbox = $('user-policy-listbox');
+  var textbox = $('user-policy-textbox');
+
+  var item = listbox.selectedItem;
+
+  if (!item || !item.value) {
+    return;
+  }
+
+  var policyName = item.value;
+  var policyDocument = (textbox.value || '').trim();
+
+  protect(function() {
+    inProgress(function() {
+      var params = [
+        ['UserName', userName],
+        ['PolicyName', policyName],
+        ['PolicyDocument', policyDocument]
+        ];
+
+      xhr = iamcli.query('PutUserPolicy', params);
+    });
+  });
+
+  if_xhr_success(xhr, function() {
+    textbox.value = policyDocument;
+    disableUpdateButton();
+  });
+}
+
+function enableUpdateButton() {
+  $('user-policy-update-button').disabled = false;
+}
+
+function disableUpdateButton() {
+  $('user-policy-update-button').disabled = true;
 }

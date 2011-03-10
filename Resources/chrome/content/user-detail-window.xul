@@ -31,8 +31,12 @@
     <!-- policy document -->
     <groupbox flex="2">
       <caption label="Policy Document" />
-      <textbox id="user-policy-textbox" multiline="true" flex="1" />
-    </groupbox>
+      <textbox id="user-policy-textbox" multiline="true" flex="1" oninput="enableUpdateButton();" />
+
+      <hbox>
+        <button id="user-policy-update-button" label="Update" oncommand="updateUserPolicy();" disabled="true" />
+      </hbox>
+     </groupbox>
   </hbox>
 
   <!-- progress meter -->
