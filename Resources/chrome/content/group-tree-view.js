@@ -26,17 +26,15 @@ GroupTreeView.prototype = {
 
   refresh: function() {
     this.rows.length = 0;
+    var xhr = null;
 
     protect(function() {
-      var xhr = inProgress(function() {
+      xhr = inProgress(function() {
         return this.iamcli.query('ListGroups');
       }.bind(this));
+    }.bind(this));
 
-      if (!xhr.success()) {
-        alert(xhr.responseText);
-        return;
-      }
-
+    if_xhr_success(xhr, function() {
       for each (var member in xhr.xml()..Groups.member) {
         this.rows.push(member);
       }
