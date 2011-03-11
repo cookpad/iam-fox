@@ -22,14 +22,14 @@
       </listbox>
 
       <hbox>
-        <button label="Add" oncommand="addUserPolicy();" />
-        <button label="Delete" oncommand="deleteUserPolicy();" />
-        <button label="Refresh" oncommand="refreshUserPolicy();" />
+        <button label="Add" oncommand="addUserPolicy();" class="mini-button" />
+        <button label="Delete" oncommand="deleteUserPolicy();" class="mini-button" />
+        <button label="Refresh" oncommand="refreshUserPolicy();" class="mini-button" />
       </hbox>
     </groupbox>
 
     <!-- policy document -->
-    <groupbox flex="2">
+    <groupbox flex="10">
       <caption label="Policy Document" />
       <textbox id="user-policy-textbox" multiline="true" flex="1" oninput="enableUpdateButton();" />
 

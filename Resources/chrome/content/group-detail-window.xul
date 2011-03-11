@@ -22,14 +22,14 @@
       </listbox>
 
       <hbox>
-        <button label="Add" oncommand="addGroupPolicy();" />
-        <button label="Delete" oncommand="deleteGroupPolicy();" />
-        <button label="Refresh" oncommand="refreshGroupPolicy();" />
+        <button label="Add" oncommand="addGroupPolicy();" class="mini-button" />
+        <button label="Delete" oncommand="deleteGroupPolicy();" class="mini-button" />
+        <button label="Refresh" oncommand="refreshGroupPolicy();" class="mini-button" />
       </hbox>
     </groupbox>
 
     <!-- policy document -->
-    <groupbox flex="2">
+    <groupbox flex="10">
       <caption label="Policy Document" />
       <textbox id="group-policy-textbox" multiline="true" flex="1" oninput="enableUpdateButton();" />
 
@@ -41,6 +41,6 @@
 
   <!-- progress meter -->
   <hbox align="right" style="padding:3px;">
-    <progressmeter id="group-policy-progressmeter" mode="determined" value="100"/>
+    <progressmeter id="group-policy-progressmeter" mode="determined" value="3"/>
   </hbox>
 </window>
