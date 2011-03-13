@@ -66,8 +66,8 @@
       }
 
       var accessKey = xhr.xml()..CreateAccessKeyResult.AccessKey;
-      alert(accessKey);
       view.refresh();
+      view.selectByName(userName);
 
       return true;
     }

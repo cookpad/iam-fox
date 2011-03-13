@@ -2,7 +2,7 @@ function GroupTreeView(iamcli) {
   this.iamcli = iamcli;
   this.rows = [];
   this.rowCount = 0;
-  this.selection= null;
+  this.selection = null;
 }
 
 GroupTreeView.prototype = {

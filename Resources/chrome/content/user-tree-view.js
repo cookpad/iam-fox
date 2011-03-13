@@ -2,7 +2,7 @@ function UserTreeView(iamcli) {
   this.iamcli = iamcli;
   this.rows = [];
   this.rowCount = 0;
-  this.selection= null;
+  this.selection = null;
 }
 
 UserTreeView.prototype = {
@@ -97,5 +97,19 @@ UserTreeView.prototype = {
     var user = this.selectedRow();
     openDialog('chrome://iamfox/content/user-view-key-dialog.xul', 'user-edit-dialog', 'chrome,modal',
                {view:this, inProgress:inProgress, user:user});
+  },
+
+  selectByName: function(name) {
+    var rows = this.rows;
+
+    for (var i = 0; i < rows.length; i++) {
+      var user = rows[i];
+
+      if (user.UserName == name) {
+        this.selection.select(i);
+      }
+    }
+
+    this.rows
   }
 };
