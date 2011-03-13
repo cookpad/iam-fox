@@ -190,9 +190,7 @@ function updateUserPolicy() {
 
       iamcli.query_or_die('PutUserPolicy', params);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     textbox.value = policyDocument;
     disableUpdateButton();
   });
