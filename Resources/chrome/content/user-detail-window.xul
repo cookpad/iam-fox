@@ -44,7 +44,8 @@
   </hbox>
 
   <!-- progress meter -->
-  <hbox align="right" style="padding:3px;">
-    <progressmeter id="user-policy-progressmeter" mode="determined" value="100"/>
-  </hbox>
+  <statusbar>
+    <spacer flex="1"/>
+    <image id="user-policy-loader" src="loader.gif" hidden="true" style="margin:3px;" />
+  </statusbar>
 </window>

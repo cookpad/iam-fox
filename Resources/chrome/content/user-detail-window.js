@@ -33,12 +33,11 @@ function listboxOnSelect(event) {
 }
 
 function inProgress(callback) {
-  var progressmeter = $('user-policy-progressmeter');
+  var loader = $('user-policy-loader');
+  loader.hidden = false;
+
   var retval = null;
   var exception = null;
-
-  progressmeter.mode = 'undetermined';
-  progressmeter.value = 0;
 
   try {
     retval = callback();
@@ -46,8 +45,7 @@ function inProgress(callback) {
     exception = e;
   }
 
-  progressmeter.mode = 'determined';
-  progressmeter.value = 100;
+  loader.hidden = true;
 
   if (exception) {
     throw exception;
