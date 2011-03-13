@@ -26,15 +26,12 @@ UserTreeView.prototype = {
 
   refresh: function(noupdate) {
     this.rows.length = 0;
-    var xhr = null;
 
     protect(function() {
-      xhr = inProgress(function() {
+      var xhr = inProgress(function() {
         return this.iamcli.query('ListUsers');
       }.bind(this));
-    }.bind(this));
 
-    if_xhr_success(xhr, function() {
       for each (var member in xhr.xml()..Users.member) {
         this.rows.push(member);
       }
