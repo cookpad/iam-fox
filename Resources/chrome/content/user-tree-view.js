@@ -56,5 +56,50 @@ UserTreeView.prototype = {
   selectedRow: function() {
     var idx = this.selection.currentIndex;
     return (idx != -1) ? this.rows[idx] : null;
+  },
+
+  deleteCurrentRow: function() {
+    var idx = this.selection.currentIndex;
+
+    if (idx != -1) {
+      this.rows.splice(idx, 1);
+      this.updateRowCount();
+    }
+  },
+
+  createAccessKey: function() {
+    var user = this.selectedRow();
+    var userName = user.UserName;
+
+    protect(function() {
+      xhr = inProgress(function() {
+        return this.iamcli.query('CreateAccessKey', [['UserName', userName]]);
+      }.bind(this));
+    }.bind(this));
+
+    if_xhr_success(xhr, function() {
+      var accessKey = xhr.xml()..CreateAccessKeyResult.AccessKey;
+      alert(accessKey);
+    }.bind(this));
+  },
+
+  deleteUser: function() {
+    var user = this.selectedRow();
+    var userName = user.UserName;
+
+    if (!confirm("Are you sure you want to delete '" + userName + " ' ?")) {
+      return;
+    }
+
+    protect(function() {
+      xhr = inProgress(function() {
+        return this.iamcli.query('DeleteUser', [['UserName', userName]]);
+      }.bind(this));
+    }.bind(this));
+
+    if_xhr_success(xhr, function() {
+      this.deleteCurrentRow();
+      this.tree.invalidate();
+    }.bind(this));
   }
 };

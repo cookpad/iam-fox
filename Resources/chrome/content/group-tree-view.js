@@ -55,5 +55,34 @@ GroupTreeView.prototype = {
   selectedRow: function() {
     var idx = this.selection.currentIndex;
     return (idx != -1) ? this.rows[idx] : null;
+  },
+
+  deleteCurrentRow: function() {
+    var idx = this.selection.currentIndex;
+
+    if (idx != -1) {
+      this.rows.splice(idx, 1);
+      this.updateRowCount();
+    }
+  },
+
+  deleteGroup: function() {
+    var group = this.selectedRow();
+    var groupName = group.GroupName;
+
+    if (!confirm("Are you sure you want to delete '" + groupName + " ' ?")) {
+      return;
+    }
+
+    protect(function() {
+      xhr = inProgress(function() {
+        return this.iamcli.query('DeleteGroup', [['GroupName', groupName]]);
+      }.bind(this));
+    }.bind(this));
+
+    if_xhr_success(xhr, function() {
+      this.deleteCurrentRow();
+      this.tree.invalidate();
+    }.bind(this));
   }
 };

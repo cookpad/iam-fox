@@ -6,6 +6,14 @@
 
 <!-- group tabpanel -->
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <!-- context menu -->
+  <popupset>
+    <menupopup id="group-tree-contenx-menu">
+      <menuitem label="Delete" oncommand="selectedView().deleteGroup()" />
+    </menupopup>
+  </popupset>
+
+  <!-- tabpanel -->
   <tabpanel id="group-tabpanel">
     <vbox flex="1">
       <!-- tree -->
@@ -21,7 +29,7 @@
           <splitter class="tree-splitter" />
           <treecol id="CreateDate" label="Create Date" flex="1" />
         </treecols>
-        <treechildren />
+        <treechildren context="group-tree-contenx-menu" />
       </tree>
 
       <!-- buttons -->

@@ -6,6 +6,15 @@
 
 <!-- user tabpanel -->
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <!-- context menu -->
+  <popupset>
+    <menupopup id="user-tree-contenx-menu">
+      <menuitem label="Create Access Key" oncommand="selectedView().createAccessKey()" />
+      <menuitem label="Delete" oncommand="selectedView().deleteUser()" />
+    </menupopup>
+  </popupset>
+
+  <!-- tabpanel -->
   <tabpanel id="user-tabpanel">
     <vbox flex="1">
       <!-- tree -->
@@ -21,7 +30,7 @@
           <splitter class="tree-splitter" />
           <treecol id="CreateDate" label="Create Date" flex="1" />
         </treecols>
-        <treechildren />
+        <treechildren context="user-tree-contenx-menu" />
       </tree>
 
       <!-- buttons -->
