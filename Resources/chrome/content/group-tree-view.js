@@ -72,12 +72,10 @@ GroupTreeView.prototype = {
     }
 
     protect(function() {
-      xhr = inProgress(function() {
-        return this.iamcli.query('DeleteGroup', [['GroupName', groupName]]);
+      inProgress(function() {
+        this.iamcli.query('DeleteGroup', [['GroupName', groupName]]);
       }.bind(this));
-    }.bind(this));
 
-    if_xhr_success(xhr, function() {
       this.deleteCurrentRow();
       this.tree.invalidate();
     }.bind(this));
