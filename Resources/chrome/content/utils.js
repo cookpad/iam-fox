@@ -55,15 +55,3 @@ Function.prototype.bind = function(context) {
     return __method.apply(context, a);
   };
 }
-
-function if_xhr_success(xhr, callback) {
-  var retval = null;
-
-  if (xhr.success()) {
-    retval = callback();
-  } else {
-    alert(xhr.responseText);
-  }
-
-  return retval;
-}
