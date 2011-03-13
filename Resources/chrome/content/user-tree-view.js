@@ -84,6 +84,15 @@ UserTreeView.prototype = {
         this.iamcli.query_or_die('DeleteAccessKey', params);
       }
 
+      xhr = inProgress(function() {
+        return this.iamcli.query_or_die('ListUserPolicies', [['UserName', userName]]);
+      }.bind(this));
+
+      for each (var member in xhr.xml()..PolicyNames.member) {
+        var params = [['UserName', userName], ['PolicyName', member]];
+        this.iamcli.query_or_die('DeleteUserPolicy', params);
+      }
+
       inProgress(function() {
         this.iamcli.query_or_die('DeleteUser', [['UserName', userName]]);
       }.bind(this));
