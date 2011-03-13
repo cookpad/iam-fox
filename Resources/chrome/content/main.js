@@ -41,7 +41,7 @@ function treeViews() {
 }
 
 function openAccountDialog() {
-  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'modeless',
+  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'chrome,modeless',
              {selectedView:selectedView, newIAMClient:newIAMClient});
 }
 
@@ -92,4 +92,9 @@ function openModalWindow(xul, name, width, height, args) {
   var w = window.openDialog(uri, name, features, args);
 
   return w;
+}
+
+function openGroupAddDialog() {
+  openDialog('chrome://iamfox/content/group-add-dialog.xul', 'group-add-dialog', 'chrome,modal',
+             {selectedView:selectedView, inProgress:inProgress});
 }

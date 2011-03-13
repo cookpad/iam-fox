@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="New Group"
+  buttons="accept,cancel"
+  ondialogaccept="return groupAddDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="groupAddDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+
+  <!-- inputs -->
+  <label control="group-add-dialog-group-name" value="Group Name" />
+  <textbox id="group-add-dialog-group-name" />
+  <label control="group-add-dialog-group-path" value="Group Path" />
+  <textbox id="group-add-dialog-group-path" value="/" />
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function groupAddDialogOnLoad() {
+      moveToAlertPosition()
+    }
+
+    function groupAddDialogDoOK() {
+      var args = window.arguments[0];
+      var view = args.selectedView();
+      var iamcli = view.iamcli;
+      var inProgress = args.inProgress;
+      var groupName = ($('group-add-dialog-group-name').value || '').trim();
+      var groupPath = ($('group-add-dialog-group-path').value || '').trim();
+      var xhr = null;
+
+      if (!groupName || !groupPath) {
+        alert("Please input 'Group Name' and 'Group Path'.");
+        return false;
+      }
+
+      protect(function() {
+        xhr = inProgress(function() {
+          var params = [['GroupName', groupName], ['Path', groupPath]];
+          return iamcli.query('CreateGroup', params);
+        });
+      });
+
+      if_xhr_success(xhr, function() {
+        view.refresh();
+      });
+
+      return true;
+    }
+  ]]></script>
+</dialog>
