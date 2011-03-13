@@ -41,8 +41,6 @@
       var groupName = ($('group-edit-dialog-group-name').value || '').trim();
       var groupPath = ($('group-edit-dialog-group-path').value || '').trim();
 
-      var xhr = null;
-
       if (!groupName || !groupPath) {
         alert("Please input 'New Group Name' and 'New Group Path'.");
         return false;
@@ -55,13 +53,11 @@
       window.close();
 
       protect(function() {
-        xhr = inProgress(function() {
+        inProgress(function() {
           var params = [['NewGroupName', groupName], ['NewPath', groupPath], ['GroupName', group.GroupName]];
-          return iamcli.query('UpdateGroup', params);
+          iamcli.query_or_die('UpdateGroup', params);
         });
-      });
 
-      if_xhr_success(xhr, function() {
         view.refresh();
       });
 
