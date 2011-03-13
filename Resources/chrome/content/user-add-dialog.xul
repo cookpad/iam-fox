@@ -49,29 +49,20 @@
       }
 
       protect(function() {
-        xhr = inProgress(function() {
+        inProgress(function() {
           var params = [['UserName', userName], ['Path', userPath]];
-          return iamcli.query('CreateUser', params);
+          iamcli.query_or_die('CreateUser', params);
         });
+
+        var xhr = inProgress(function() {
+          return iamcli.query_or_die('CreateAccessKey', [['UserName', userName]]);
+        });
+
+        var accessKey = xhr.xml()..CreateAccessKeyResult.AccessKey;
+        alert(accessKey);
+        view.refresh();
+        view.selectByName(userName);
       });
-
-      if (!xhr.success()) {
-        return true;
-      }
-
-      protect(function() {
-        xhr = inProgress(function() {
-          return iamcli.query('CreateAccessKey', [['UserName', userName]]);
-        }.bind(this));
-      }.bind(this));
-
-      if (!xhr.success()) {
-        return true;
-      }
-
-      var accessKey = xhr.xml()..CreateAccessKeyResult.AccessKey;
-      view.refresh();
-      view.selectByName(userName);
 
       return true;
     }
