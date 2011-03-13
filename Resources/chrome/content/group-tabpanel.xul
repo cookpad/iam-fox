@@ -9,6 +9,7 @@
   <!-- context menu -->
   <popupset>
     <menupopup id="group-tree-contenx-menu">
+      <menuitem label="Edit" oncommand="selectedView().openGroupEditDialog()" />
       <menuitem label="Delete" oncommand="selectedView().deleteGroup()" />
     </menupopup>
   </popupset>

@@ -84,5 +84,11 @@ GroupTreeView.prototype = {
       this.deleteCurrentRow();
       this.tree.invalidate();
     }.bind(this));
+  },
+
+  openGroupEditDialog: function() {
+    var group = this.selectedRow();
+    openDialog('chrome://iamfox/content/group-edit-dialog.xul', 'group-edit-dialog', 'chrome,modal',
+               {view:this, inProgress:inProgress, group:group});
   }
 };
