@@ -101,7 +101,6 @@ function deleteGroupPolicy() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;
   var groupName = args.groupName;
-  var xhr = null;
 
   var listbox = $('group-policy-listbox');
   var item = listbox.selectedItem;
@@ -119,13 +118,10 @@ function deleteGroupPolicy() {
   protect(function() {
     inProgress(function() {
       var params = [['GroupName', groupName], ['PolicyName', policyName]];
-      xhr = iamcli.query('DeleteGroupPolicy', params);
+      iamcli.query('DeleteGroupPolicy', params);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     var textbox = $('group-policy-textbox');
-
     listbox.removeItemAt(listbox.currentIndex);
     listbox.clearSelection();
     textbox.value = null;
