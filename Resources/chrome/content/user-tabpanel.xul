@@ -38,7 +38,6 @@
         <hbox flex="1">
           <button label="Add" oncommand="openUserAddDialog();" />
           <button label="Edit" oncommand="" />
-          <button label="Delete" oncommand="" />
           <button label="Refresh" oncommand="selectedView().refresh();" />
         </hbox>
         <hbox pack="end" flex="1">
