@@ -102,7 +102,6 @@ function deleteUserPolicy() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;
   var userName = args.userName;
-  var xhr = null;
 
   var listbox = $('user-policy-listbox');
   var item = listbox.selectedItem;
@@ -120,13 +119,10 @@ function deleteUserPolicy() {
   protect(function() {
     inProgress(function() {
       var params = [['UserName', userName], ['PolicyName', policyName]];
-      xhr = iamcli.query('DeleteUserPolicy', params);
+      iamcli.query_or_die('DeleteUserPolicy', params);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     var textbox = $('user-policy-textbox');
-
     listbox.removeItemAt(listbox.currentIndex);
     listbox.clearSelection();
     textbox.value = null;
