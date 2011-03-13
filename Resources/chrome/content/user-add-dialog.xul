@@ -59,7 +59,12 @@
         });
 
         var accessKey = xhr.xml()..CreateAccessKeyResult.AccessKey;
-        alert(accessKey);
+        var accessKeyId = accessKey.AccessKeyId;
+        var secretAccessKey = accessKey.SecretAccessKey;
+
+        Prefs.setUserAccessKeyId(userName, accessKeyId);
+        Prefs.setUserSecretAccessKey(userName, secretAccessKey);
+
         view.refresh();
         view.selectByName(userName);
       });
