@@ -19,19 +19,16 @@ function listboxOnSelect(event) {
   var textbox = $('user-policy-textbox');
 
   var policyName = item.value;
-  var xhr = null;
 
   protect(function() {
     inProgress(function() {
       var params =  [['UserName', userName], ['PolicyName', policyName]];
-      xhr = iamcli.query('GetUserPolicy', params);
-    });
-  });
+      var xhr = iamcli.query_or_die('GetUserPolicy', params);
 
-  if_xhr_success(xhr, function() {
-    var policy = xhr.xml().GetUserPolicyResult;
-    textbox.value = decodeURIComponent(policy.PolicyDocument);
-    disableUpdateButton();
+      var policy = xhr.xml().GetUserPolicyResult;
+      textbox.value = decodeURIComponent(policy.PolicyDocument);
+      disableUpdateButton();
+    });
   });
 }
 
