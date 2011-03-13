@@ -52,7 +52,6 @@
       });
 
       if_xhr_success(xhr, function() {
-        alert(xhr.xml());
         view.refresh();
       });
 
