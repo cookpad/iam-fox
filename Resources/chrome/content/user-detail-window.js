@@ -134,15 +134,12 @@ function refreshUserPolicy() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;
   var userName = args.userName;
-  var xhr = null;
 
   protect(function() {
-    inProgress(function() {
-      xhr = iamcli.query('ListUserPolicies', [['UserName', userName]]);
+    var xhr = inProgress(function() {
+      return iamcli.query_or_die('ListUserPolicies', [['UserName', userName]]);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     var listbox = $('user-policy-listbox');
     var textbox = $('user-policy-textbox');
     var policyNames = [];
