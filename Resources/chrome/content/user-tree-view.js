@@ -91,5 +91,11 @@ UserTreeView.prototype = {
     var user = this.selectedRow();
     openDialog('chrome://iamfox/content/user-edit-dialog.xul', 'user-edit-dialog', 'chrome,modal',
                {view:this, inProgress:inProgress, user:user});
+  },
+
+  openViewKeyDialog: function() {
+    var user = this.selectedRow();
+    openDialog('chrome://iamfox/content/user-view-key-dialog.xul', 'user-edit-dialog', 'chrome,modal',
+               {view:this, inProgress:inProgress, user:user});
   }
 };

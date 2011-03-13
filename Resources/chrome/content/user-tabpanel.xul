@@ -10,6 +10,7 @@
   <popupset>
     <menupopup id="user-tree-contenx-menu">
       <menuitem label="Edit" oncommand="selectedView().openUserEditDialog()" />
+      <menuitem label="View/Edit Key" oncommand="selectedView().openViewKeyDialog()" />
       <menuitem label="Delete" oncommand="selectedView().deleteUser()" />
     </menupopup>
   </popupset>

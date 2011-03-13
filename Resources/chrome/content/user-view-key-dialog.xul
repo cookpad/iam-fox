@@ -3,12 +3,12 @@
 <!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  title="Key"
+  title="View/Edit Key"
   buttons="accept,cancel"
   buttonlabelaccept="Update"
-  ondialogaccept="return userViewKeyDialogDoOK();"
+  ondialogaccept="return userViewKeyDialogDoUpdate();"
   ondialogcancel="return true;"
-  onload="userViewKeyDialogDoUpdate();">
+  onload="userViewKeyDialogOnLoad();">
 
   <!-- scripts -->
   <script src="chrome://global/content/nsUserSettings.js" />
@@ -16,35 +16,36 @@
   <script src="utils.js" />
 
   <!-- inputs -->
-  <label control="user-view-key-dialog-accessKeyId" value="AWS Access Key ID" />
-  <textbox id="user-view-key-dialog-accessKeyId"/>
-  <label control="user-view-key-dialog-secretAccessKey" value="AWS Secret Access Key" />
-  <textbox id="user-view-key-dialog-secretAccessKey" type="password" />
+  <label control="user-view-key-dialog-access-key-id" value="AWS Access Key ID" />
+  <textbox id="user-view-key-dialog-access-key-id"/>
+  <label control="user-view-key-dialog-secret-access-key" value="AWS Secret Access Key" />
+  <textbox id="user-view-key-dialog-secret-access-key" />
 
   <!-- dialog script -->
   <script><![CDATA[
     function userViewKeyDialogOnLoad() {
+      var args = window.arguments[0];
+      var user = args.user;
       moveToAlertPosition();
-      $('user-view-key-dialog-accessKeyId').value = Prefs.accessKeyId;
-      $('user-view-key-dialog-secretAccessKey').value = Prefs.secretAccessKey;
+
+      $('user-view-key-dialog-access-key-id').value = Prefs.getUserAccessKeyId(user.UserName) || '';
+      $('user-view-key-dialog-secret-access-key').value = Prefs.getUserSecretAccessKey(user.UserName) || '';
     }
 
     function userViewKeyDialogDoUpdate() {
-     var accessKeyId = ($('user-view-key-dialog-accessKeyId').value || '').trim();
-      var secretAccessKey = ($('user-view-key-dialog-secretAccessKey').value || '').trim();
+      var args = window.arguments[0];
+      var user = args.user;
+      var userName = user.UserName;
+
+      var accessKeyId = ($('user-view-key-dialog-access-key-id').value || '').trim();
+      var secretAccessKey = ($('user-view-key-dialog-secret-access-key').value || '').trim();
 
       if (!accessKeyId || !secretAccessKey) {
         alert("Please input 'AWS Access Key ID' and 'AWS Secret Access Key'.");
         return false;
       } else {
-        Prefs.accessKeyId = accessKeyId;
-        Prefs.secretAccessKey = secretAccessKey;
-        var view = window.arguments[0].selectedView();
-        var newIAMClient = window.arguments[0].newIAMClient;
-
-        view.iamcli = newIAMClient();
-        view.refresh();
-
+        Prefs.setUserAccessKeyId(userName, accessKeyId);
+        Prefs.setUserSecretAccessKey(userName, secretAccessKey);
         return true;
       }
     }
