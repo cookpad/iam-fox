@@ -10,11 +10,11 @@ Prefs = {
   },
 
   get secretAccessKey() {
-    return nsPreferences.copyUnicharPref('secretAccessKey', '').trim();
+    return nsPreferences.copyUnicharPref('iamfox.secretAccessKey', '').trim();
   },
 
   set secretAccessKey(v) {
-    nsPreferences.setUnicharPref('secretAccessKey', v);
+    nsPreferences.setUnicharPref('iamfox.secretAccessKey', v);
   },
 
   getUserAccessKeyId: function(name) {

@@ -73,32 +73,26 @@ UserTreeView.prototype = {
     }
 
     protect(function() {
-      var xhr = inProgress(function() {
-        return this.iamcli.query_or_die('ListAccessKeys', [['UserName', userName]]);
-      }.bind(this));
-
-      var keys = [];
-
-      for each (var member in xhr.xml()..AccessKeyMetadata.member) {
-        var params = [['UserName', userName], ['AccessKeyId', member.AccessKeyId]];
-        this.iamcli.query_or_die('DeleteAccessKey', params);
-      }
-
-      xhr = inProgress(function() {
-        return this.iamcli.query_or_die('ListUserPolicies', [['UserName', userName]]);
-      }.bind(this));
-
-      for each (var member in xhr.xml()..PolicyNames.member) {
-        var params = [['UserName', userName], ['PolicyName', member]];
-        this.iamcli.query_or_die('DeleteUserPolicy', params);
-      }
-
       inProgress(function() {
-        this.iamcli.query_or_die('DeleteUser', [['UserName', userName]]);
-      }.bind(this));
+        var xhr = this.iamcli.query_or_die('ListAccessKeys', [['UserName', userName]]);
 
-      this.deleteCurrentRow();
-      this.tree.invalidate();
+        for each (var member in xhr.xml()..AccessKeyMetadata.member) {
+          var params = [['UserName', userName], ['AccessKeyId', member.AccessKeyId]];
+          this.iamcli.query_or_die('DeleteAccessKey', params);
+        }
+
+        xhr = this.iamcli.query_or_die('ListUserPolicies', [['UserName', userName]]);
+
+        for each (var member in xhr.xml()..PolicyNames.member) {
+          var params = [['UserName', userName], ['PolicyName', member]];
+          this.iamcli.query_or_die('DeleteUserPolicy', params);
+        }
+
+        this.iamcli.query_or_die('DeleteUser', [['UserName', userName]]);
+
+        this.deleteCurrentRow();
+        this.tree.invalidate();
+      }.bind(this));
     }.bind(this));
   },
 
