@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="Edit User"
+  buttons="accept,cancel"
+  ondialogaccept="return userEditDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="userEditDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+
+  <!-- inputs -->
+  <label control="user-edit-dialog-user-name" value="New User Name" />
+  <textbox id="user-edit-dialog-user-name" />
+  <label control="user-edit-dialog-user-path" value="New User Path" />
+  <textbox id="user-edit-dialog-user-path" value="/" />
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function userEditDialogOnLoad() {
+      var args = window.arguments[0];
+      var user = args.user;
+      moveToAlertPosition();
+
+      $('user-edit-dialog-user-name').value = user.UserName;
+      $('user-edit-dialog-user-path').value = user.Path;
+    }
+
+    function userEditDialogDoOK() {
+      var args = window.arguments[0];
+      var view = args.view;
+      var iamcli = view.iamcli;
+      var inProgress = args.inProgress;
+      var user = args.user;
+
+      var userName = ($('user-edit-dialog-user-name').value || '').trim();
+      var userPath = ($('user-edit-dialog-user-path').value || '').trim();
+
+      var xhr = null;
+
+      if (!userName || !userPath) {
+        alert("Please input 'New User Name' and 'New User Path'.");
+        return false;
+      }
+
+      if (userPath.charAt(userPath.length - 1) != '/') {
+        userPath += '/';
+      }
+
+      window.close();
+
+      protect(function() {
+        xhr = inProgress(function() {
+          var params = [['NewUserName', userName], ['NewPath', userPath], ['UserName', user.UserName]];
+          return iamcli.query('UpdateUser', params);
+        });
+      });
+
+      if_xhr_success(xhr, function() {
+        view.refresh();
+      });
+
+      return true;
+    }
+  ]]></script>
+</dialog>

@@ -101,5 +101,11 @@ UserTreeView.prototype = {
       this.deleteCurrentRow();
       this.tree.invalidate();
     }.bind(this));
+  },
+
+  openUserEditDialog: function() {
+    var user = this.selectedRow();
+    openDialog('chrome://iamfox/content/user-edit-dialog.xul', 'user-edit-dialog', 'chrome,modal',
+               {view:this, inProgress:inProgress, user:user});
   }
 };
