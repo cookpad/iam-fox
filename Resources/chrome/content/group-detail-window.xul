@@ -13,17 +13,21 @@
   <script src="preferences.js" />
   <script src="utils.js" />
   <script src="group-detail-window.js" />
+  <popupset>
+
+    <menupopup id="group-listbox-contenx-menu">
+      <menuitem label="Delete" oncommand="deleteGroupPolicy()" />
+    </menupopup>
+  </popupset>
 
   <hbox flex="1">
     <!-- policy names -->
     <groupbox orient="vertical" flex="1">
       <caption label="Policy Name" />
-      <listbox id="group-policy-listbox" flex="1" onselect="listboxOnSelect(event);">
-      </listbox>
+      <listbox id="group-policy-listbox" flex="1" onselect="listboxOnSelect(event);" context="group-listbox-contenx-menu" />
 
       <hbox>
         <button label="Add" oncommand="addGroupPolicy();" class="mini-button" />
-        <button label="Delete" oncommand="deleteGroupPolicy();" class="mini-button" />
         <button label="Refresh" oncommand="refreshGroupPolicy();" class="mini-button" />
       </hbox>
     </groupbox>
