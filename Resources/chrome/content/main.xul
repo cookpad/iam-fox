@@ -46,7 +46,8 @@
   </tabbox>
 
   <!-- progress meter -->
-  <hbox align="right" style="padding:3px;">
-    <progressmeter id="main-progressmeter" mode="determined" value="100"/>
-  </hbox>
+  <statusbar>
+    <spacer flex="1"/>
+    <image id="main-loader" src="loader.gif" hidden="true" style="margin:3px;" />
+  </statusbar>
 </window>
