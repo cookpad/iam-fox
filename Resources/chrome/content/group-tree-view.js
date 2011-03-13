@@ -72,6 +72,15 @@ GroupTreeView.prototype = {
     }
 
     protect(function() {
+      var xhr = inProgress(function() {
+        return this.iamcli.query_or_die('ListGroupPolicies', [['GroupName', groupName]]);
+      }.bind(this));
+
+      for each (var member in xhr.xml()..PolicyNames.member) {
+        var params = [['GroupName', groupName], ['PolicyName', member]];
+        this.iamcli.query_or_die('DeleteGroupPolicy', params);
+      }
+
       inProgress(function() {
         this.iamcli.query_or_die('DeleteGroup', [['GroupName', groupName]]);
       }.bind(this));
