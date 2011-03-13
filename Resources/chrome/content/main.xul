@@ -35,13 +35,13 @@
   <!-- tabbox -->
   <tabbox flex="1">
     <tabs id="main-tabs" onselect="tabOnSelect(event);">
-      <tab id="group-tab" label="Group" />
       <tab id="user-tab"  label="User" />
+      <tab id="group-tab" label="Group" />
     </tabs>
 
     <tabpanels flex="1">
-      <tabpanel id="group-tabpanel" />
       <tabpanel id="user-tabpanel" />
+      <tabpanel id="group-tabpanel" />
     </tabpanels>
   </tabbox>
 
