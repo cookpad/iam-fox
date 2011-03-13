@@ -136,15 +136,12 @@ function refreshGroupPolicy() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;
   var groupName = args.groupName;
-  var xhr = null;
 
   protect(function() {
-    inProgress(function() {
-      xhr = iamcli.query('ListGroupPolicies', [['GroupName', groupName]]);
+    var xhr = inProgress(function() {
+      return iamcli.query_or_die('ListGroupPolicies', [['GroupName', groupName]]);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     var listbox = $('group-policy-listbox');
     var textbox = $('group-policy-textbox');
     var policyNames = [];
