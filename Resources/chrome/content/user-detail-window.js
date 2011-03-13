@@ -60,7 +60,6 @@ function addUserPolicy() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;
   var userName = args.userName;
-  var xhr = null;
 
   var policyName = prompt('Policy Name');
   policyName = (policyName || '').trim();
@@ -88,13 +87,10 @@ function addUserPolicy() {
         ['PolicyDocument', POLICY_ALLOW_ALL]
         ];
 
-      xhr = iamcli.query('PutUserPolicy', params);
+      iamcli.query_or_die('PutUserPolicy', params);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     var textbox = $('user-policy-textbox');
-
     var item = listbox.appendItem(policyName, policyName);
     listbox.selectItem(item);
     textbox.value = POLICY_ALLOW_ALL;
