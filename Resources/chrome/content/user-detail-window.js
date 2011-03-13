@@ -167,7 +167,6 @@ function updateUserPolicy() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;
   var userName = args.userName;
-  var xhr = null;
 
   var listbox = $('user-policy-listbox');
   var textbox = $('user-policy-textbox');
@@ -189,7 +188,7 @@ function updateUserPolicy() {
         ['PolicyDocument', policyDocument]
         ];
 
-      xhr = iamcli.query('PutUserPolicy', params);
+      iamcli.query_or_die('PutUserPolicy', params);
     });
   });
 
