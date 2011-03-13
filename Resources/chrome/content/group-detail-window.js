@@ -118,7 +118,7 @@ function deleteGroupPolicy() {
   protect(function() {
     inProgress(function() {
       var params = [['GroupName', groupName], ['PolicyName', policyName]];
-      iamcli.query('DeleteGroupPolicy', params);
+      iamcli.query_or_die('DeleteGroupPolicy', params);
     });
 
     var textbox = $('group-policy-textbox');
@@ -165,7 +165,6 @@ function updateGroupPolicy() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;
   var groupName = args.groupName;
-  var xhr = null;
 
   var listbox = $('group-policy-listbox');
   var textbox = $('group-policy-textbox');
@@ -187,11 +186,9 @@ function updateGroupPolicy() {
         ['PolicyDocument', policyDocument]
         ];
 
-      xhr = iamcli.query('PutGroupPolicy', params);
+      iamcli.query_or_die('PutGroupPolicy', params);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     textbox.value = policyDocument;
     disableUpdateButton();
   });
