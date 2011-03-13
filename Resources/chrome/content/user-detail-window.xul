@@ -14,16 +14,20 @@
   <script src="utils.js" />
   <script src="user-detail-window.js" />
 
+  <popupset>
+    <menupopup id="user-listbox-contenx-menu">
+      <menuitem label="Delete" oncommand="deleteUserPolicy()" />
+    </menupopup>
+  </popupset>
+
   <hbox flex="1">
     <!-- policy names -->
     <groupbox flex="1">
       <caption label="Policy Name" />
-      <listbox id="user-policy-listbox" flex="1" onselect="listboxOnSelect(event);">
-      </listbox>
+      <listbox id="user-policy-listbox" flex="1" onselect="listboxOnSelect(event);" context="user-listbox-contenx-menu" />
 
       <hbox>
         <button label="Add" oncommand="addUserPolicy();" class="mini-button" />
-        <button label="Delete" oncommand="deleteUserPolicy();" class="mini-button" />
         <button label="Refresh" oncommand="refreshUserPolicy();" class="mini-button" />
       </hbox>
     </groupbox>
