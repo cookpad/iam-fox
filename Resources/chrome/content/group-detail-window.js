@@ -16,16 +16,13 @@ function listboxOnSelect(event) {
   }
 
   var policyName = item.value;
-  var xhr = null;
 
   protect(function() {
-    inProgress(function() {
+    var xhr = inProgress(function() {
       var params =  [['GroupName', groupName], ['PolicyName', policyName]];
-      xhr = iamcli.query('GetGroupPolicy', params);
+      return iamcli.query_or_die('GetGroupPolicy', params);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     var textbox = $('group-policy-textbox');
     var policy = xhr.xml().GetGroupPolicyResult;
     textbox.value = decodeURIComponent(policy.PolicyDocument);

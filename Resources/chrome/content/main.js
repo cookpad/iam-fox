@@ -63,6 +63,8 @@ function newIAMClient() {
       if (!xhr.success()) {
         throw xhr.responseText;
       }
+
+      return xhr;
     };
 
     return iamcli;
