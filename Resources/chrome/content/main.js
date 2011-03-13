@@ -13,6 +13,7 @@ function windowOnLoad() {
   if (iamcli) {
     bind(GroupTreeView, 'group');
     bind(UserTreeView, 'user');
+    bind(SigningCertTreeView, 'signing-cert');
     selectedView().refresh();
   }
 }

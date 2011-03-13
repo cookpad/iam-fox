@@ -4,6 +4,7 @@
 
 <?xul-overlay href="chrome://iamfox/content/group-tabpanel.xul"?>
 <?xul-overlay href="chrome://iamfox/content/user-tabpanel.xul"?>
+<?xul-overlay href="chrome://iamfox/content/signing-cert-tabpanel.xul"?>
 
 <!DOCTYPE window SYSTEM "chrome://iamfox/locale/iamfox.dtd">
 
@@ -20,6 +21,7 @@
   <script src="main.js" />
   <script src="group-tree-view.js" />
   <script src="user-tree-view.js" />
+  <script src="signing-cert-tree-view.js" />
 
   <!-- menu -->
   <toolbox>
@@ -37,11 +39,13 @@
     <tabs id="main-tabs" onselect="tabOnSelect(event);">
       <tab id="user-tab"  label="User" />
       <tab id="group-tab" label="Group" />
+      <tab id="signing-cert-tab" label="Signing Cert" />
     </tabs>
 
     <tabpanels flex="1">
       <tabpanel id="user-tabpanel" />
       <tabpanel id="group-tabpanel" />
+      <tabpanel id="signing-cert-tabpanel" />
     </tabpanels>
   </tabbox>
 
