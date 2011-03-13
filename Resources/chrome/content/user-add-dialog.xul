@@ -51,9 +51,23 @@
         });
       });
 
-      if_xhr_success(xhr, function() {
-        view.refresh();
-      });
+      if (!xhr.success()) {
+        return true;
+      }
+
+      protect(function() {
+        xhr = inProgress(function() {
+          return iamcli.query('CreateAccessKey', [['UserName', userName]]);
+        }.bind(this));
+      }.bind(this));
+
+      if (!xhr.success()) {
+        return true;
+      }
+
+      var accessKey = xhr.xml()..CreateAccessKeyResult.AccessKey;
+      alert(accessKey);
+      view.refresh();
 
       return true;
     }

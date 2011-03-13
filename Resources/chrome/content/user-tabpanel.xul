@@ -9,7 +9,6 @@
   <!-- context menu -->
   <popupset>
     <menupopup id="user-tree-contenx-menu">
-      <menuitem label="Create Access Key" oncommand="selectedView().createAccessKey()" />
       <menuitem label="Edit" oncommand="selectedView().openUserEditDialog()" />
       <menuitem label="Delete" oncommand="selectedView().deleteUser()" />
     </menupopup>

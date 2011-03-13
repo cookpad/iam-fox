@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="Key"
+  buttons="accept,cancel"
+  buttonlabelaccept="Update"
+  ondialogaccept="return userViewKeyDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="userViewKeyDialogDoUpdate();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+
+  <!-- inputs -->
+  <label control="user-view-key-dialog-accessKeyId" value="AWS Access Key ID" />
+  <textbox id="user-view-key-dialog-accessKeyId"/>
+  <label control="user-view-key-dialog-secretAccessKey" value="AWS Secret Access Key" />
+  <textbox id="user-view-key-dialog-secretAccessKey" type="password" />
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function userViewKeyDialogOnLoad() {
+      moveToAlertPosition();
+      $('user-view-key-dialog-accessKeyId').value = Prefs.accessKeyId;
+      $('user-view-key-dialog-secretAccessKey').value = Prefs.secretAccessKey;
+    }
+
+    function userViewKeyDialogDoUpdate() {
+     var accessKeyId = ($('user-view-key-dialog-accessKeyId').value || '').trim();
+      var secretAccessKey = ($('user-view-key-dialog-secretAccessKey').value || '').trim();
+
+      if (!accessKeyId || !secretAccessKey) {
+        alert("Please input 'AWS Access Key ID' and 'AWS Secret Access Key'.");
+        return false;
+      } else {
+        Prefs.accessKeyId = accessKeyId;
+        Prefs.secretAccessKey = secretAccessKey;
+        var view = window.arguments[0].selectedView();
+        var newIAMClient = window.arguments[0].newIAMClient;
+
+        view.iamcli = newIAMClient();
+        view.refresh();
+
+        return true;
+      }
+    }
+  ]]></script>
+</dialog>

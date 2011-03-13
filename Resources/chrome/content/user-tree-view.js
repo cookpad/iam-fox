@@ -67,22 +67,6 @@ UserTreeView.prototype = {
     }
   },
 
-  createAccessKey: function() {
-    var user = this.selectedRow();
-    var userName = user.UserName;
-
-    protect(function() {
-      xhr = inProgress(function() {
-        return this.iamcli.query('CreateAccessKey', [['UserName', userName]]);
-      }.bind(this));
-    }.bind(this));
-
-    if_xhr_success(xhr, function() {
-      var accessKey = xhr.xml()..CreateAccessKeyResult.AccessKey;
-      alert(accessKey);
-    }.bind(this));
-  },
-
   deleteUser: function() {
     var user = this.selectedRow();
     var userName = user.UserName;
