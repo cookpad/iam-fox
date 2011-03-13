@@ -42,6 +42,10 @@
 
       window.close();
 
+      if (groupPath.charAt(groupPath.length - 1) != '/') {
+        groupPath += '/';
+      }
+
       protect(function() {
         inProgress(function() {
           var params = [['GroupName', groupName], ['Path', groupPath]];

@@ -44,6 +44,10 @@
 
       window.close();
 
+      if (userPath.charAt(userPath.length - 1) != '/') {
+        userPath += '/';
+      }
+
       protect(function() {
         xhr = inProgress(function() {
           var params = [['UserName', userName], ['Path', userPath]];
