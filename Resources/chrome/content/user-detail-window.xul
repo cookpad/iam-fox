@@ -45,7 +45,7 @@
 
   <!-- progress meter -->
   <statusbar>
-    <spacer flex="1"/>
+    <spacer height="22px" flex="1" />
     <image id="user-policy-loader" src="loader.gif" hidden="true" style="margin:3px;" />
   </statusbar>
 </window>
