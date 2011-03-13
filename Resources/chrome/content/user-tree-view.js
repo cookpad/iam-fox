@@ -29,7 +29,7 @@ UserTreeView.prototype = {
 
     protect(function() {
       var xhr = inProgress(function() {
-        return this.iamcli.query('ListUsers');
+        return this.iamcli.query_or_die('ListUsers');
       }.bind(this));
 
       for each (var member in xhr.xml()..Users.member) {
