@@ -98,3 +98,8 @@ function openGroupAddDialog() {
   openDialog('chrome://iamfox/content/group-add-dialog.xul', 'group-add-dialog', 'chrome,modal',
              {selectedView:selectedView, inProgress:inProgress});
 }
+
+function openUserAddDialog() {
+  openDialog('chrome://iamfox/content/user-add-dialog.xul', 'user-add-dialog', 'chrome,modal',
+             {selectedView:selectedView, inProgress:inProgress});
+}
