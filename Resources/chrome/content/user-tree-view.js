@@ -73,12 +73,10 @@ UserTreeView.prototype = {
     }
 
     protect(function() {
-      xhr = inProgress(function() {
-        return this.iamcli.query('DeleteUser', [['UserName', userName]]);
+      inProgress(function() {
+        this.iamcli.query_or_die('DeleteUser', [['UserName', userName]]);
       }.bind(this));
-    }.bind(this));
 
-    if_xhr_success(xhr, function() {
       this.deleteCurrentRow();
       this.tree.invalidate();
     }.bind(this));
