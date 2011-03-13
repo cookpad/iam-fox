@@ -55,7 +55,17 @@ function newIAMClient() {
     close();
     return null;
   } else {
-    return new IAMClient(Prefs.accessKeyId, Prefs.secretAccessKey);
+    var iamcli = new IAMClient(Prefs.accessKeyId, Prefs.secretAccessKey);
+
+    iamcli.query_or_die = function(action, params) {
+      var xhr = iamcli.query(action, params);
+
+      if (!xhr.success()) {
+        throw xhr.responseText;
+      }
+    };
+
+    return iamcli;
   }
 }
 

@@ -9,7 +9,7 @@ IAMClient.prototype = {
   HOST: 'iam.amazonaws.com',
   TIMEOUT: 30000,
 
-  query: function (action, params, callback, async) {
+  query: function(action, params, callback, async) {
     if (!params) {
       params = [];
     }
