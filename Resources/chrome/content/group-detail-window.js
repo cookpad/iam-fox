@@ -86,13 +86,10 @@ function addGroupPolicy() {
         ['PolicyDocument', POLICY_ALLOW_ALL]
         ];
 
-      xhr = iamcli.query('PutGroupPolicy', params);
+      iamcli.query('PutGroupPolicy', params);
     });
-  });
 
-  if_xhr_success(xhr, function() {
     var textbox = $('group-policy-textbox');
-
     var item = listbox.appendItem(policyName, policyName);
     listbox.selectItem(item);
     textbox.value = POLICY_ALLOW_ALL;
