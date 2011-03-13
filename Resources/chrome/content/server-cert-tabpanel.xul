@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://iamfox/locale/iamfox.dtd">
+
+<!-- server-cert tabpanel -->
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <!-- context menu -->
+  <popupset>
+    <menupopup id="server-cert-tree-contenx-menu">
+      <menuitem label="Edit" oncommand="selectedView().openServerCertEditDialog()" />
+      <menuitem label="Delete" oncommand="selectedView().deleteServerCert()" />
+    </menupopup>
+  </popupset>
+
+  <!-- tabpanel -->
+  <tabpanel id="server-cert-tabpanel">
+    <vbox flex="1">
+      <!-- tree -->
+      <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" flex="1">
+        <treecols>
+          <treecol id="ServerCertificateId" label="Server Cert ID" flex="1" />
+          <splitter class="tree-splitter" />
+          <treecol id="ServerCertificateName" label="Server Cert Name" flex="1" />
+          <splitter class="tree-splitter" />
+          <treecol id="Arn" label="ARN ID" flex="1" />
+          <splitter class="tree-splitter" />
+          <treecol id="Path" label="Path" flex="1" />
+          <splitter class="tree-splitter" />
+          <treecol id="UploadDate" label="Upload Date" flex="1" />
+        </treecols>
+        <treechildren context="server-cert-tree-contenx-menu" />
+      </tree>
+
+      <!-- buttons -->
+      <hbox>
+        <hbox flex="1">
+          <button label="Add" oncommand="openServerCertAddDialog();" />
+          <button label="Refresh" oncommand="selectedView().refresh();" />
+        </hbox>
+        <hbox pack="end" flex="1">
+          <button label="Account" oncommand="openAccountDialog();" />
+        </hbox>
+      </hbox>
+    </vbox>
+  </tabpanel>
+</overlay>

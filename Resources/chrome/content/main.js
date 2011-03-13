@@ -14,6 +14,7 @@ function windowOnLoad() {
     bind(GroupTreeView, 'group');
     bind(UserTreeView, 'user');
     bind(SigningCertTreeView, 'signing-cert');
+    bind(ServerCertTreeView, 'server-cert');
     selectedView().refresh();
   }
 }

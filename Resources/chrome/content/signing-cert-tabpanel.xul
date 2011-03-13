@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://iamfox/locale/iamfox.dtd">
+
+<!-- signing-cert tabpanel -->
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <!-- context menu -->
+  <popupset>
+    <menupopup id="signing-cert-tree-contenx-menu">
+      <menuitem label="Edit" oncommand="selectedView().openSigningCertEditDialog()" />
+      <menuitem label="Delete" oncommand="selectedView().deleteSigningCert()" />
+    </menupopup>
+  </popupset>
+
+  <!-- tabpanel -->
+  <tabpanel id="signing-cert-tabpanel">
+    <vbox flex="1">
+      <!-- tree -->
+      <tree id="signing-cert-tree" seltype="single" enableColumnDrag="true" flex="1">
+        <treecols>
+          <treecol id="CertificateId" label="Certificate ID" flex="1" />
+          <splitter class="tree-splitter" />
+          <treecol id="UserName" label="User Name" flex="1" />
+          <splitter class="tree-splitter" />
+          <treecol id="Status" label="Status" flex="1" />
+          <splitter class="tree-splitter" />
+          <treecol id="UploadDate" label="Upload Date" flex="1" />
+        </treecols>
+        <treechildren context="signing-cert-tree-contenx-menu" />
+      </tree>
+
+      <!-- buttons -->
+      <hbox>
+        <hbox flex="1">
+          <button label="Add" oncommand="openSigningCertAddDialog();" />
+          <button label="Refresh" oncommand="selectedView().refresh();" />
+        </hbox>
+        <hbox pack="end" flex="1">
+          <button label="Account" oncommand="openAccountDialog();" />
+        </hbox>
+      </hbox>
+    </vbox>
+  </tabpanel>
+</overlay>
