@@ -85,5 +85,19 @@ GroupTreeView.prototype = {
     var group = this.selectedRow();
     openDialog('chrome://iamfox/content/group-edit-dialog.xul', 'group-edit-dialog', 'chrome,modal',
                {view:this, inProgress:inProgress, group:group});
+  },
+
+  selectByName: function(name) {
+    var rows = this.rows;
+
+    for (var i = 0; i < rows.length; i++) {
+      var user = rows[i];
+
+      if (user.UserName == name) {
+        this.selection.select(i);
+      }
+    }
+
+    this.rows
   }
 };

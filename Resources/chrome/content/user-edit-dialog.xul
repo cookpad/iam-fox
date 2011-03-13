@@ -41,8 +41,6 @@
       var userName = ($('user-edit-dialog-user-name').value || '').trim();
       var userPath = ($('user-edit-dialog-user-path').value || '').trim();
 
-      var xhr = null;
-
       if (!userName || !userPath) {
         alert("Please input 'New User Name' and 'New User Path'.");
         return false;
@@ -55,14 +53,13 @@
       window.close();
 
       protect(function() {
-        xhr = inProgress(function() {
+         inProgress(function() {
           var params = [['NewUserName', userName], ['NewPath', userPath], ['UserName', user.UserName]];
-          return iamcli.query('UpdateUser', params);
+          iamcli.query_or_die('UpdateUser', params);
         });
-      });
 
-      if_xhr_success(xhr, function() {
         view.refresh();
+        view.selectByName(userName);
       });
 
       return true;

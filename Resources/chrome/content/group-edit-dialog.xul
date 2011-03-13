@@ -59,6 +59,7 @@
         });
 
         view.refresh();
+        view.selectByName(groupName);
       });
 
       return true;
