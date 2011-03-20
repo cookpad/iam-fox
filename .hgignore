@@ -2,6 +2,6 @@ syntax: glob
 .DS_Store
 *.dmg
 *.app
-*_win
+iam-fox_win
 *setup.exe
 *.log
