@@ -120,5 +120,14 @@ UserTreeView.prototype = {
     }
 
     this.rows
+  },
+
+  openUserCertWindow: function(event) {
+    var user = this.selectedRow();
+    var userName = user.UserName;
+    var xhr = null;
+
+    openModalWindow('user-cert-window.xul', 'user-cert-window', 640, 480,
+                    {iamcli:this.iamcli, userName:userName});
   }
 };

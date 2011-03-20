@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/iamfox.dtd">
+
+<!-- main window -->
+<window  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  id="user-detail-window" onload="windowOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+  <script src="user-cert-window.js" />
+
+  <popupset>
+    <menupopup id="user-cert-listbox-contenx-menu">
+      <menuitem label="Delete" oncommand="deleteUserCert()" />
+    </menupopup>
+  </popupset>
+
+  <hbox flex="1">
+    <!-- cert ids -->
+    <groupbox flex="1">
+      <caption label="Certificate ID" />
+      <listbox id="user-cert-listbox" flex="1" onselect="listboxOnSelect(event);" context="user-cert-listbox-contenx-menu" />
+
+      <hbox>
+        <button label="Add" oncommand="openSigningCertAddDialog();" class="mini-button" />
+        <button label="Refresh" oncommand="refreshUserCert();" class="mini-button" />
+      </hbox>
+    </groupbox>
+
+    <!-- cert body -->
+    <groupbox flex="10">
+      <caption label="Certificate" />
+      <textbox id="user-cert-textbox" multiline="true" flex="1" readonly="true" wrap="off" />
+    </groupbox>
+  </hbox>
+
+  <!-- progress meter -->
+  <statusbar>
+    <spacer height="22px" flex="1" />
+    <image id="user-cert-loader" src="loader.gif" hidden="true" style="margin:3px;" />
+  </statusbar>
+</window>
