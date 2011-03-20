@@ -1,4 +1,4 @@
-function windowOnLoad() {
+function attachViewsToElements(callback) {
   var iamcli = newIAMClient();
 
   function bind(clazz, name) {
@@ -15,8 +15,17 @@ function windowOnLoad() {
     bind(UserTreeView, 'user');
     bind(SigningCertTreeView, 'signing-cert');
     bind(ServerCertTreeView, 'server-cert');
-    selectedView().refresh();
+
+    if (callback) {
+      callback();
+    }
   }
+}
+
+function windowOnLoad() {
+  attachViewsToElements(function() {
+    selectedView().refresh();
+  });
 }
 
 function tabOnSelect(event) {
@@ -43,13 +52,14 @@ function treeViews() {
 }
 
 function openAccountDialog() {
-  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'chrome,modeless',
-             {selectedView:selectedView, newIAMClient:newIAMClient});
+  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'chrome,modal',
+             {selectedView:selectedView, attachViewsToElements:attachViewsToElements});
 }
 
 function newIAMClient() {
   if (!Prefs.accessKeyId || !Prefs.secretAccessKey) {
-    openAccountDialog();
+    //openAccountDialog();
+    return null;
   }
 
   if (!Prefs.accessKeyId || !Prefs.secretAccessKey) {
@@ -107,11 +117,15 @@ function openModalWindow(xul, name, width, height, args) {
 }
 
 function openGroupAddDialog() {
-  openDialog('chrome://iamfox/content/group-add-dialog.xul', 'group-add-dialog', 'chrome,modal',
-             {selectedView:selectedView, inProgress:inProgress});
+  if (selectedView()) {
+    openDialog('chrome://iamfox/content/group-add-dialog.xul', 'group-add-dialog', 'chrome,modal',
+               {selectedView:selectedView, inProgress:inProgress});
+  }
 }
 
 function openUserAddDialog() {
-  openDialog('chrome://iamfox/content/user-add-dialog.xul', 'user-add-dialog', 'chrome,modal',
-             {selectedView:selectedView, inProgress:inProgress});
+  if (selectedView()) {
+    openDialog('chrome://iamfox/content/user-add-dialog.xul', 'user-add-dialog', 'chrome,modal',
+               {selectedView:selectedView, inProgress:inProgress});
+  }
 }

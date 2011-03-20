@@ -29,20 +29,22 @@
     }
 
     function accountDialogDoOK() {
-     var accessKeyId = ($('account-dialog-accessKeyId').value || '').trim();
+      var accessKeyId = ($('account-dialog-accessKeyId').value || '').trim();
       var secretAccessKey = ($('account-dialog-secretAccessKey').value || '').trim();
 
       if (!accessKeyId || !secretAccessKey) {
         alert("Please input 'AWS Access Key ID' and 'AWS Secret Access Key'.");
         return false;
       } else {
+        var attachViewsToElements = window.arguments[0].attachViewsToElements;
+        var selectedView = window.arguments[0].selectedView;
+
         Prefs.accessKeyId = accessKeyId;
         Prefs.secretAccessKey = secretAccessKey;
-        var view = window.arguments[0].selectedView();
-        var newIAMClient = window.arguments[0].newIAMClient;
 
-        view.iamcli = newIAMClient();
-        view.refresh();
+        attachViewsToElements(function() {
+          selectedView().refresh();
+        });
 
         return true;
       }
