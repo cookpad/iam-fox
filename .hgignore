@@ -1,0 +1,7 @@
+syntax: glob
+.DS_Store
+*.dmg
+*.app
+*_win
+*setup.exe
+*.log
