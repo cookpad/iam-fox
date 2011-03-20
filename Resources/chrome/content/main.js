@@ -13,7 +13,7 @@ function attachViewsToElements(callback) {
   if (iamcli) {
     bind(GroupTreeView, 'group');
     bind(UserTreeView, 'user');
-    bind(ServerCertTreeView, 'server-cert');
+    //bind(ServerCertTreeView, 'server-cert');
 
     if (callback) {
       callback();
