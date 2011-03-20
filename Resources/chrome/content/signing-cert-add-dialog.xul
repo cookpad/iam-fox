@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="New Signing Certificate"
+  buttons="accept,cancel"
+  ondialogaccept="return signingCertAddDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="signingCertAddDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+
+  <!-- inputs -->
+  <label control="signing-cert-add-dialog-signing-certificate" value="Certificate" />
+  <textbox id="signing-cert-add-dialog-signing-certificate" multiline="true" flex="1" wrap="off"/>
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function signingCertAddDialogOnLoad() {
+      moveToAlertPosition();
+    }
+
+    function signingCertAddDialogDoOK() {
+      var args = window.arguments[0];
+      var iamcli = args.iamcli;
+      var refreshUserCert = args.refreshUserCert;
+      var inProgress = args.inProgress;
+      var userName = args.userName;
+
+      var certBody = ($('signing-cert-add-dialog-signing-certificate').value || '').trim();
+
+      if (!certBody) {
+        alert("Please input 'Certificate'.");
+        return false;
+      }
+
+      window.close();
+
+      protect(function() {
+        inProgress(function() {
+          var params = [['UserName', userName], ['CertificateBody', certBody]];
+          return iamcli.query_or_die('UploadSigningCertificate', params);
+        });
+
+        refreshUserCert();
+      });
+
+      return true;
+    }
+  ]]></script>
+</dialog>
