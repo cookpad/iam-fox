@@ -58,6 +58,7 @@
           iamcli.query_or_die('UpdateUser', params);
         });
 
+        Prefs.renameUserAccessKeyIdAndSecretAccessKey(user.UserName, userName);
         view.refresh();
         view.selectByName(userName);
       });
