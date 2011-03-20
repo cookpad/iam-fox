@@ -54,6 +54,25 @@ function openSigningCertAddDialog() {
              {iamcli:iamcli, refreshUserCert:refreshUserCert, inProgress:inProgress, userName:userName});
 }
 
+function editCert() {
+  var args = window.arguments[0];
+  var iamcli = args.iamcli;
+  var userName = args.userName;
+
+  var listbox = $('user-cert-listbox');
+  var item = listbox.selectedItem;
+
+  if (!item || !item.value) {
+    return;
+  }
+
+  var certId = item.value;
+  var status = window.certHash[certId].Status.toString();
+
+  openDialog('chrome://iamfox/content/signing-cert-edit-dialog.xul', 'signing-cert-edit-dialog', 'chrome,modal',
+             {iamcli:iamcli, refreshUserCert:refreshUserCert, inProgress:inProgress, userName:userName, certificateId:certId, status:status});
+}
+
 function deleteUserCert() {
   var args = window.arguments[0];
   var iamcli = args.iamcli;

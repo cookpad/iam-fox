@@ -16,6 +16,7 @@
 
   <popupset>
     <menupopup id="user-cert-listbox-contenx-menu">
+      <menuitem label="Edit" oncommand="editCert()" />
       <menuitem label="Delete" oncommand="deleteUserCert()" />
     </menupopup>
   </popupset>

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="Edit Certificate"
+  buttons="accept,cancel"
+  ondialogaccept="return signingCertEditDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="signingCertEditDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+
+  <!-- inputs -->
+  <label control="signing-cert-add-dialog-cert-status" value="Certificate" />
+  <menulist id="signing-cert-add-dialog-cert-status">
+    <menupopup>
+      <menuitem label="Active" value="Active" />
+      <menuitem label="Inactive" value="Inactive" />
+    </menupopup>
+  </menulist>
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function signingCertEditDialogOnLoad() {
+      moveToAlertPosition();
+
+      var args = window.arguments[0];
+      var status = args.status;
+
+      var statusMenu = $('signing-cert-add-dialog-cert-status');
+
+      for (var i = 0; i < statusMenu.itemCount; i++) {
+        var item = statusMenu.getItemAtIndex(i);
+
+        if (item.value == status) {
+          statusMenu.selectedIndex = i;
+          break;
+        }
+      }
+    }
+
+    function signingCertEditDialogDoOK() {
+      var args = window.arguments[0];
+      var iamcli = args.iamcli;
+      var refreshUserCert = args.refreshUserCert;
+      var inProgress = args.inProgress;
+      var userName = args.userName;
+      var certId = args.certificateId;
+
+      var status = $('signing-cert-add-dialog-cert-status').selectedItem.value;
+
+      window.close();
+
+      protect(function() {
+        inProgress(function() {
+          var params = [['CertificateId', certId], ['Status', status], ['UserName', userName]];
+          return iamcli.query_or_die('UpdateSigningCertificate', params);
+        });
+
+        refreshUserCert();
+      });
+
+      return true;
+    }
+  ]]></script>
+</dialog>
