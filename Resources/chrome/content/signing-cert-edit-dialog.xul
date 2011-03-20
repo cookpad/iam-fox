@@ -15,7 +15,7 @@
   <script src="utils.js" />
 
   <!-- inputs -->
-  <label control="signing-cert-add-dialog-cert-status" value="Certificate" />
+  <label control="signing-cert-add-dialog-cert-status" value="Status" />
   <menulist id="signing-cert-add-dialog-cert-status">
     <menupopup>
       <menuitem label="Active" value="Active" />
