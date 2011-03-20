@@ -40,7 +40,7 @@
       <hbox>
         <button id="user-policy-update-button" label="Update" oncommand="updateUserPolicy();" disabled="true" />
       </hbox>
-     </groupbox>
+    </groupbox>
   </hbox>
 
   <!-- progress meter -->
