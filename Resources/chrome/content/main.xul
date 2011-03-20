@@ -4,7 +4,7 @@
 
 <?xul-overlay href="chrome://iamfox/content/group-tabpanel.xul"?>
 <?xul-overlay href="chrome://iamfox/content/user-tabpanel.xul"?>
-<?xul-overlay href="chrome://iamfox/content/server-cert-tabpanel.xul"?>
+<!-- ?xul-overlay href="chrome://iamfox/content/server-cert-tabpanel.xul"? -->
 
 <!DOCTYPE window SYSTEM "chrome://iamfox/locale/iamfox.dtd">
 
@@ -39,13 +39,13 @@
     <tabs id="main-tabs" onselect="tabOnSelect(event);">
       <tab id="user-tab"  label="User" />
       <tab id="group-tab" label="Group" />
-      <tab id="server-cert-tab" label="Server Cert" />
+      <!-- tab id="server-cert-tab" label="Server Cert" / -->
     </tabs>
 
     <tabpanels flex="1">
       <tabpanel id="user-tabpanel" />
       <tabpanel id="group-tabpanel" />
-      <tabpanel id="server-cert-tabpanel" />
+      <!-- tabpanel id="server-cert-tabpanel" / -->
     </tabpanels>
   </tabbox>
 
