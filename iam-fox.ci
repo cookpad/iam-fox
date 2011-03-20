@@ -41,7 +41,7 @@
    <runconfirm> 0</>
    <uninclude> 1</>
    <unicon> Uninstall</>
-   <unshortcut> 0</>
+   <unshortcut> 1</>
    <unrun> </>
    <silent> 0</>
    <unfeed> </>
@@ -64,6 +64,7 @@
    </registry>
    <shcut listview >
       <_><shpath>prog</><shname>IAM Fox</><tarpath>inst</><tarname>xulrunner\xulrunner.exe</><cmdline>application.ini</><workpath>inst</><workcust></><icon></></>
+<_><shpath>desk</><shname>IAM Fox</><tarpath>inst</><tarname>xulrunner\xulrunner.exe</><cmdline>application.ini</><workpath>inst</><workcust></><icon></></>
 
    </shcut>
    <ini listview >
