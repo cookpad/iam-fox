@@ -33,10 +33,14 @@
     </groupbox>
 
     <!-- cert body -->
-    <groupbox flex="10">
-      <caption label="Certificate" />
-      <textbox id="user-cert-textbox" multiline="true" flex="1" readonly="true" wrap="off" />
-    </groupbox>
+    <vbox  flex="10">
+      <groupbox flex="1">
+        <caption label="Certificate" />
+        <textbox id="user-cert-textbox" multiline="true" flex="1" readonly="true" wrap="off" />
+        <label control="user-cert-status-textbox" value="Status" />
+        <textbox id="user-cert-status-textbox" readonly="true" />
+      </groupbox>
+    </vbox>
   </hbox>
 
   <!-- progress meter -->

@@ -17,8 +17,10 @@ function listboxOnSelect(event) {
   }
 
   var textbox = $('user-cert-textbox');
+  var status = $('user-cert-status-textbox');
   var certId = item.value;
-  textbox.value = decodeURIComponent(window.certHash[certId]);
+  textbox.value = decodeURIComponent(window.certHash[certId].CertificateBody);
+  status.value = window.certHash[certId].Status;
 }
 
 function inProgress(callback) {
@@ -77,10 +79,12 @@ function deleteUserCert() {
     });
 
     var textbox = $('user-cert-textbox');
+    var status = $('user-cert-status-textbox');
     delete window.certHash[certId];
     listbox.removeItemAt(listbox.currentIndex);
     listbox.clearSelection();
     textbox.value = null;
+    status.value = null;
   });
 }
 
@@ -96,16 +100,18 @@ function refreshUserCert() {
 
     var listbox = $('user-cert-listbox');
     var textbox = $('user-cert-textbox');
+    var status = $('user-cert-status-textbox');
     var certificates = [];
     window.certHash = {};
 
     for each (var member in xhr.xml()..Certificates.member) {
       certificates.push(member);
-      window.certHash[member.CertificateId.toString()] = member.CertificateBody.toString();
+      window.certHash[member.CertificateId.toString()] = member;
     }
 
     listbox.clearSelection();
     textbox.value = null;
+    status.value = null;
 
     for (var i = listbox.itemCount - 1; i >= 0; i--) {
       listbox.removeItemAt(i);
