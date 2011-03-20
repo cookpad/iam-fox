@@ -1,0 +1,17 @@
+= IAM Fox
+
+Copyright (c) 2011- SUGAWARA Genki <sgwr_dts@yahoo.co.jp>
+
+== Description
+
+IAM Fox is a GUI client of AWS Identity and Access Management (IAM)
+
+see http://aws.amazon.com/iam/
+
+=== Requires
+
+* OSX
+  * XULRunner runtime (>= 1.9.15)
+  * http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/
+* Windows
+  * Installer contains XULRunner runtime
