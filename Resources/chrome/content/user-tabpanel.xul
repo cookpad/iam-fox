@@ -9,7 +9,7 @@
   <!-- context menu -->
   <popupset>
     <menupopup id="user-tree-contenx-menu">
-      <menuitem label="Detail" oncommand="selectedView().onDblclick();" style="font-weight:bold;" />
+      <menuitem label="Policies" oncommand="selectedView().onDblclick();" style="font-weight:bold;" />
       <menuitem label="Edit" oncommand="selectedView().openUserEditDialog();" />
       <menuitem label="Group" oncommand="selectedView().openUserGroupWindow();" />
       <menuitem label="View/Edit Key" oncommand="selectedView().openViewKeyDialog();" />

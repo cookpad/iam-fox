@@ -1,6 +1,6 @@
 function windowOnLoad() {
   var args = window.arguments[0];
-  document.title = 'User - ' + args.userName;
+  document.title = 'Policies - ' + args.userName;
   var listbox = $('user-policy-listbox');
   refreshUserPolicy();
 }

@@ -1,6 +1,6 @@
 function windowOnLoad() {
   var args = window.arguments[0];
-  document.title = 'Group - ' + args.groupName;
+  document.title = 'Policies - ' + args.groupName;
   refreshGroupPolicy();
 }
 
