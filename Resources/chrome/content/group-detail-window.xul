@@ -35,7 +35,7 @@
     <!-- policy document -->
     <groupbox flex="10">
       <caption label="Policy Document" />
-      <textbox id="group-policy-textbox" multiline="true" flex="1" oninput="enableUpdateButton();" />
+      <textbox id="group-policy-textbox" multiline="true" flex="1" oninput="enableUpdateButton();" wrap="off" />
 
       <hbox>
         <button id="group-policy-update-button" label="Update" oncommand="updateGroupPolicy();" disabled="true" />
