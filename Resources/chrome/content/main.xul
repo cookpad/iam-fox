@@ -28,7 +28,7 @@
     <menubar>
       <menu label="Help">
         <menupopup>
-          <menuitem label="About" oncommand="alert('IAM Fox 0.0.1');" />
+          <menuitem label="About" oncommand="alert('IAM Fox 0.1.0');" />
         </menupopup>
       </menu>
     </menubar>
