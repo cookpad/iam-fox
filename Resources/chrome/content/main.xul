@@ -19,6 +19,8 @@
   <script src="iam-client.js" />
   <script src="utils.js" />
   <script src="main.js" />
+  <script src="io.js" />
+  <script src="exp_imp.js" />
   <script src="group-tree-view.js" />
   <script src="user-tree-view.js" />
   <script src="server-cert-tree-view.js" />
@@ -26,6 +28,12 @@
   <!-- menu -->
   <toolbox>
     <menubar>
+      <menu label="File">
+        <menupopup>
+          <menuitem label="Export keys..." oncommand="openExportDialog();" />
+          <menuitem label="Import and Merge keys..." oncommand="openImportDialog();" />
+        </menupopup>
+      </menu>
       <menu label="Help">
         <menupopup>
           <menuitem label="About" oncommand="alert('IAM Fox 0.1.0');" />

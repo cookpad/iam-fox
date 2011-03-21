@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="Import and Merge keys"
+  buttons="accept,cancel"
+  ondialogaccept="return importDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="importDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+  <script src="io.js" />
+
+  <!-- inputs -->
+  <label control="import-dialog-path" value="Path" />
+  <textbox id="import-dialog-path"/>
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function importDialogOnLoad() {
+      moveToAlertPosition();
+    }
+
+    function importDialogDoOK() {
+      var importKeys = window.arguments[0].importKeys;
+      var path = ($('import-dialog-path').value || '').trim();
+
+      if (!path) {
+        alert("Please input 'Path'.");
+        return false;
+      }
+
+      if (!importKeys(path)) {
+        alert("Cannnot read '" + path + "'.");
+        return false;
+      }
+
+      return true;
+    }
+  ]]></script>
+</dialog>

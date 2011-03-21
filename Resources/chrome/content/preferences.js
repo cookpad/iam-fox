@@ -1,6 +1,4 @@
 Prefs = {
-  prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch),
-
   get accessKeyId() {
     return nsPreferences.copyUnicharPref('iamfox.accessKeyId', '').trim();
   },
@@ -69,4 +67,44 @@ Prefs = {
     nsPreferences.setUnicharPref('iamfox.userAccessKeyIds', userAccessKeyIds.toSource());
     nsPreferences.setUnicharPref('iamfox.userSecretAccessKeys', userSecretAccessKeys.toSource());
   },
+
+  get userAccessKeyIds() {
+    var userAccessKeyIds = nsPreferences.copyUnicharPref('iamfox.userAccessKeyIds', '({})');
+    return eval(userAccessKeyIds);
+  },
+
+  get userSecretAccessKeys() {
+    var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
+    return eval(userSecretAccessKeys);
+  },
+
+  mergeUserAccessKeyIds: function(data) {
+    var userAccessKeyIds = nsPreferences.copyUnicharPref('iamfox.userAccessKeyIds', '({})');
+    userAccessKeyIds = eval(userAccessKeyIds);
+
+    for (var name in data) {
+      var key = data[name];
+
+      if (key) {
+        userAccessKeyIds[name] = key;
+      }
+    }
+
+    nsPreferences.setUnicharPref('iamfox.userAccessKeyIds', userAccessKeyIds.toSource());
+  },
+
+   mergeUserSecretAccessKeys: function(data) {
+    var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
+    userSecretAccessKeys = eval(userSecretAccessKeys);
+
+    for (var name in data) {
+      var key = data[name];
+
+      if (key) {
+        userSecretAccessKeys[name] = key;
+      }
+    }
+
+    nsPreferences.setUnicharPref('iamfox.userSecretAccessKeys', userSecretAccessKeys.toSource());
+  }
 };
