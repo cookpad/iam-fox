@@ -11,13 +11,13 @@ see http://aws.amazon.com/iam/
 == Requires
 
 * OSX
-  * XULRunner runtime (>= 1.9.15)
-  * http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/
+  * Application bundle contains XULRunner runtime
+  * If the application doesn't start, please install XULRunner runtime
+    * http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/
 * Windows
   * Installer contains XULRunner runtime
 
 == Credit 
 
-* Window Icon
-  * from 'PC 100 Icon Pack'
+* Icon from 'PC 100 Icon Pack'
   * http://pc.de/icons/
