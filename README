@@ -11,7 +11,8 @@ see http://aws.amazon.com/iam/
 === Requires
 
 * OSX
-  * XULRunner runtime (>= 1.9.15)
+  * XULRunApplication Bundle contains XULRunner runtime
+  * If the application doesn't start, Please install XULRunner runtime
   * http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/
 * Windows
   * Installer contains XULRunner runtime
