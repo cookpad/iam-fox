@@ -19,7 +19,7 @@
       <textbox id="server-cert-add-window-server-cert-name" flex="1" />
       <label control="server-cert-add-window-path" value="Path" />
       <textbox id="server-cert-add-window-path" value="/" flex="1" />
-       </groupbox>
+    </groupbox>
     <hbox flex="1">
       <vbox flex="1">
         <groupbox flex="1">
