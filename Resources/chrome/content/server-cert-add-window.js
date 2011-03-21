@@ -38,9 +38,10 @@ function serverCertAddWindowDoOK() {
         params.push(['CertificateChain', serverCertChain]);
       }
 
-      var xhr = iamcli.query_or_die('UploadServerCertificate', params);
+      iamcli.query_or_die('UploadServerCertificate', params);
 
       view.refresh();
+      view.selectByName(serverCertName);
     });
   });
   } catch(e) { alert(e); }

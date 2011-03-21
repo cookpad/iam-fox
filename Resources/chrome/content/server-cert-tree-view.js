@@ -74,20 +74,18 @@ ServerCertTreeView.prototype = {
   },
 
   openServerCertEditDialog: function() {
-    /*
-    var group = this.selectedRow();
-    openDialog('chrome://iamfox/content/group-edit-dialog.xul', 'group-edit-dialog', 'chrome,modal',
-               {view:this, inProgress:inProgress, group:group});
-     */
+    var cert = this.selectedRow();
+    openDialog('chrome://iamfox/content/server-cert-edit-dialog.xul', 'server-cert-edit-dialog', 'chrome,modal',
+               {view:this, inProgress:inProgress, cert:cert});
   },
 
-  selectById: function(certId) {
+  selectByName: function(name) {
     var rows = this.rows;
 
     for (var i = 0; i < rows.length; i++) {
       var user = rows[i];
 
-      if (user.CertificateId == certId) {
+      if (user.ServerCertificateName == name) {
         this.selection.select(i);
       }
     }
