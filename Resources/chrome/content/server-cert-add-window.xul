@@ -14,12 +14,12 @@
   <script src="utils.js" />
   <script src="server-cert-add-window.js" />
   <vbox flex="1">
-    <hbox>
+    <groupbox>
       <label control="server-cert-add-window-server-cert-name" value="Server Certificate Name" />
-      <textbox id="server-cert-add-window-server-cert-name" />
+      <textbox id="server-cert-add-window-server-cert-name" flex="1" />
       <label control="server-cert-add-window-path" value="Path" />
-      <textbox id="server-cert-add-window-path" value="/" />
-    </hbox>
+      <textbox id="server-cert-add-window-path" value="/" flex="1" />
+       </groupbox>
     <hbox flex="1">
       <vbox flex="1">
         <groupbox flex="1">

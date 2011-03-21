@@ -9,8 +9,8 @@
   <!-- context menu -->
   <popupset>
     <menupopup id="server-cert-tree-contenx-menu">
-      <menuitem label="Edit" oncommand="selectedView().openServerCertEditDialog()" />
-      <menuitem label="Delete" oncommand="selectedView().deleteServerCert()" />
+      <menuitem label="Edit" oncommand="selectedView().openServerCertEditDialog();" style="font-weight:bold;" />
+      <menuitem label="Delete" oncommand="selectedView().deleteServerCert();" />
     </menupopup>
   </popupset>
 
@@ -18,7 +18,7 @@
   <tabpanel id="server-cert-tabpanel">
     <vbox flex="1">
       <!-- tree -->
-      <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" flex="1">
+      <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" ondblclick="selectedView().openServerCertEditDialog();" flex="1">
         <treecols>
           <treecol id="ServerCertificateId" label="Server Cert ID" flex="1" />
           <splitter class="tree-splitter" />
