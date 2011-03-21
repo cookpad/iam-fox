@@ -8,7 +8,7 @@ IAM Fox is a GUI client of AWS Identity and Access Management (IAM)
 
 see http://aws.amazon.com/iam/
 
-=== Requires
+== Requires
 
 * OSX
   * XULRunner runtime (>= 1.9.15)
@@ -16,7 +16,7 @@ see http://aws.amazon.com/iam/
 * Windows
   * Installer contains XULRunner runtime
 
-=== Credit 
+== Credit 
 
 * Window Icon
   * from 'PC 100 Icon Pack'
