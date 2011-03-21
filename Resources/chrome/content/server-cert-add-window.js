@@ -46,5 +46,7 @@ function serverCertAddWindowDoOK() {
   });
   } catch(e) { alert(e); }
 
-  return xhr.success();
+  if (xhr.success()) {
+    window.close();
+  }
 }

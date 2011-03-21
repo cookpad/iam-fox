@@ -50,7 +50,7 @@
         serverCertPath += '/';
       }
 
-      window.close();
+      var xhr = null;
 
       protect(function() {
          inProgress(function() {
@@ -60,14 +60,14 @@
             ['ServerCertificateName', cert.ServerCertificateName]
             ];
 
-           iamcli.query_or_die('UpdateServerCertificate', params);
+           xhr = iamcli.query_or_die('UpdateServerCertificate', params);
         });
 
         view.refresh();
         view.selectByName(serverCertName);
       });
 
-      return true;
+      return xhr.success();
     }
   ]]></script>
 </dialog>

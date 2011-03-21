@@ -40,22 +40,22 @@
         return false;
       }
 
-      window.close();
-
       if (groupPath.charAt(groupPath.length - 1) != '/') {
         groupPath += '/';
       }
 
+      var xhr = null;
+
       protect(function() {
         inProgress(function() {
           var params = [['GroupName', groupName], ['Path', groupPath]];
-          return iamcli.query_or_die('CreateGroup', params);
+          xhr = iamcli.query_or_die('CreateGroup', params);
         });
 
         view.refresh();
       });
 
-      return true;
+      return xhr.success();
     }
   ]]></script>
 </dialog>

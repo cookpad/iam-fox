@@ -42,18 +42,18 @@
         return false;
       }
 
-      window.close();
-
       if (userPath.charAt(userPath.length - 1) != '/') {
         userPath += '/';
       }
+
+      var xhr = null;
 
       protect(function() {
         inProgress(function() {
           var params = [['UserName', userName], ['Path', userPath]];
           iamcli.query_or_die('CreateUser', params);
 
-          var xhr = iamcli.query_or_die('CreateAccessKey', [['UserName', userName]]);
+          xhr = iamcli.query_or_die('CreateAccessKey', [['UserName', userName]]);
 
           var accessKey = xhr.xml()..CreateAccessKeyResult.AccessKey;
           var accessKeyId = accessKey.AccessKeyId.toString().trim();
@@ -67,7 +67,7 @@
         });
       });
 
-      return true;
+      return xhr.success();
     }
   ]]></script>
 </dialog>

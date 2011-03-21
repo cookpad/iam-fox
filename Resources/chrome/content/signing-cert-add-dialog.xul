@@ -38,18 +38,18 @@
         return false;
       }
 
-      window.close();
+      var xhr = null;
 
       protect(function() {
         inProgress(function() {
           var params = [['UserName', userName], ['CertificateBody', certBody]];
-          return iamcli.query_or_die('UploadSigningCertificate', params);
+          xhr = iamcli.query_or_die('UploadSigningCertificate', params);
         });
 
         refreshUserCert();
       });
 
-      return true;
+      return xhr.success();
     }
   ]]></script>
 </dialog>
