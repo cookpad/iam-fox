@@ -5,6 +5,7 @@ SRC_DIR=iam-fox_win
 rm -rf $SRC_DIR *setup.exe
 cp -pr Resources $SRC_DIR
 cd $SRC_DIR
+cp chrome/icons/default/main-window.ico iam-fox.ico
 cp /usr/local/xulrunner/xulrunner-stub.exe ./iam-fox.exe
 rsync -rl /usr/local/xulrunner ./
 cd ..
