@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="About"
+  buttons="accept"
+  buttonlabelaccept="Close"
+  ondialogaccept="return true;"
+  onload="aboutDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+  <script src="about-dialog.js" />
+
+  <!-- inputs -->
+  <vbox>
+    <hbox  align="center">
+      <image  src="about.png" />
+      <separator style="width:10px;" />
+      <textnode style="font-weight:bold;">IAM Fox</textnode>
+      <separator style="width:5px;" />
+      <textnode>version 0.1.2</textnode>
+    </hbox>
+    <vbox style="margin:5px;">
+      <textnode>Copyright (c) 2011- SUGAWARA Genki</textnode>
+      <textnode class="text-link" onclick="openURL('https://bitbucket.org/winebarrel/iam-fox');">https://bitbucket.org/winebarrel/iam-fox</textnode>
+    </vbox>
+  </vbox>
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function aboutDialogOnLoad() {
+      moveToAlertPosition();
+
+      var sound = Components.classes["@mozilla.org/sound;1"].createInstance(Components.interfaces.nsISound);
+      sound.beep();
+    }
+  ]]></script>
+</dialog>

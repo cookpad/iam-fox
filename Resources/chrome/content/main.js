@@ -133,3 +133,7 @@ function openServerCertAddWindow() {
   openModalWindow('server-cert-add-window.xul', 'server-cert-add-window', 640, 480,
                   {selectedView:selectedView, inProgress:inProgress});
 }
+
+function openAboutDialog() {
+  openDialog('chrome://iamfox/content/about-dialog.xul', 'about-dialog', 'chrome,modal');
+}

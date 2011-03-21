@@ -60,3 +60,16 @@ function openErrorDialog(xhr) {
   openDialog('chrome://iamfox/content/error-dialog.xul', 'error-dialog', 'chrome,modal,width=400,height=300',
              {error:xhr.xml()..Error});
 }
+
+function openURL(url) {
+  try {
+    var io = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
+    var uri = io.newURI(url, null, null);
+    var eps = Components.classes['@mozilla.org/uriloader/external-protocol-service;1'].getService(Components.interfaces.nsIExternalProtocolService);
+    var launcher = eps.getProtocolHandlerInfo('http');
+    launcher.preferredAction = Components.interfaces.nsIHandlerInfo.useSystemDefault;
+    launcher.launchWithURI(uri, null);
+  } catch (e) {
+    alert(e);
+  }
+}
