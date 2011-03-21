@@ -14,25 +14,27 @@
   <script src="utils.js" />
   <script src="server-cert-add-window.js" />
   <vbox flex="1">
-    <label control="server-cert-add-window-server-cert-name" value="Server Certificate Name" />
-    <textbox id="server-cert-add-window-server-cert-name" />
-    <label control="server-cert-add-window-path" value="Path" />
-    <textbox id="server-cert-add-window-path" value="/" />
+    <hbox>
+      <label control="server-cert-add-window-server-cert-name" value="Server Certificate Name" />
+      <textbox id="server-cert-add-window-server-cert-name" />
+      <label control="server-cert-add-window-path" value="Path" />
+      <textbox id="server-cert-add-window-path" value="/" />
+    </hbox>
     <hbox flex="1">
-      <groupbox flex="1">
-        <caption label="Certificate" />
-        <textbox id="server-cert-add-window-main-cert" multiline="true" wrap="off" flex="1" />
-      </groupbox>
       <vbox flex="1">
         <groupbox flex="1">
-          <caption label="Private Key" />
-          <textbox id="server-cert-add-window-private-key" multiline="true" wrap="off" flex="1" />
+          <caption label="Certificate" />
+          <textbox id="server-cert-add-window-main-cert" multiline="true" wrap="off" flex="1" />
         </groupbox>
         <groupbox flex="1">
           <caption label="Certificate Chain (option)" />
           <textbox id="server-cert-add-window-chain-cert" multiline="true" wrap="off" flex="1" />
         </groupbox>
       </vbox>
+      <groupbox flex="1">
+        <caption label="Private Key" />
+        <textbox id="server-cert-add-window-private-key" multiline="true" wrap="off" flex="1" />
+      </groupbox>
     </hbox>
     <hbox>
       <spacer flex="1" />
