@@ -57,7 +57,7 @@ ServerCertTreeView.prototype = {
 
   deleteServerCert: function() {
     var cert = this.selectedRow();
-    var certName = group.ServerCertificateName;
+    var certName = cert.ServerCertificateName;
 
     if (!confirm("Are you sure you want to delete '" + certName + " ' ?")) {
       return;
