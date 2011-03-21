@@ -63,7 +63,7 @@
       
    </registry>
    <shcut listview >
-      <_><shpath>prog</><shname>IAM Fox</><tarpath>inst</><tarname>xulrunner\xulrunner.exe</><cmdline>application.ini</><workpath>inst</><workcust></><icon></></>
+      <_><shpath>prog</><shname>IAM Fox</><tarpath>inst</><tarname>iam-fox.exe</><cmdline></><workpath>inst</><workcust></><icon></></>
 
    </shcut>
    <ini listview >
