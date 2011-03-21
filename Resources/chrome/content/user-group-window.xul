@@ -20,19 +20,19 @@
     </menupopup>
   </popupset>
 
-  <vbox flex="1">
-    <hbox>
-      <menulist id="user-group-menulist" flex="1">
-        <menupopup />
-      </menulist>
-      <button label="Add" oncommand="addUserToGroup();" class="mini-button" />
-      <button label="Refresh" oncommand="refreshUserGroup();" class="mini-button" />
-    </hbox>
-    <groupbox flex="1">
-      <caption label="Groups a user belongs to" />
+  <groupbox flex="1">
+    <caption label="Groups a user belongs to" />
+    <vbox flex="1">
+      <hbox>
+        <menulist id="user-group-menulist" flex="1">
+          <menupopup />
+        </menulist>
+        <button label="Add" oncommand="addUserToGroup();" class="mini-button" />
+        <button label="Refresh" oncommand="refreshUserGroup();" class="mini-button" />
+      </hbox>
       <listbox id="user-group-listbox" flex="1" context="user-group-listbox-contenx-menu" />
-    </groupbox>
-  </vbox>
+    </vbox>
+  </groupbox>
 
   <!-- progress meter -->
   <statusbar>
