@@ -18,7 +18,7 @@ function protect(callback) {
   try {
     retval = callback();
   } catch (e) {
-    alert(e);
+    openErrorDialog(e);
   }
 
   return retval;
@@ -54,4 +54,9 @@ Function.prototype.bind = function(context) {
     var a = merge(args, arguments);
     return __method.apply(context, a);
   };
+}
+
+function openErrorDialog(xhr) {
+  openDialog('chrome://iamfox/content/error-dialog.xul', 'error-dialog', 'chrome,modal,width=400,height=300',
+             {error:xhr.xml()..Error});
 }

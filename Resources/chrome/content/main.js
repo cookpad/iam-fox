@@ -72,7 +72,7 @@ function newIAMClient() {
       var xhr = iamcli.query(action, params);
 
       if (!xhr.success()) {
-        throw xhr.responseText;
+        throw xhr;
       }
 
       return xhr;
