@@ -32,7 +32,7 @@ ServerCertTreeView.prototype = {
         return this.iamcli.query_or_die('ListServerCertificates');
       }.bind(this));
 
-      for each (var member in xhr.xml()..ServerCertificateMetadata.member) {
+      for each (var member in xhr.xml()..ServerCertificateMetadataList.member) {
         this.rows.push(member);
       }
 

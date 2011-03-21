@@ -36,7 +36,7 @@
       <!-- buttons -->
       <hbox>
         <hbox flex="1">
-          <button label="Add" oncommand="openServerCertAddDialog();" />
+          <button label="Add" oncommand="openServerCertAddWindow();" />
           <button label="Refresh" oncommand="selectedView().refresh();" />
         </hbox>
         <hbox pack="end" flex="1">

@@ -128,3 +128,8 @@ function openUserAddDialog() {
                {selectedView:selectedView, inProgress:inProgress});
   }
 }
+
+function openServerCertAddWindow() {
+  openModalWindow('server-cert-add-window.xul', 'server-cert-add-window', 640, 480,
+                  {selectedView:selectedView, inProgress:inProgress});
+}

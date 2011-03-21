@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/iamfox.dtd">
+
+<!-- main window -->
+<window  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="New Server Certificate" id="server-cert-add-window" onload="windowOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+  <script src="server-cert-add-window.js" />
+  <vbox flex="1">
+    <label control="server-cert-add-window-server-cert-name" value="Server Certificate Name" />
+    <textbox id="server-cert-add-window-server-cert-name" />
+    <label control="server-cert-add-window-path" value="Path" />
+    <textbox id="server-cert-add-window-path" value="/" />
+    <hbox flex="1">
+      <groupbox flex="1">
+        <caption label="Certificate" />
+        <textbox id="server-cert-add-window-main-cert" multiline="true" wrap="off" flex="1" />
+      </groupbox>
+      <vbox flex="1">
+        <groupbox flex="1">
+          <caption label="Private Key" />
+          <textbox id="server-cert-add-window-private-key" multiline="true" wrap="off" flex="1" />
+        </groupbox>
+        <groupbox flex="1">
+          <caption label="Certificate Chain (option)" />
+          <textbox id="server-cert-add-window-chain-cert" multiline="true" wrap="off" flex="1" />
+        </groupbox>
+      </vbox>
+    </hbox>
+    <hbox>
+      <spacer flex="1" />
+      <button id="server-cert-add-cancel-button" label="Cancel" oncommand="window.close();" />
+      <button id="server-cert-add-accept-button" label="OK" oncommand="serverCertAddWindowDoOK();" />
+    </hbox>
+  </vbox>
+</window>
