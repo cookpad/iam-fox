@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="Edit Server Certificate"
+  buttons="accept,cancel"
+  ondialogaccept="return serverCertEditDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="serverCertEditDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="chrome://global/content/nsUserSettings.js" />
+  <script src="preferences.js" />
+  <script src="utils.js" />
+
+  <!-- inputs -->
+  <label control="server-cert-edit-dialog-server-cert-name" value="New Server Certificate Name" />
+  <textbox id="server-cert-edit-dialog-server-cert-name" />
+  <label control="server-cert-edit-dialog-path" value="New Path" />
+  <textbox id="server-cert-edit-dialog-path" />
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function serverCertEditDialogOnLoad() {
+      var args = window.arguments[0];
+      var cert = args.cert;
+      moveToAlertPosition();
+
+      $('server-cert-edit-dialog-server-cert-name').value = cert.ServerCertificateName;
+      $('server-cert-edit-dialog-path').value = cert.Path;
+    }
+
+    function serverCertEditDialogDoOK() {
+      var args = window.arguments[0];
+      var view = args.view;
+      var iamcli = view.iamcli;
+      var inProgress = args.inProgress;
+      var cert = args.cert;
+
+      var serverCertName = ($('server-cert-edit-dialog-server-cert-name').value || '').trim();
+      var serverCertPath = ($('server-cert-edit-dialog-path').value || '').trim();
+
+      if (!serverCertName || !serverCertPath) {
+        alert("Please input 'New Server Certificate Name' and 'New Path'.");
+        return false;
+      }
+
+      if (serverCertPath.charAt(serverCertPath.length - 1) != '/') {
+        serverCertPath += '/';
+      }
+
+      window.close();
+
+      protect(function() {
+         inProgress(function() {
+          var params = [
+            ['NewServerCertificateName', serverCertName],
+            ['NewPath', serverCertPath],
+            ['ServerCertificateName', cert.ServerCertificateName]
+            ];
+
+           iamcli.query_or_die('UpdateServerCertificate', params);
+        });
+
+        view.refresh();
+        view.selectByName(serverCertName);
+      });
+
+      return true;
+    }
+  ]]></script>
+</dialog>
