@@ -10,7 +10,7 @@
 
 <!-- main window -->
 <window  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  title="IAM Fox" onload="windowOnLoad();">
+  id="main-window" title="IAM Fox" onload="windowOnLoad();">
 
   <!-- scripts -->
   <script src="chrome://global/content/nsUserSettings.js" />
