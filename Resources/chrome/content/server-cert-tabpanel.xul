@@ -20,15 +20,15 @@
       <!-- tree -->
       <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" ondblclick="selectedView().openServerCertEditDialog();" flex="1">
         <treecols>
-          <treecol id="ServerCertificateId" label="Server Cert ID" flex="1" persist="width ordinal hidden sortDirection" />
+          <treecol id="server-cert-tree.ServerCertificateId" label="Server Cert ID" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="ServerCertificateName" label="Server Cert Name" flex="1" persist="width ordinal hidden sortDirection" />
+          <treecol id="server-cert-tree.ServerCertificateName" label="Server Cert Name" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="Arn" label="ARN ID" flex="1" persist="width ordinal hidden sortDirection" />
+          <treecol id="server-cert-tree.Arn" label="ARN ID" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="Path" label="Path" flex="1" persist="width ordinal hidden sortDirection" />
+          <treecol id="server-cert-tree.Path" label="Path" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="UploadDate" label="Upload Date" flex="1" persist="width ordinal hidden sortDirection" />
+          <treecol id="server-cert-tree.UploadDate" label="Upload Date" flex="1" persist="width ordinal hidden sortDirection" />
         </treecols>
         <treechildren context="server-cert-tree-contenx-menu" />
       </tree>
