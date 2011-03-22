@@ -73,6 +73,3 @@ function openURL(url) {
     alert(e);
   }
 }
-
-const nsIFilePicker = Components.interfaces.nsIFilePicker;
-const FP = Components.classes['@mozilla.org/filepicker;1'].createInstance(nsIFilePicker);

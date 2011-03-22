@@ -324,3 +324,50 @@ if (typeof(JSIO) != 'boolean') {
 	}
 
 }
+
+function newFilePicker() {
+  var nsIFilePicker = Components.interfaces.nsIFilePicker;
+  return Components.classes['@mozilla.org/filepicker;1'].createInstance(nsIFilePicker);
+}
+
+function readTextByFilePicker(callback, filter, defstr) {
+  var fp = newFilePicker();
+  fp.init(window, 'Import and Merge keys', Components.interfaces.nsIFilePicker.modeOpen);
+
+  if (defstr) {
+    fp.defaultString = defstr;
+  }
+
+  if (filter) {
+    fp.appendFilter(filter[0], filter[1]);
+  }
+
+  var result = fp.show();
+  var fin = null;
+
+  switch (result) {
+  case Components.interfaces.nsIFilePicker.returnOK:
+  case Components.interfaces.nsIFilePicker.returnReplace:
+    fin = fp.file;
+    break;
+  default:
+    return null;
+  }
+
+  var data = FileIO.read(fin);
+
+  if (!data) {
+    alert("Cannnot read file.");
+    return null;
+  }
+
+  return callback(data);
+}
+
+function readAndSet(element) {
+  element = document.getElementById(element);
+
+  readTextByFilePicker(function(data) {
+    element.value = data;
+  });
+}

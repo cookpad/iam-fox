@@ -13,10 +13,17 @@
   <script src="chrome://global/content/nsUserSettings.js" />
   <script src="preferences.js" />
   <script src="utils.js" />
+  <script src="io.js" />
 
   <!-- inputs -->
   <label control="signing-cert-add-dialog-signing-certificate" value="Certificate" />
-  <textbox id="signing-cert-add-dialog-signing-certificate" multiline="true" flex="1" wrap="off"/>
+  <textbox id="signing-cert-add-dialog-signing-certificate" multiline="true" flex="1" wrap="off" />
+  <hbox>
+    <spacer flex="1" />
+    <box>
+      (<textnode class="text-link" onclick="readAndSet('signing-cert-add-dialog-signing-certificate');">open...</textnode>)
+    </box>
+  </hbox>
 
   <!-- dialog script -->
   <script><![CDATA[

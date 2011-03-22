@@ -1,14 +1,15 @@
 function exportKeysToJson() {
-  FP.init(window, 'Export keys', Components.interfaces.nsIFilePicker.modeSave);
-  FP.defaultString = 'awskeys.json';
-  FP.appendFilter('JSON (*.json)', '*.json');
+  var fp = newFilePicker();
+  fp.init(window, 'Export keys', Components.interfaces.nsIFilePicker.modeSave);
+  fp.defaultString = 'awskeys.json';
+  fp.appendFilter('JSON (*.json)', '*.json');
 
-  var result = FP.show();
+  var result = fp.show();
 
   switch (result) {
   case Components.interfaces.nsIFilePicker.returnOK:
   case Components.interfaces.nsIFilePicker.returnReplace:
-    exportKeys(FP.file);
+    exportKeys(fp.file);
     break;
   }
 }
@@ -25,16 +26,16 @@ function exportKeys(fout) {
 }
 
 function importJsonToKeys() {
-  FP.init(window, 'Import and Merge keys', Components.interfaces.nsIFilePicker.modeOpen);
-  FP.defaultString = '';
-  FP.appendFilter('JSON (*.json)', '*.json');
+  var fp = newFilePicker();
+  fp.init(window, 'Import and Merge keys', Components.interfaces.nsIFilePicker.modeOpen);
+  fp.appendFilter('JSON (*.json)', '*.json');
 
-  var result = FP.show();
+  var result = fp.show();
 
   switch (result) {
   case Components.interfaces.nsIFilePicker.returnOK:
   case Components.interfaces.nsIFilePicker.returnReplace:
-    importKeys(FP.file);
+    importKeys(fp.file);
     break;
   }
 }
