@@ -21,15 +21,15 @@
       <!-- tree -->
       <tree id="group-tree" seltype="single" enableColumnDrag="true" flex="1" ondblclick="this._view.onDblclick(event);">
         <treecols>
-          <treecol id="GroupId" label="Group ID" flex="1" />
+          <treecol id="GroupId" label="Group ID" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="GroupName" label="Group Name" flex="1" />
+          <treecol id="GroupName" label="Group Name" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="Path" label="Path Name" flex="1" />
+          <treecol id="Path" label="Path Name" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="Arn" label="ARN" flex="1" />
+          <treecol id="Arn" label="ARN" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="CreateDate" label="Create Date" flex="1" />
+          <treecol id="CreateDate" label="Create Date" flex="1" persist="width ordinal hidden sortDirection" />
         </treecols>
         <treechildren context="group-tree-contenx-menu" />
       </tree>
