@@ -7,7 +7,15 @@ function UserTreeView(iamcli) {
 
 UserTreeView.prototype = {
   getCellText: function(row, column) {
-    return this.rows[row][column.id];
+    var colkey = column.id.toString().split('.');
+
+    if (colkey.length < 1) {
+      return null;
+    }
+
+    colkey = colkey[colkey.length - 1];
+
+    return this.rows[row][colkey];
   },
 
   setTree: function(tree) {
