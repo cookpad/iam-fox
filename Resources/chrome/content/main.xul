@@ -30,8 +30,8 @@
     <menubar>
       <menu label="File">
         <menupopup>
-          <menuitem label="Export keys..." oncommand="openExportDialog();" />
-          <menuitem label="Import and Merge keys..." oncommand="openImportDialog();" />
+          <menuitem label="Export keys..." oncommand="exportKeysToJson();" />
+          <menuitem label="Import and Merge keys..." oncommand="importJsonToKeys();" />
           <menuseparator />
           <menuitem label="Exit" oncommand="window.close();" />
         </menupopup>
