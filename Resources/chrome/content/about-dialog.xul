@@ -25,7 +25,7 @@
       <textnode>version 0.1.2</textnode>
     </hbox>
     <vbox style="margin:5px;">
-      <textnode>Copyright (c) 2011- SUGAWARA Genki</textnode>
+      <textnode>Developer: SUGAWARA Genki</textnode>
       <textnode class="text-link" onclick="openURL('https://bitbucket.org/winebarrel/iam-fox');">https://bitbucket.org/winebarrel/iam-fox</textnode>
     </vbox>
   </vbox>
