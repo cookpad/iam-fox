@@ -44,27 +44,27 @@ ServerCertTreeView.prototype = {
   invalidate: function() {
     this.printRows.length = 0;
 
-    var filter = null;
+    var pathFilter = $('server-cert-tree-path-filter').selectedItem;
+    var pathValue = pathFilter ? pathFilter.value : '/';
     var filterValue = ($('server-cert-tree-filter').value || '').trim();
 
-    if (filterValue) {
-      filter = function(elem) {
-        var r = new RegExp(filterValue);
+    function filter(elem) {
+      var rp = new RegExp('^' + pathValue);
+      var rv = new RegExp(filterValue);
 
-        for each (var child in elem.*) {
-          if (r.test(child.toString())) {
-            return true;
-          }
-        }
-
+      if (!rp.test(elem.Path.toString())) {
         return false;
-      };
-    } else {
-      filter = function(elem) {
-        return true;
-      };
-    }
- 
+      }
+
+      for each (var child in elem.*) {
+        if (rv.test(child.toString())) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
     for (var i = 0; i < this.rows.length; i++) {
       var row =  this.rows[i];
 
@@ -80,7 +80,7 @@ ServerCertTreeView.prototype = {
     }
 
     this.tree.invalidate();
-   },
+  },
 
   refresh: function() {
     this.rows.length = 0;
@@ -90,9 +90,27 @@ ServerCertTreeView.prototype = {
         return this.iamcli.query_or_die('ListServerCertificates');
       }.bind(this));
 
+      var pathList = [];
+
       for each (var member in xhr.xml()..ServerCertificateMetadataList.member) {
         this.rows.push(member);
+        pathList.push(member.Path.toString());
       }
+
+      var pathFilter = $('server-cert-tree-path-filter');
+      pathFilter.removeAllItems();
+      pathList = pathList.uniq().sort();
+
+      for (var i = 0; i < pathList.length; i++) {
+        var path = pathList[i];
+        pathFilter.appendItem(path, path);
+      }
+
+      if (pathList.length == 0) {
+        pathFilter.appendItem('/', '/');
+      }
+
+      pathFilter.selectedIndex = 0;
 
       this.invalidate();
     }.bind(this));
@@ -101,14 +119,6 @@ ServerCertTreeView.prototype = {
   selectedRow: function() {
     var idx = this.selection.currentIndex;
     return (idx != -1) ? this.rows[idx] : null;
-  },
-
-  deleteCurrentRow: function() {
-    var idx = this.selection.currentIndex;
-
-    if (idx != -1) {
-      this.rows.splice(idx, 1);
-    }
   },
 
   deleteServerCert: function() {
@@ -123,8 +133,7 @@ ServerCertTreeView.prototype = {
       inProgress(function() {
         this.iamcli.query_or_die('DeleteServerCertificate', [['ServerCertificateName', certName]]);
 
-        this.deleteCurrentRow();
-        this.invalidate();
+        this.refresh();
       }.bind(this));
     }.bind(this));
   },
@@ -144,9 +153,9 @@ ServerCertTreeView.prototype = {
     var rows = this.rows;
 
     for (var i = 0; i < rows.length; i++) {
-      var user = rows[i];
+      var cert = rows[i];
 
-      if (user.ServerCertificateName == name) {
+      if (cert.ServerCertificateName == name) {
         this.selection.select(i);
       }
     }

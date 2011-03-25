@@ -19,6 +19,12 @@
     <vbox flex="1">
       <!-- filter -->
       <hbox>
+        Path: 
+        <menulist id="server-cert-tree-path-filter" oncommand="selectedView().invalidate();" >
+          <menupopup>
+            <menuitem label="/" value="/" />
+          </menupopup>
+        </menulist>
         Search:
         <textbox id="server-cert-tree-filter" oninput="selectedView().invalidate();" />
         <button label="Clear" oncommand="with($('server-cert-tree-filter')) { value = ''; oninput(); }" class="mini-button" />
