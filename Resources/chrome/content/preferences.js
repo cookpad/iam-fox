@@ -31,6 +31,15 @@ Prefs = {
     nsPreferences.setUnicharPref('iamfox.userAccessKeyIds', userAccessKeyIds.toSource());
   },
 
+  deleteUserAccessKeyId: function(name) {
+    name = name.toString();
+
+    var userAccessKeyIds = nsPreferences.copyUnicharPref('iamfox.userAccessKeyIds', '({})');
+    userAccessKeyIds = eval(userAccessKeyIds);
+    delete userAccessKeyIds[name];
+    nsPreferences.setUnicharPref('iamfox.userAccessKeyIds', userAccessKeyIds.toSource());
+  },
+
   getUserSecretAccessKey: function(name) {
     var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
     userSecretAccessKeys = eval(userSecretAccessKeys);
@@ -44,6 +53,15 @@ Prefs = {
     var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
     userSecretAccessKeys = eval(userSecretAccessKeys);
     userSecretAccessKeys[name] = key;
+    nsPreferences.setUnicharPref('iamfox.userSecretAccessKeys', userSecretAccessKeys.toSource());
+  },
+
+  deleteUserSecretAccessKey: function(name) {
+    name = name.toString();
+
+    var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
+    userSecretAccessKeys = eval(userSecretAccessKeys);
+    delete userSecretAccessKeys[name];
     nsPreferences.setUnicharPref('iamfox.userSecretAccessKeys', userSecretAccessKeys.toSource());
   },
 
