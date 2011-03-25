@@ -3,6 +3,7 @@ function ServerCertTreeView(iamcli) {
   this.rows = [];
   this.rowCount = 0;
   this.selection = null;
+  this.sorted = false;
 }
 
 ServerCertTreeView.prototype = {
@@ -20,6 +21,23 @@ ServerCertTreeView.prototype = {
 
   setTree: function(tree) {
     this.tree = tree;
+  },
+
+  isSorted: function() {
+    return this.sorted;
+  },
+
+  cycleHeader: function(column) {
+    var cert = this.selectedRow();
+
+    if (sortRowsByColumn(column, this.rows)) {
+      this.tree.invalidate();
+      this.sorted = true;
+
+      if (cert) {
+        this.selectByName(cert.ServerCertificateName);
+      }
+    }
   },
 
   updateRowCount: function() {
@@ -81,8 +99,13 @@ ServerCertTreeView.prototype = {
     }.bind(this));
   },
 
-  openServerCertEditDialog: function() {
+  openServerCertEditDialog: function(event) {
     var cert = this.selectedRow();
+
+    if (!cert) {
+      return;
+    }
+
     openDialog('chrome://iamfox/content/server-cert-edit-dialog.xul', 'server-cert-edit-dialog', 'chrome,modal',
                {view:this, inProgress:inProgress, cert:cert});
   },

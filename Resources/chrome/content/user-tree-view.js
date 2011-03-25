@@ -24,7 +24,7 @@ UserTreeView.prototype = {
   },
 
   isSorted: function() {
-    return this._sorted;
+    return this.sorted;
   },
 
   cycleHeader: function(column) {
@@ -33,6 +33,10 @@ UserTreeView.prototype = {
     if (sortRowsByColumn(column, this.rows)) {
       this.tree.invalidate();
       this.sorted = true;
+
+      if (user) {
+        this.selectByName(user.UserName);
+      }
     }
   },
 

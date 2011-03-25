@@ -24,15 +24,19 @@ GroupTreeView.prototype = {
   },
 
   isSorted: function() {
-    return this._sorted;
+    return this.sorted;
   },
 
   cycleHeader: function(column) {
-    var user = this.selectedRow();
+    var group = this.selectedRow();
 
     if (sortRowsByColumn(column, this.rows)) {
       this.tree.invalidate();
       this.sorted = true;
+
+      if (group) {
+        this.selectByName(group.GroupName);
+      }
     }
   },
 
