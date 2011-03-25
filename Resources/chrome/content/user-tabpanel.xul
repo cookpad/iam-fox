@@ -11,10 +11,17 @@
     <menupopup id="user-tree-contenx-menu">
       <menuitem label="Policies" oncommand="selectedView().onDblclick();" style="font-weight:bold;" />
       <menuitem label="Edit" oncommand="selectedView().openUserEditDialog();" />
-      <menuitem label="Group" oncommand="selectedView().openUserGroupWindow();" />
       <menuitem label="View/Edit Key" oncommand="selectedView().openViewKeyDialog();" />
+      <menuitem label="Group" oncommand="selectedView().openUserGroupWindow();" />
       <menuitem label="Certificates" oncommand="selectedView().openUserCertWindow();" />
-      <menuitem label="Create Login Profile" oncommand="selectedView().openUserCreateLoginProfileDialog();" />
+      <menuseparator />
+      <menu label="Login Profile">
+        <menupopup>
+          <menuitem label="Create" oncommand="selectedView().openUserCreateLoginProfileDialog();" />
+          <menuitem label="Delete" oncommand="selectedView().deleteLoginProfile();" />
+        </menupopup>
+      </menu>
+      <menuseparator />
       <menuitem label="Delete" oncommand="selectedView().deleteUser();" />
     </menupopup>
   </popupset>

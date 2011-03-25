@@ -84,7 +84,7 @@ UserTreeView.prototype = {
     var user = this.selectedRow();
     var userName = user.UserName;
 
-    if (!confirm("Are you sure you want to delete '" + userName + " ' ?")) {
+    if (!confirm("Are you sure you want to delete '" + userName + "' ?")) {
       return;
     }
 
@@ -164,4 +164,19 @@ UserTreeView.prototype = {
     openModalWindow('user-group-window.xul', 'user-cert-window', 400, 400,
                     {iamcli:this.iamcli, userName:user.UserName});
   },
+
+  deleteLoginProfile: function() {
+    var user = this.selectedRow();
+    var userName = user.UserName;
+
+    if (!confirm("Are you sure you want to delete '" + userName + "'s login profile' ?")) {
+      return;
+    }
+
+    protect(function() {
+      inProgress(function() {
+        this.iamcli.query_or_die('DeleteLoginProfile', [['UserName', userName]]);
+      }.bind(this));
+    }.bind(this));
+  }
 };
