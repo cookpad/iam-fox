@@ -123,3 +123,31 @@ Array.prototype.uniq = function() {
 
   return array;
 };
+
+function copyToClipboard(text) {
+  var str = Components.classes['component://netscape/supports-wstring'].createInstance(Components.interfaces.nsISupportsWString);
+
+  if (!str) {
+    return;
+  }
+
+  str.data = text;
+
+  var trans = Components.classes['component://netscape/widget/transferable'].createInstance(Components.interfaces.nsITransferable);
+
+  if (!trans) {
+    return;
+  }
+
+  trans.addDataFlavor('text/unicode');
+  trans.setTransferData('text/unicode', str, text.length * 2);
+
+  var clip = Components.classes['component://netscape/widget/clipboard'].createInstance(Components.interfaces.nsIClipboard);
+
+  if (!clip) {
+    return;
+  }
+
+  clip.emptyClipboard(clip.kGlobalClipboard);
+  clip.setData(trans, null, clip.kGlobalClipboard);
+}
