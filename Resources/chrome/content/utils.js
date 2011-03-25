@@ -125,29 +125,14 @@ Array.prototype.uniq = function() {
 };
 
 function copyToClipboard(text) {
-  var str = Components.classes['component://netscape/supports-wstring'].createInstance(Components.interfaces.nsISupportsWString);
+  var str = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString);
+  var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
+  var clip = Components.classes['@mozilla.org/widget/clipboard;1'].getService(Components.interfaces.nsIClipboard);
 
-  if (!str) {
-    return;
+  if (str && trans && clip) {
+    str.data = text;
+    trans.addDataFlavor('text/unicode');
+    trans.setTransferData('text/unicode', str, text.length * 2);
+    clip.setData(trans, null, Components.interfaces.nsIClipboard.kGlobalClipboard);
   }
-
-  str.data = text;
-
-  var trans = Components.classes['component://netscape/widget/transferable'].createInstance(Components.interfaces.nsITransferable);
-
-  if (!trans) {
-    return;
-  }
-
-  trans.addDataFlavor('text/unicode');
-  trans.setTransferData('text/unicode', str, text.length * 2);
-
-  var clip = Components.classes['component://netscape/widget/clipboard'].createInstance(Components.interfaces.nsIClipboard);
-
-  if (!clip) {
-    return;
-  }
-
-  clip.emptyClipboard(clip.kGlobalClipboard);
-  clip.setData(trans, null, clip.kGlobalClipboard);
 }

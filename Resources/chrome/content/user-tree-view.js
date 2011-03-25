@@ -248,5 +248,15 @@ UserTreeView.prototype = {
         this.iamcli.query_or_die('DeleteLoginProfile', [['UserName', userName]]);
       }.bind(this));
     }.bind(this));
+  },
+
+  copyColumnToClipboard: function(name) {
+    var row = this.selectedRow();
+
+    if (row) {
+      try {
+      copyToClipboard(row[name].toString());
+      } catch(e) {alert(e)}
+    }
   }
 };
