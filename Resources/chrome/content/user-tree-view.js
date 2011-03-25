@@ -254,9 +254,7 @@ UserTreeView.prototype = {
     var row = this.selectedRow();
 
     if (row) {
-      try {
       copyToClipboard(row[name].toString());
-      } catch(e) {alert(e)}
     }
   }
 };

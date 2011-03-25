@@ -176,5 +176,14 @@ GroupTreeView.prototype = {
     }
 
     this.rows
+  },
+
+  copyColumnToClipboard: function(name) {
+    var row = this.selectedRow();
+
+    if (row) {
+      copyToClipboard(row[name].toString());
+    }
   }
+
 };
