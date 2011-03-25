@@ -147,6 +147,11 @@ UserTreeView.prototype = {
                {view:this, inProgress:inProgress, user:user});
   },
 
+  openUserOpenConsoleDialog: function() {
+    var user = this.selectedRow();
+    openDialog('chrome://iamfox/content/user-open-console-dialog.xul', 'user-open-console-dialog', 'chrome,modal', {user:user});
+  },
+
   selectByName: function(name) {
     var rows = this.rows;
 

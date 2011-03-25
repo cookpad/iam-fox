@@ -19,6 +19,7 @@
         <menupopup>
           <menuitem label="Create" oncommand="selectedView().openUserCreateLoginProfileDialog();" />
           <menuitem label="Delete" oncommand="selectedView().deleteLoginProfile();" />
+          <menuitem label="Open Console" oncommand="selectedView().openUserOpenConsoleDialog();" />
         </menupopup>
       </menu>
       <menuseparator />
