@@ -70,7 +70,7 @@ GroupTreeView.prototype = {
   onDblclick: function(event) {
     var group = this.selectedRow();
 
-    if (!group) {
+    if (!group || (event && event.target.tagName != 'treechildren')) {
       return;
     }
 

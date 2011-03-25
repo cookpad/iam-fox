@@ -102,7 +102,7 @@ ServerCertTreeView.prototype = {
   openServerCertEditDialog: function(event) {
     var cert = this.selectedRow();
 
-    if (!cert) {
+    if (!cert || (event && event.target.tagName != 'treechildren')) {
       return;
     }
 

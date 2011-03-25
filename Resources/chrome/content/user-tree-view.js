@@ -70,7 +70,7 @@ UserTreeView.prototype = {
   onDblclick: function(event) {
     var user = this.selectedRow();
 
-    if (!user) {
+    if (!user || (event && event.target.tagName != 'treechildren')) {
       return;
     }
 
