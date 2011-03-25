@@ -73,3 +73,36 @@ function openURL(url) {
     alert(e);
   }
 }
+
+function sortRowsByColumn(column, rows) {
+  var colkey = column.id.toString().split('.');
+
+  if (colkey.length < 1) {
+    return false;
+  }
+
+  colkey = colkey[colkey.length - 1];
+
+  var sortDirection = column.element.getAttribute('sortDirection');
+
+  for (var i = 0; i < column.columns.count; i++) {
+    column.columns.getColumnAt(i).element.setAttribute('sortDirection', 'natural');
+  }
+
+  rows.sort(function(a, b) {
+    a = a[colkey];
+    b = b[colkey];
+    return (a < b) ? -1 : (a > b) ? 1 : 0;
+  });
+
+  if (sortDirection == 'ascending' || sortDirection == 'natural') {
+    sortDirection = 'descending';
+    rows.reverse();
+  } else {
+    sortDirection = 'ascending';
+  }
+
+  column.element.setAttribute('sortDirection', sortDirection);
+
+  return true;
+}

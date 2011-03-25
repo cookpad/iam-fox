@@ -3,6 +3,7 @@ function UserTreeView(iamcli) {
   this.rows = [];
   this.rowCount = 0;
   this.selection = null;
+  this.sorted = false;
 }
 
 UserTreeView.prototype = {
@@ -20,6 +21,21 @@ UserTreeView.prototype = {
 
   setTree: function(tree) {
     this.tree = tree;
+  },
+
+  isSorted: function() {
+    return this._sorted;
+  },
+
+  cycleHeader: function(column) {
+    try {
+    var user = this.selectedRow();
+
+    if (sortRowsByColumn(column, this.rows)) {
+      this.tree.invalidate();
+      this.sorted = true;
+    }
+    }catch(e){alert(e);}
   },
 
   updateRowCount: function() {
@@ -51,6 +67,11 @@ UserTreeView.prototype = {
 
   onDblclick: function(event) {
     var user = this.selectedRow();
+
+    if (!user) {
+      return;
+    }
+
     var userName = user.UserName;
     var xhr = null;
 
