@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="Create Login Profile"
+  buttons="accept,cancel"
+  ondialogaccept="return userCreateLoginProfileDialogDoOK();"
+  ondialogcancel="return true;"
+  onload="userCreateLoginProfileDialogOnLoad();">
+
+  <!-- scripts -->
+  <script src="utils.js" />
+
+  <!-- inputs -->
+  <label control="user-create-login-profile-dialog-password" value="Password" />
+  <textbox id="user-create-login-profile-dialog-password" type="password" />
+
+  <!-- dialog script -->
+  <script><![CDATA[
+    function userCreateLoginProfileDialogOnLoad() {
+      moveToAlertPosition();
+    }
+
+    function userCreateLoginProfileDialogDoOK() {
+      try {
+      var args = window.arguments[0];
+      var view = args.view;
+      var iamcli = view.iamcli;
+      var inProgress = args.inProgress;
+      var user = args.user;
+
+      var password = ($('user-create-login-profile-dialog-password').value || '').trim();
+
+      if (!password) {
+        alert("Please input 'Password'.");
+        return false;
+      }
+
+      var xhr = null;
+
+      protect(function() {
+        inProgress(function() {
+          var params = [['UserName', user.UserName], ['Password', password]];
+          xhr = iamcli.query_or_die('CreateLoginProfile', params);
+        });
+      });
+      }catch(e){
+        alert(e);
+      }
+
+      return xhr.success();
+    }
+  ]]></script>
+</dialog>

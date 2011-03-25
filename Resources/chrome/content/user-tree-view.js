@@ -138,6 +138,12 @@ UserTreeView.prototype = {
                {view:this, inProgress:inProgress, user:user});
   },
 
+  openUserCreateLoginProfileDialog: function() {
+    var user = this.selectedRow();
+    openDialog('chrome://iamfox/content/user-create-login-profile-dialog.xul', 'user-create-login-profile-dialog', 'chrome,modal',
+               {view:this, inProgress:inProgress, user:user});
+  },
+
   selectByName: function(name) {
     var rows = this.rows;
 
