@@ -10,6 +10,17 @@
   <popupset>
     <menupopup id="server-cert-tree-contenx-menu">
       <menuitem label="Edit" oncommand="selectedView().openServerCertEditDialog();" style="font-weight:bold;" />
+      <menuseparator />
+      <menu label="Copy to Clipboard">
+        <menupopup>
+          <menuitem label="Server Cert ID" oncommand="selectedView().copyColumnToClipboard('ServerCertificateId');" />
+          <menuitem label="Server Cert Name" oncommand="selectedView().copyColumnToClipboard('ServerCertificateName');" />
+          <menuitem label="ARN" oncommand="selectedView().copyColumnToClipboard('Arn');" />
+          <menuitem label="Path" oncommand="selectedView().copyColumnToClipboard('Path');" />
+          <menuitem label="Upload Date" oncommand="selectedView().copyColumnToClipboard('UploadDate');" />
+        </menupopup>
+      </menu>
+      <menuseparator />
       <menuitem label="Delete" oncommand="selectedView().deleteServerCert();" />
     </menupopup>
   </popupset>

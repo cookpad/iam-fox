@@ -21,6 +21,7 @@
           <menuitem label="Create Date" oncommand="selectedView().copyColumnToClipboard('CreateDate');" />
         </menupopup>
       </menu>
+      <menuseparator />
       <menuitem label="Delete" oncommand="selectedView().deleteGroup()" />
     </menupopup>
   </popupset>

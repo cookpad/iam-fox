@@ -185,5 +185,4 @@ GroupTreeView.prototype = {
       copyToClipboard(row[name].toString());
     }
   }
-
 };
