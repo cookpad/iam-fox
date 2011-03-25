@@ -106,3 +106,20 @@ function sortRowsByColumn(column, rows) {
 
   return true;
 }
+
+Array.prototype.uniq = function() {
+  var hash = {}
+
+  for (var i = 0; i < this.length; i++) {
+    var value = this[i];
+    hash[value] = value;
+  }
+
+  var array = [];
+
+  for (var i in hash) {
+    array.push(i);
+  }
+
+  return array;
+};

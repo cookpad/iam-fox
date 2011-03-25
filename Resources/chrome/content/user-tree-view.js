@@ -44,26 +44,26 @@ UserTreeView.prototype = {
   invalidate: function() {
     this.printRows.length = 0;
 
-    var filter = null;
+    var pathFilter = $('user-tree-path-filter').selectedItem;
+    var pathValue = pathFilter ? pathFilter.value : '/';
     var filterValue = ($('user-tree-filter').value || '').trim();
 
-    if (filterValue) {
-      filter = function(elem) {
-        var r = new RegExp(filterValue);
+    function filter(elem) {
+      var rp = new RegExp('^' + pathValue);
+      var rv = new RegExp(filterValue);
 
-        for each (var child in elem.*) {
-          if (r.test(child.toString())) {
-            return true;
-          }
-        }
-
+      if (!rp.test(elem.Path.toString())) {
         return false;
-      };
-    } else {
-      filter = function(elem) {
-        return true;
-      };
-    }
+      }
+
+      for each (var child in elem.*) {
+        if (rv.test(child.toString())) {
+          return true;
+        }
+      }
+
+      return false;
+    };
 
     for (var i = 0; i < this.rows.length; i++) {
       var row =  this.rows[i];
@@ -90,9 +90,27 @@ UserTreeView.prototype = {
         return this.iamcli.query_or_die('ListUsers');
       }.bind(this));
 
+      var pathList = [];
+
       for each (var member in xhr.xml()..Users.member) {
         this.rows.push(member);
+        pathList.push(member.Path.toString());
       }
+
+      var pathFilter = $('user-tree-path-filter');
+      pathFilter.removeAllItems();
+      pathList = pathList.uniq().sort();
+
+      for (var i = 0; i < pathList.length; i++) {
+        var path = pathList[i];
+        pathFilter.appendItem(path, path);
+      }
+
+      if (pathList.length == 0) {
+        pathFilter.appendItem('/', '/');
+      }
+
+      pathFilter.selectedIndex = 0;
 
       this.invalidate();
     }.bind(this));
@@ -115,14 +133,6 @@ UserTreeView.prototype = {
   selectedRow: function() {
     var idx = this.selection.currentIndex;
     return (idx != -1) ? this.rows[idx] : null;
-  },
-
-  deleteCurrentRow: function() {
-    var idx = this.selection.currentIndex;
-
-    if (idx != -1) {
-      this.rows.splice(idx, 1);
-    }
   },
 
   openUserCertWindow: function(event) {
@@ -176,8 +186,7 @@ UserTreeView.prototype = {
         Prefs.deleteUserAccessKeyId(userName);
         Prefs.deleteUserSecretAccessKey(userName);
 
-        this.deleteCurrentRow();
-        this.invalidate();
+        this.refresh();
       }.bind(this));
     }.bind(this));
   },

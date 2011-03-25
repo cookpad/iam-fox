@@ -32,6 +32,12 @@
     <vbox flex="1">
       <!-- filter -->
       <hbox>
+        Path: 
+        <menulist id="user-tree-path-filter" oncommand="selectedView().invalidate();" >
+          <menupopup>
+            <menuitem label="/" value="/" />
+          </menupopup>
+        </menulist>
         Search:
         <textbox id="user-tree-filter" oninput="selectedView().invalidate();" />
         <button label="Clear" oncommand="with($('user-tree-filter')) { value = ''; oninput(); }" class="mini-button" />
