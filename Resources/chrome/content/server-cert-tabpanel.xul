@@ -18,7 +18,7 @@
   <tabpanel id="server-cert-tabpanel">
     <vbox flex="1">
       <!-- tree -->
-      <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" ondblclick="selectedView().openServerCertEditDialog();" flex="1">
+      <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" ondblclick="selectedView().openServerCertEditDialog(event);" flex="1">
         <treecols>
           <treecol id="server-cert-tree.ServerCertificateId" label="Server Cert ID" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
