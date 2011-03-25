@@ -3,6 +3,7 @@ function GroupTreeView(iamcli) {
   this.rows = [];
   this.rowCount = 0;
   this.selection = null;
+  this.sorted = false;
 }
 
 GroupTreeView.prototype = {
@@ -20,6 +21,19 @@ GroupTreeView.prototype = {
 
   setTree: function(tree) {
     this.tree = tree;
+  },
+
+  isSorted: function() {
+    return this._sorted;
+  },
+
+  cycleHeader: function(column) {
+    var user = this.selectedRow();
+
+    if (sortRowsByColumn(column, this.rows)) {
+      this.tree.invalidate();
+      this.sorted = true;
+    }
   },
 
   updateRowCount: function() {
@@ -51,6 +65,11 @@ GroupTreeView.prototype = {
 
   onDblclick: function(event) {
     var group = this.selectedRow();
+
+    if (!group) {
+      return;
+    }
+
     var groupName = group.GroupName;
 
     openModalWindow('group-detail-window.xul', 'group-datail-window', 640, 480,
