@@ -90,7 +90,7 @@ ServerCertTreeView.prototype = {
         return this.iamcli.query_or_die('ListServerCertificates');
       }.bind(this));
 
-      var pathList = [];
+      var pathList = ['/'];
 
       for each (var member in xhr.xml()..ServerCertificateMetadataList.member) {
         this.rows.push(member);
@@ -104,10 +104,6 @@ ServerCertTreeView.prototype = {
       for (var i = 0; i < pathList.length; i++) {
         var path = pathList[i];
         pathFilter.appendItem(path, path);
-      }
-
-      if (pathList.length == 0) {
-        pathFilter.appendItem('/', '/');
       }
 
       pathFilter.selectedIndex = 0;
