@@ -1,7 +1,7 @@
 function ServerCertTreeView(iamcli) {
   this.iamcli = iamcli;
   this.rows = [];
-  this.printedRows = [];
+  this.printRows = [];
   this.rowCount = 0;
   this.selection = null;
   this.sorted = false;
@@ -17,7 +17,7 @@ ServerCertTreeView.prototype = {
 
     colkey = colkey[colkey.length - 1];
 
-    return this.printedRows[row][colkey];
+    return this.printRows[row][colkey];
   },
 
   setTree: function(tree) {
@@ -42,7 +42,7 @@ ServerCertTreeView.prototype = {
   },
 
   invalidate: function() {
-    this.printedRows.length = 0;
+    this.printRows.length = 0;
 
     var filter = null;
     var filterValue = ($('server-cert-tree-filter').value || '').trim();
@@ -69,13 +69,13 @@ ServerCertTreeView.prototype = {
       var row =  this.rows[i];
 
       if (filter(row)) {
-        this.printedRows.push(row);
+        this.printRows.push(row);
       }
     }
 
-    if (this.rowCount != this.printedRows.length) {
+    if (this.rowCount != this.printRows.length) {
       this.tree.rowCountChanged(0, -this.rowCount);
-      this.rowCount = this.printedRows.length;
+      this.rowCount = this.printRows.length;
       this.tree.rowCountChanged(0, this.rowCount);
     }
 
