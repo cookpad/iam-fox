@@ -1,6 +1,7 @@
 function UserTreeView(iamcli) {
   this.iamcli = iamcli;
   this.rows = [];
+  this.printedRows = [];
   this.rowCount = 0;
   this.selection = null;
   this.sorted = false;
@@ -16,7 +17,7 @@ UserTreeView.prototype = {
 
     colkey = colkey[colkey.length - 1];
 
-    return this.rows[row][colkey];
+    return this.printedRows[row][colkey];
   },
 
   setTree: function(tree) {
@@ -31,7 +32,7 @@ UserTreeView.prototype = {
     var user = this.selectedRow();
 
     if (sortRowsByColumn(column, this.rows)) {
-      this.tree.invalidate();
+      this.invalidate();
       this.sorted = true;
 
       if (user) {
@@ -40,8 +41,49 @@ UserTreeView.prototype = {
     }
   },
 
+  invalidate: function() {
+    this.printedRows.length = 0;
+
+    var filter = null;
+    var filterValue = ($('user-tree-filter').value || '').trim();
+
+    if (filterValue) {
+      filter = function(elem) {
+        var r = new RegExp(filterValue);
+
+        for each (var child in elem.*) {
+          if (r.test(child.toString())) {
+            return true;
+          }
+        }
+
+        return false;
+      };
+    } else {
+      filter = function(elem) {
+        return true;
+      };
+    }
+
+    for (var i = 0; i < this.rows.length; i++) {
+      var row =  this.rows[i];
+
+      if (filter(row)) {
+        this.printedRows.push(row);
+      }
+    }
+
+    if (this.rowCount != this.printedRows.length) {
+      this.tree.rowCountChanged(0, -this.rowCount);
+      this.rowCount = this.printedRows.length;
+      this.tree.rowCountChanged(0, this.rowCount);
+    }
+
+    this.tree.invalidate();
+  },
+
   updateRowCount: function() {
-    if (this.rowCount == this.rows.length) {
+    if (this._rowCount == this.rows.length) {
       return;
     }
 
@@ -62,8 +104,7 @@ UserTreeView.prototype = {
         this.rows.push(member);
       }
 
-      this.updateRowCount();
-      this.tree.invalidate();
+      this.invalidate();
     }.bind(this));
   },
 
@@ -91,7 +132,6 @@ UserTreeView.prototype = {
 
     if (idx != -1) {
       this.rows.splice(idx, 1);
-      this.updateRowCount();
     }
   },
 
@@ -147,7 +187,7 @@ UserTreeView.prototype = {
         Prefs.deleteUserSecretAccessKey(userName);
 
         this.deleteCurrentRow();
-        this.tree.invalidate();
+        this.invalidate();
       }.bind(this));
     }.bind(this));
   },

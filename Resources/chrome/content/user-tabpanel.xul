@@ -30,6 +30,12 @@
   <!-- tabpanel -->
   <tabpanel id="user-tabpanel">
     <vbox flex="1">
+      <!-- filter -->
+      <hbox>
+        Search:
+        <textbox id="user-tree-filter" oninput="selectedView().invalidate();" />
+        <button label="Clear" oncommand="with($('user-tree-filter')) { value = ''; oninput(); }" class="mini-button" />
+      </hbox>
       <!-- tree -->
       <tree id="user-tree" seltype="single" enableColumnDrag="true" flex="1" ondblclick="this._view.onDblclick(event);">
         <treecols>
