@@ -1,6 +1,7 @@
 function GroupTreeView(iamcli) {
   this.iamcli = iamcli;
   this.rows = [];
+  this.printedRows = [];
   this.rowCount = 0;
   this.selection = null;
   this.sorted = false;
@@ -16,7 +17,7 @@ GroupTreeView.prototype = {
 
     colkey = colkey[colkey.length - 1];
 
-    return this.rows[row][colkey];
+    return this.printedRows[row][colkey];
   },
 
   setTree: function(tree) {
@@ -31,7 +32,7 @@ GroupTreeView.prototype = {
     var group = this.selectedRow();
 
     if (sortRowsByColumn(column, this.rows)) {
-      this.tree.invalidate();
+      this.invalidate();
       this.sorted = true;
 
       if (group) {
@@ -40,14 +41,45 @@ GroupTreeView.prototype = {
     }
   },
 
-  updateRowCount: function() {
-    if (this.rowCount == this.rows.length) {
-      return;
+  invalidate: function() {
+    this.printedRows.length = 0;
+
+    var filter = null;
+    var filterValue = ($('group-tree-filter').value || '').trim();
+
+    if (filterValue) {
+      filter = function(elem) {
+        var r = new RegExp(filterValue);
+
+        for each (var child in elem.*) {
+          if (r.test(child.toString())) {
+            return true;
+          }
+        }
+
+        return false;
+      };
+    } else {
+      filter = function(elem) {
+        return true;
+      };
     }
 
-    this.tree.rowCountChanged(0, -this.rowCount);
-    this.rowCount = this.rows.length;
-    this.tree.rowCountChanged(0, this.rowCount);
+    for (var i = 0; i < this.rows.length; i++) {
+      var row =  this.rows[i];
+
+      if (filter(row)) {
+        this.printedRows.push(row);
+      }
+    }
+
+    if (this.rowCount != this.printedRows.length) {
+      this.tree.rowCountChanged(0, -this.rowCount);
+      this.rowCount = this.printedRows.length;
+      this.tree.rowCountChanged(0, this.rowCount);
+    }
+
+    this.tree.invalidate();
   },
 
   refresh: function() {
@@ -62,8 +94,7 @@ GroupTreeView.prototype = {
         this.rows.push(member);
       }
 
-      this.updateRowCount();
-      this.tree.invalidate();
+      this.invalidate();
     }.bind(this));
   },
 
@@ -90,7 +121,6 @@ GroupTreeView.prototype = {
 
     if (idx != -1) {
       this.rows.splice(idx, 1);
-      this.updateRowCount();
     }
   },
 
@@ -114,7 +144,7 @@ GroupTreeView.prototype = {
         this.iamcli.query_or_die('DeleteGroup', [['GroupName', groupName]]);
 
         this.deleteCurrentRow();
-        this.tree.invalidate();
+        this.invalidate();
       }.bind(this));
     }.bind(this));
   },

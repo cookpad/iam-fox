@@ -18,6 +18,12 @@
   <!-- tabpanel -->
   <tabpanel id="group-tabpanel">
     <vbox flex="1">
+      <!-- filter -->
+      <hbox>
+        Search:
+        <textbox id="group-tree-filter" oninput="selectedView().invalidate();" />
+        <button label="Clear" oncommand="with($('group-tree-filter')) { value = ''; oninput(); }" class="mini-button" />
+      </hbox>
       <!-- tree -->
       <tree id="group-tree" seltype="single" enableColumnDrag="true" flex="1" ondblclick="this._view.onDblclick(event);">
         <treecols>

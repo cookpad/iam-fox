@@ -82,16 +82,6 @@ UserTreeView.prototype = {
     this.tree.invalidate();
   },
 
-  updateRowCount: function() {
-    if (this._rowCount == this.rows.length) {
-      return;
-    }
-
-    this.tree.rowCountChanged(0, -this.rowCount);
-    this.rowCount = this.rows.length;
-    this.tree.rowCountChanged(0, this.rowCount);
-  },
-
   refresh: function(noupdate) {
     this.rows.length = 0;
 
