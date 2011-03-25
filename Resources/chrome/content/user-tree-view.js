@@ -120,6 +120,9 @@ UserTreeView.prototype = {
 
         this.iamcli.query_or_die('DeleteUser', [['UserName', userName]]);
 
+        Prefs.deleteUserAccessKeyId(userName);
+        Prefs.deleteUserSecretAccessKey(userName);
+
         this.deleteCurrentRow();
         this.tree.invalidate();
       }.bind(this));
