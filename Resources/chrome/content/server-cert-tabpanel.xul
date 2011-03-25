@@ -17,6 +17,12 @@
   <!-- tabpanel -->
   <tabpanel id="server-cert-tabpanel">
     <vbox flex="1">
+      <!-- filter -->
+      <hbox>
+        Search:
+        <textbox id="server-cert-tree-filter" oninput="selectedView().invalidate();" />
+        <button label="Clear" oncommand="with($('server-cert-tree-filter')) { value = ''; oninput(); }" class="mini-button" />
+      </hbox>
       <!-- tree -->
       <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" ondblclick="selectedView().openServerCertEditDialog(event);" flex="1">
         <treecols>

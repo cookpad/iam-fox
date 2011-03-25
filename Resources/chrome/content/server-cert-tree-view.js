@@ -1,6 +1,7 @@
 function ServerCertTreeView(iamcli) {
   this.iamcli = iamcli;
   this.rows = [];
+  this.printedRows = [];
   this.rowCount = 0;
   this.selection = null;
   this.sorted = false;
@@ -16,7 +17,7 @@ ServerCertTreeView.prototype = {
 
     colkey = colkey[colkey.length - 1];
 
-    return this.rows[row][colkey];
+    return this.printedRows[row][colkey];
   },
 
   setTree: function(tree) {
@@ -31,7 +32,7 @@ ServerCertTreeView.prototype = {
     var cert = this.selectedRow();
 
     if (sortRowsByColumn(column, this.rows)) {
-      this.tree.invalidate();
+      this.invalidate();
       this.sorted = true;
 
       if (cert) {
@@ -40,15 +41,46 @@ ServerCertTreeView.prototype = {
     }
   },
 
-  updateRowCount: function() {
-    if (this.rowCount == this.rows.length) {
-      return;
+  invalidate: function() {
+    this.printedRows.length = 0;
+
+    var filter = null;
+    var filterValue = ($('server-cert-tree-filter').value || '').trim();
+
+    if (filterValue) {
+      filter = function(elem) {
+        var r = new RegExp(filterValue);
+
+        for each (var child in elem.*) {
+          if (r.test(child.toString())) {
+            return true;
+          }
+        }
+
+        return false;
+      };
+    } else {
+      filter = function(elem) {
+        return true;
+      };
+    }
+ 
+    for (var i = 0; i < this.rows.length; i++) {
+      var row =  this.rows[i];
+
+      if (filter(row)) {
+        this.printedRows.push(row);
+      }
     }
 
-    this.tree.rowCountChanged(0, -this.rowCount);
-    this.rowCount = this.rows.length;
-    this.tree.rowCountChanged(0, this.rowCount);
-  },
+    if (this.rowCount != this.printedRows.length) {
+      this.tree.rowCountChanged(0, -this.rowCount);
+      this.rowCount = this.printedRows.length;
+      this.tree.rowCountChanged(0, this.rowCount);
+    }
+
+    this.tree.invalidate();
+   },
 
   refresh: function() {
     this.rows.length = 0;
@@ -62,8 +94,7 @@ ServerCertTreeView.prototype = {
         this.rows.push(member);
       }
 
-      this.updateRowCount();
-      this.tree.invalidate();
+      this.invalidate();
     }.bind(this));
   },
 
@@ -77,7 +108,6 @@ ServerCertTreeView.prototype = {
 
     if (idx != -1) {
       this.rows.splice(idx, 1);
-      this.updateRowCount();
     }
   },
 
@@ -94,7 +124,7 @@ ServerCertTreeView.prototype = {
         this.iamcli.query_or_die('DeleteServerCertificate', [['ServerCertificateName', certName]]);
 
         this.deleteCurrentRow();
-        this.tree.invalidate();
+        this.invalidate();
       }.bind(this));
     }.bind(this));
   },
