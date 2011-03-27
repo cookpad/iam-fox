@@ -128,7 +128,7 @@ UserTreeView.prototype = {
 
   selectedRow: function() {
     var idx = this.selection.currentIndex;
-    return (idx != -1) ? this.rows[idx] : null;
+    return (idx != -1) ? this.printRows[idx] : null;
   },
 
   openUserCertWindow: function(event) {
