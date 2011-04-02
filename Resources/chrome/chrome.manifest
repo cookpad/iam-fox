@@ -1,3 +1,4 @@
+overlay chrome://browser/content/browser.xul chrome://iamfox/content/iamfox.xul
 content iamfox             file:content/
 locale  iamfox en-US       file:locale/en-US/
 skin    iamfox classic/1.0 file:skin/classic/
