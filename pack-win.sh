@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION=0.1.3-2
+VERSION=0.1.3-3
 SRC_DIR=iam-fox_win
 
 rm -rf $SRC_DIR *setup.exe
@@ -11,3 +11,4 @@ rsync -rl /usr/local/xulrunner ./
 cd ..
 cygstart -w iam-fox.ci
 mv setup.exe IAMFox-${VERSION}-setup.exe
+rm -rf $SRC_DIR
