@@ -26,8 +26,6 @@
   <!-- dialog script -->
   <script><![CDATA[
     function signingCertEditDialogOnLoad() {
-      moveToAlertPosition();
-
       var args = window.arguments[0];
       var status = args.status;
 

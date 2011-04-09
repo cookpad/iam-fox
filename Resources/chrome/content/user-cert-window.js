@@ -50,7 +50,7 @@ function openSigningCertAddDialog() {
   var iamcli = args.iamcli;
   var userName = args.userName;
 
-  openDialog('chrome://iamfox/content/signing-cert-add-dialog.xul', 'signing-cert-add-dialog', 'chrome,modal,width=400,height=400',
+  openDialog('chrome://iamfox/content/signing-cert-add-dialog.xul', 'signing-cert-add-dialog', 'chrome,modal,centerscreen,width=400,height=400',
              {iamcli:iamcli, refreshUserCert:refreshUserCert, inProgress:inProgress, userName:userName});
 }
 
@@ -69,7 +69,7 @@ function editCert() {
   var certId = item.value;
   var status = window.certHash[certId].Status.toString();
 
-  openDialog('chrome://iamfox/content/signing-cert-edit-dialog.xul', 'signing-cert-edit-dialog', 'chrome,modal',
+  openDialog('chrome://iamfox/content/signing-cert-edit-dialog.xul', 'signing-cert-edit-dialog', 'chrome,modal,centerscreen',
              {iamcli:iamcli, refreshUserCert:refreshUserCert, inProgress:inProgress, userName:userName, certificateId:certId, status:status});
 }
 
