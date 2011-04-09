@@ -201,7 +201,7 @@ UserTreeView.prototype = {
 
   openUserCreateLoginProfileDialog: function() {
     var user = this.selectedRow();
-    openDialog('chrome://iamfox/content/user-create-login-profile-dialog.xul', 'user-create-login-profile-dialog', 'chrome,modal',
+    openDialog('chrome://iamfox/content/user-create-login-profile-dialog.xul', 'user-create-login-profile-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, user:user});
   },
 

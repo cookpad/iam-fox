@@ -19,7 +19,6 @@
   <!-- dialog script -->
   <script><![CDATA[
     function userCreateLoginProfileDialogOnLoad() {
-      moveToAlertPosition();
     }
 
     function userCreateLoginProfileDialogDoOK() {
