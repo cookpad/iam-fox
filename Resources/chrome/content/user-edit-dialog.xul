@@ -25,7 +25,6 @@
     function userEditDialogOnLoad() {
       var args = window.arguments[0];
       var user = args.user;
-      moveToAlertPosition();
 
       $('user-edit-dialog-user-name').value = user.UserName;
       $('user-edit-dialog-user-path').value = user.Path;

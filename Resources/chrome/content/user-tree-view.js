@@ -189,7 +189,7 @@ UserTreeView.prototype = {
 
   openUserEditDialog: function() {
     var user = this.selectedRow();
-    openDialog('chrome://iamfox/content/user-edit-dialog.xul', 'user-edit-dialog', 'chrome,modal',
+    openDialog('chrome://iamfox/content/user-edit-dialog.xul', 'user-edit-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, user:user});
   },
 
