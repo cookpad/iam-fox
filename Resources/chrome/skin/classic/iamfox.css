@@ -1,3 +1,7 @@
 button.mini-button {
   min-width: 60px;
 }
+
+#menu_iamfox {
+  list-style-image: url('menuicon.png');
+}
