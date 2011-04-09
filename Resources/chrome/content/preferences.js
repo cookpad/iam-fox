@@ -18,7 +18,13 @@ Prefs = {
   getUserAccessKeyId: function(name) {
     var userAccessKeyIds = nsPreferences.copyUnicharPref('iamfox.userAccessKeyIds', '({})');
     userAccessKeyIds = eval(userAccessKeyIds);
-    return userAccessKeyIds[name];
+    var userAccessKeyId = (userAccessKeyIds[name] || []);
+
+    if (typeof(userAccessKeyId) == "string") {
+      userAccessKeyId = [userAccessKeyId];
+    }
+
+    return userAccessKeyId;
   },
 
   setUserAccessKeyId: function(name, key) {
@@ -27,7 +33,25 @@ Prefs = {
 
     var userAccessKeyIds = nsPreferences.copyUnicharPref('iamfox.userAccessKeyIds', '({})');
     userAccessKeyIds = eval(userAccessKeyIds);
-    userAccessKeyIds[name] = key;
+    userAccessKeyIds[name] = [key];
+    nsPreferences.setUnicharPref('iamfox.userAccessKeyIds', userAccessKeyIds.toSource());
+  },
+
+  addUserAccessKeyId: function(name, key) {
+    name = name.toString();
+    key = key.toString();
+
+    var userAccessKeyIds = nsPreferences.copyUnicharPref('iamfox.userAccessKeyIds', '({})');
+    userAccessKeyIds = eval(userAccessKeyIds);
+    var userAccessKeyId = (userAccessKeyIds[name] || []);
+
+    if (typeof(userAccessKeyId) == "string") {
+      userAccessKeyId = [userAccessKeyId];
+    }
+
+    userAccessKeyId.push(key);
+    userAccessKeyIds[name] = userAccessKeyId;
+
     nsPreferences.setUnicharPref('iamfox.userAccessKeyIds', userAccessKeyIds.toSource());
   },
 
@@ -43,7 +67,13 @@ Prefs = {
   getUserSecretAccessKey: function(name) {
     var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
     userSecretAccessKeys = eval(userSecretAccessKeys);
-    return userSecretAccessKeys[name];
+    var userSecretAccessKey = (userSecretAccessKeys[name] || []);
+
+    if (typeof(userSecretAccessKey) == "string") {
+      userSecretAccessKey = [userSecretAccessKey];
+    }
+
+    return userSecretAccessKey;
   },
 
   setUserSecretAccessKey: function(name, key) {
@@ -52,7 +82,25 @@ Prefs = {
 
     var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
     userSecretAccessKeys = eval(userSecretAccessKeys);
-    userSecretAccessKeys[name] = key;
+    userSecretAccessKeys[name] = [key];
+    nsPreferences.setUnicharPref('iamfox.userSecretAccessKeys', userSecretAccessKeys.toSource());
+  },
+
+  addUserSecretAccessKey: function(name, key) {
+    name = name.toString();
+    key = key.toString();
+
+    var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
+    userSecretAccessKeys = eval(userSecretAccessKeys);
+    var userSecretAccessKey = (userSecretAccessKeys[name] || []);
+
+    if (typeof(userSecretAccessKey) == "string") {
+      userSecretAccessKey = [userSecretAccessKey];
+    }
+
+    userSecretAccessKey.push(key);
+    userSecretAccessKeys[name] = userSecretAccessKey;
+
     nsPreferences.setUnicharPref('iamfox.userSecretAccessKeys', userSecretAccessKeys.toSource());
   },
 
@@ -62,6 +110,30 @@ Prefs = {
     var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
     userSecretAccessKeys = eval(userSecretAccessKeys);
     delete userSecretAccessKeys[name];
+    nsPreferences.setUnicharPref('iamfox.userSecretAccessKeys', userSecretAccessKeys.toSource());
+  },
+
+  deleteUserAccessKeyIdAndSecretAccessKey: function(name, key) {
+    name = name.toString();
+    key = key.toString();
+
+    var userAccessKeyIds = nsPreferences.copyUnicharPref('iamfox.userAccessKeyIds', '({})');
+    userAccessKeyIds = eval(userAccessKeyIds);
+
+    var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
+    userSecretAccessKeys = eval(userSecretAccessKeys);
+
+    for (var i = 0; i < userAccessKeyIds.length; i++) {
+      var akid = userAccessKeyIds[i];
+
+      if (key == akid) {
+        userAccessKeyIds.splice(i, 1);
+        userSecretAccessKeys.splice(i, 1);
+        break;
+      }
+    }
+
+    nsPreferences.setUnicharPref('iamfox.userAccessKeyIds', userAccessKeyIds.toSource());
     nsPreferences.setUnicharPref('iamfox.userSecretAccessKeys', userSecretAccessKeys.toSource());
   },
 
@@ -111,7 +183,7 @@ Prefs = {
     nsPreferences.setUnicharPref('iamfox.userAccessKeyIds', userAccessKeyIds.toSource());
   },
 
-   mergeUserSecretAccessKeys: function(data) {
+  mergeUserSecretAccessKeys: function(data) {
     var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
     userSecretAccessKeys = eval(userSecretAccessKeys);
 
