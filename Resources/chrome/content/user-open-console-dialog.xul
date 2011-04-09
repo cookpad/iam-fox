@@ -24,8 +24,6 @@
       var args = window.arguments[0];
       var user = args.user;
 
-      moveToAlertPosition();
-
       var arn = user.Arn;
       var account_id = arn.toString().split(':')[4];
       var url = 'https://' + account_id + '.signin.aws.amazon.com/console/ec2'
