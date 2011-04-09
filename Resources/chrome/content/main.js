@@ -135,5 +135,5 @@ function openServerCertAddWindow() {
 }
 
 function openAboutDialog() {
-  openDialog('chrome://iamfox/content/about-dialog.xul', 'about-dialog', 'chrome,modal');
+  openDialog('chrome://iamfox/content/about-dialog.xul', 'about-dialog', 'chrome,modal,centerscreen');
 }

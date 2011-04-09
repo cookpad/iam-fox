@@ -33,8 +33,6 @@
   <!-- dialog script -->
   <script><![CDATA[
     function aboutDialogOnLoad() {
-      moveToAlertPosition();
-
       var sound = Components.classes["@mozilla.org/sound;1"].createInstance(Components.interfaces.nsISound);
       sound.beep();
     }
