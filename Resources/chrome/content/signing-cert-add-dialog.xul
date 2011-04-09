@@ -28,7 +28,6 @@
   <!-- dialog script -->
   <script><![CDATA[
     function signingCertAddDialogOnLoad() {
-      moveToAlertPosition();
     }
 
     function signingCertAddDialogDoOK() {
