@@ -23,6 +23,7 @@
     <menupopup id="user-view-key-tree-contenx-menu">
       <menuitem label="Copy 'AWS Access Key ID' to Clipboard" oncommand="$view.copyColumnToClipboard(0);" />
       <menuitem label="Copy 'AWS Secret Access Key' to Clipboard" oncommand="$view.copyColumnToClipboard(1);" />
+      <menuseparator />
       <menuitem label="Delete" oncommand="$view.deleteKey();" />
     </menupopup>
   </popupset>
