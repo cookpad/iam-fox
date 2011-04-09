@@ -23,7 +23,6 @@
   <!-- dialog script -->
   <script><![CDATA[
     function groupAddDialogOnLoad() {
-      moveToAlertPosition();
     }
 
     function groupAddDialogDoOK() {

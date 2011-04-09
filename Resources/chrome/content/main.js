@@ -117,7 +117,7 @@ function openModalWindow(xul, name, width, height, args) {
 
 function openGroupAddDialog() {
   if (selectedView()) {
-    openDialog('chrome://iamfox/content/group-add-dialog.xul', 'group-add-dialog', 'chrome,modal',
+    openDialog('chrome://iamfox/content/group-add-dialog.xul', 'group-add-dialog', 'chrome,modal,centerscreen',
                {selectedView:selectedView, inProgress:inProgress});
   }
 }
