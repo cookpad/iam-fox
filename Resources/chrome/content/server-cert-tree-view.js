@@ -141,7 +141,7 @@ ServerCertTreeView.prototype = {
       return;
     }
 
-    openDialog('chrome://iamfox/content/server-cert-edit-dialog.xul', 'server-cert-edit-dialog', 'chrome,modal',
+    openDialog('chrome://iamfox/content/server-cert-edit-dialog.xul', 'server-cert-edit-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, cert:cert});
   },
 

@@ -25,7 +25,6 @@
     function serverCertEditDialogOnLoad() {
       var args = window.arguments[0];
       var cert = args.cert;
-      moveToAlertPosition();
 
       $('server-cert-edit-dialog-server-cert-name').value = cert.ServerCertificateName;
       $('server-cert-edit-dialog-path').value = cert.Path;
