@@ -61,7 +61,7 @@ Function.prototype.bind = function(context) {
 }
 
 function openErrorDialog(xhr) {
-  openDialog('chrome://iamfox/content/error-dialog.xul', 'error-dialog', 'chrome,modal,width=400,height=300',
+  openDialog('chrome://iamfox/content/error-dialog.xul', 'error-dialog', 'chrome,modal,width=400,height=300,centerscreen',
              {error:xhr.xml()..Error});
 }
 
