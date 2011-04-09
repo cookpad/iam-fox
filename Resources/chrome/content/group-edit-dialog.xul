@@ -25,7 +25,6 @@
     function groupEditDialogOnLoad() {
       var args = window.arguments[0];
       var group = args.group;
-      moveToAlertPosition();
 
       $('group-edit-dialog-group-name').value = group.GroupName;
       $('group-edit-dialog-group-path').value = group.Path;
