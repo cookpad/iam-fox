@@ -18,7 +18,11 @@ function protect(callback) {
   try {
     retval = callback();
   } catch (e) {
-    openErrorDialog(e);
+    if (e.xml) {
+      openErrorDialog(e);
+    } else {
+      alert(e);
+    }
   }
 
   return retval;
