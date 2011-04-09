@@ -109,6 +109,10 @@ UserTreeView.prototype = {
 
       pathFilter.selectedIndex = 0;
 
+      for (var i = 0; i < this.tree.columns.count; i++) {
+        this.tree.columns.getColumnAt(i).element.setAttribute('sortDirection', 'natural');
+      }
+
       this.invalidate();
     }.bind(this));
   },
