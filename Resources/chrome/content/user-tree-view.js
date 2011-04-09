@@ -207,7 +207,7 @@ UserTreeView.prototype = {
 
   openUserOpenConsoleDialog: function() {
     var user = this.selectedRow();
-    openDialog('chrome://iamfox/content/user-open-console-dialog.xul', 'user-open-console-dialog', 'chrome,modal', {user:user});
+    openDialog('chrome://iamfox/content/user-open-console-dialog.xul', 'user-open-console-dialog', 'chrome,modal,centerscreen', {user:user});
   },
 
   selectByName: function(name) {
