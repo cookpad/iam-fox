@@ -124,7 +124,7 @@ function openGroupAddDialog() {
 
 function openUserAddDialog() {
   if (selectedView()) {
-    openDialog('chrome://iamfox/content/user-add-dialog.xul', 'user-add-dialog', 'chrome,modal',
+    openDialog('chrome://iamfox/content/user-add-dialog.xul', 'user-add-dialog', 'chrome,modal,centerscreen',
                {selectedView:selectedView, inProgress:inProgress});
   }
 }
