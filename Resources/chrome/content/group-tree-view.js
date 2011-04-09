@@ -30,6 +30,7 @@ GroupTreeView.prototype = {
 
   cycleHeader: function(column) {
     var group = this.selectedRow();
+    if (!group) { return; }
 
     if (sortRowsByColumn(column, this.rows)) {
       this.invalidate();
@@ -132,6 +133,7 @@ GroupTreeView.prototype = {
 
   deleteGroup: function() {
     var group = this.selectedRow();
+    if (!group) { return; }
     var groupName = group.GroupName;
 
     if (!confirm("Are you sure you want to delete '" + groupName + " ' ?")) {
@@ -156,6 +158,7 @@ GroupTreeView.prototype = {
 
   openGroupEditDialog: function() {
     var group = this.selectedRow();
+    if (!group) { return; }
     openDialog('chrome://iamfox/content/group-edit-dialog.xul', 'group-edit-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, group:group});
   },

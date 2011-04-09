@@ -30,6 +30,7 @@ ServerCertTreeView.prototype = {
 
   cycleHeader: function(column) {
     var cert = this.selectedRow();
+    if (!cert) { return; }
 
     if (sortRowsByColumn(column, this.rows)) {
       this.invalidate();
@@ -119,6 +120,7 @@ ServerCertTreeView.prototype = {
 
   deleteServerCert: function() {
     var cert = this.selectedRow();
+    if (!cert) { return; }
     var certName = cert.ServerCertificateName;
 
     if (!confirm("Are you sure you want to delete '" + certName + " ' ?")) {

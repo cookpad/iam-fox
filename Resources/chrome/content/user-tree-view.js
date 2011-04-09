@@ -30,6 +30,7 @@ UserTreeView.prototype = {
 
   cycleHeader: function(column) {
     var user = this.selectedRow();
+    if (!user) { return; }
 
     if (sortRowsByColumn(column, this.rows)) {
       this.invalidate();
@@ -133,6 +134,7 @@ UserTreeView.prototype = {
 
   openUserCertWindow: function(event) {
     var user = this.selectedRow();
+    if (!user) { return; }
     var userName = user.UserName;
 
     openModalWindow('user-cert-window.xul', 'user-cert-window', 640, 480,
@@ -141,6 +143,7 @@ UserTreeView.prototype = {
 
   deleteUser: function() {
     var user = this.selectedRow();
+    if (!user) { return; }
     var userName = user.UserName;
 
     if (!confirm("Are you sure you want to delete '" + userName + "' ?")) {
@@ -189,24 +192,28 @@ UserTreeView.prototype = {
 
   openUserEditDialog: function() {
     var user = this.selectedRow();
+    if (!user) { return; }
     openDialog('chrome://iamfox/content/user-edit-dialog.xul', 'user-edit-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, user:user});
   },
 
   openViewKeyDialog: function() {
     var user = this.selectedRow();
+    if (!user) { return; }
     openDialog('chrome://iamfox/content/user-view-key-dialog.xul', 'user-edit-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, user:user});
   },
 
   openUserCreateLoginProfileDialog: function() {
     var user = this.selectedRow();
+    if (!user) { return; }
     openDialog('chrome://iamfox/content/user-create-login-profile-dialog.xul', 'user-create-login-profile-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, user:user});
   },
 
   openUserOpenConsoleDialog: function() {
     var user = this.selectedRow();
+    if (!user) { return; }
     openDialog('chrome://iamfox/content/user-open-console-dialog.xul', 'user-open-console-dialog', 'chrome,modal,centerscreen', {user:user});
   },
 
@@ -226,13 +233,14 @@ UserTreeView.prototype = {
 
   openUserGroupWindow: function() {
     var user = this.selectedRow();
-
+    if (!user) { return; }
     openModalWindow('user-group-window.xul', 'user-cert-window', 400, 400,
                     {iamcli:this.iamcli, userName:user.UserName});
   },
 
   deleteLoginProfile: function() {
     var user = this.selectedRow();
+    if (!user) { return; }
     var userName = user.UserName;
 
     if (!confirm("Are you sure you want to delete '" + userName + "'s login profile' ?")) {
