@@ -65,7 +65,9 @@ UserViewKeyTreeView.prototype = {
     var row = this.selectedRow();
 
     if (row) {
-      copyToClipboard(row[name].toString());
+      var value = (row[name] || '').toString().trim();
+      if (!value) { value = '(empty)'; }
+      copyToClipboard(value);
     }
   },
 
