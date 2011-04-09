@@ -51,7 +51,7 @@ function treeViews() {
 }
 
 function openAccountDialog() {
-  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'chrome,modal',
+  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'chrome,modal,centerscreen',
              {selectedView:selectedView, attachViewsToElements:attachViewsToElements});
 }
 

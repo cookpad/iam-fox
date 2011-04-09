@@ -23,7 +23,6 @@
   <!-- dialog script -->
   <script><![CDATA[
     function accountDialogOnLoad() {
-      moveToAlertPosition();
       $('account-dialog-accessKeyId').value = Prefs.accessKeyId;
       $('account-dialog-secretAccessKey').value = Prefs.secretAccessKey;
     }
