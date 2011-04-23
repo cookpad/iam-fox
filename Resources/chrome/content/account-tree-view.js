@@ -35,8 +35,6 @@ AccountTreeView.prototype = {
     return this.data[row][idx];
   },
 
-  hoge: true,
-
   getCellValue: function(row, column) {
     if (column.id != 'account-tree-use') {
       return null;
