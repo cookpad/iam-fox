@@ -152,7 +152,9 @@ Prefs = {
   },
 
   set secretAccessKey(v) {
-    nsPreferences.setUnicharPref('iamfox.secretAccessKey', v);
+    var account = this.getAccount();
+    account.secretAccessKey = v;
+    this.storeAccount(account);
   },
 
   getUserAccessKeyId: function(name) {
