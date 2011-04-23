@@ -46,6 +46,39 @@ Prefs = {
     return eval(accounts);
   },
 
+  storeAccountList: function(updated) {
+    nsPreferences.setUnicharPref('iamfox.accounts', updated.toSource());
+  },
+
+  addAccount: function(userName, accessKeyId, secretAccessKey) {
+    var accounts = this.getAccountList();
+
+    var newAccount = [
+      userName,
+      {
+        accessKeyId:accessKeyId,
+        secretAccessKey:secretAccessKey
+      }
+    ];
+
+    var index = -1;
+
+    for(var i = 0; i < accounts.length; i++) {
+      if (accounts[i][0] == userName) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index == -1) {
+      accounts.push(newAccount);
+    } else {
+      accounts.splice(index, 1, newAccount);
+    }
+
+    this.storeAccountList(accounts);
+  },
+
   getAccount: function() {
     var accounts = this.getAccountList();
 
@@ -70,7 +103,7 @@ Prefs = {
     for (var i = 0; i < accounts.length; i++) {
       if (accounts[i][0] == userName) {
         accounts[i][1] = updated;
-        nsPreferences.setUnicharPref('iamfox.accounts', accounts.toSource());
+        this.storeAccountList(accounts);
         break;
       }
     }
