@@ -1,6 +1,5 @@
 Prefs = {
   // XXX:
-  current: 'Your name',
   version: '0.1.5',
 
   convert: function() {
@@ -14,9 +13,11 @@ Prefs = {
       var userSecretAccessKeys = nsPreferences.copyUnicharPref('iamfox.userSecretAccessKeys', '({})');
       userSecretAccessKeys = eval(userSecretAccessKeys);
 
+      Prefs.currentUser = 'Your name';
+
       var accounts = [
         [
-          'Your name',
+          Prefs.currentUser,
           {
             accessKeyId:accessKeyId,
             secretAccessKey:secretAccessKey,
@@ -31,6 +32,14 @@ Prefs = {
     }
   },
 
+  get currentUser() {
+    return nsPreferences.copyUnicharPref('iamfox.currentUser', null);
+  },
+
+  set currentUser(v) {
+    nsPreferences.setUnicharPref('iamfox.currentUser', v);
+  },
+
   getAccountList: function() {
     this.convert();
     var accounts = nsPreferences.copyUnicharPref('iamfox.accounts', '([])');
@@ -40,7 +49,7 @@ Prefs = {
   getAccount: function() {
     var accounts = this.getAccountList();
 
-    var userName = this.current;
+    var userName = this.currentUser;
     if (!userName) { return {}; }
 
     for (var i = 0; i < accounts.length; i++) {
@@ -55,7 +64,7 @@ Prefs = {
   storeAccount: function(updated) {
     var accounts = this.getAccountList();
 
-    var userName = this.current;
+    var userName = this.currentUser;
     if (!userName) { return; }
 
     for (var i = 0; i < accounts.length; i++) {
