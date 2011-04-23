@@ -77,6 +77,33 @@ Prefs = {
     }
 
     this.storeAccountList(accounts);
+
+    if (accounts.length == 1) {
+      this.currentUser = accounts[0][0];
+    }
+  },
+
+  deleteAccount: function(userName) {
+    var accounts = this.getAccountList();
+    var index = -1;
+
+    for(var i = 0; i < accounts.length; i++) {
+      if (accounts[i][0] == userName) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index != -1) {
+      accounts.splice(index, 1);
+      this.storeAccountList(accounts);
+
+      if (accounts.length > 0) {
+        this.currentUser = accounts[0][0];
+      } else {
+        this.currentUser = '';
+      }
+    }
   },
 
   getAccount: function() {
