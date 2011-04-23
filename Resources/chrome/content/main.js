@@ -56,14 +56,8 @@ function openAccountDialog() {
 }
 
 function newIAMClient() {
-  if (!Prefs.accessKeyId || !Prefs.secretAccessKey) {
+  if (!Prefs.currentUser) {
     //openAccountDialog();
-    return null;
-  }
-
-  if (!Prefs.accessKeyId || !Prefs.secretAccessKey) {
-    alert("'AWS Access Key ID' or 'AWS Secret Access Key' was not input.");
-    close();
     return null;
   } else {
     var iamcli = new IAMClient(Prefs.accessKeyId, Prefs.secretAccessKey);
