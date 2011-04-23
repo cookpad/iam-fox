@@ -4,9 +4,9 @@ Prefs = {
 
   convert: function() {
     var version = nsPreferences.copyUnicharPref('iamfox.version', '').trim();
+    var accessKeyId = nsPreferences.copyUnicharPref('iamfox.accessKeyId', '').trim();
 
-    if (!version) {
-      var accessKeyId = nsPreferences.copyUnicharPref('iamfox.accessKeyId', '').trim();
+    if (!version && accessKeyId) {
       var secretAccessKey = nsPreferences.copyUnicharPref('iamfox.secretAccessKey', '').trim();
       var userAccessKeyIds = nsPreferences.copyUnicharPref('iamfox.userAccessKeyIds', '({})');
       userAccessKeyIds = eval(userAccessKeyIds);
