@@ -31,17 +31,17 @@ Prefs = {
     }
   },
 
-  getAccount: function() {
+  getAccountList: function() {
     this.convert();
+    var accounts = nsPreferences.copyUnicharPref('iamfox.accounts', '([])');
+    return eval(accounts);
+  },
+
+  getAccount: function() {
+    var accounts = this.getAccountList();
 
     var userName = this.current;
-
-    if (!userName) {
-      return {};
-    }
-
-    var accounts = nsPreferences.copyUnicharPref('iamfox.accounts', '([])');
-    accounts = eval(accounts);
+    if (!userName) { return {}; }
 
     for (var i = 0; i < accounts.length; i++) {
       if (accounts[i][0] == userName) {
@@ -53,16 +53,10 @@ Prefs = {
   },
 
   storeAccount: function(updated) {
-    this.convert();
+    var accounts = this.getAccountList();
 
     var userName = this.current;
-
-    if (!userName) {
-      return;
-    }
-
-    var accounts = nsPreferences.copyUnicharPref('iamfox.accounts', '([])');
-    accounts = eval(accounts);
+    if (!userName) { return; }
 
     for (var i = 0; i < accounts.length; i++) {
       if (accounts[i][0] == userName) {
