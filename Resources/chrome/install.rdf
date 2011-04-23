@@ -5,7 +5,7 @@
     <em:id>{2c1ab000-5cd9-11e0-80e3-0800200c9a66}</em:id>
     <em:type>2</em:type>
     <em:name>IAM Fox</em:name>
-    <em:version>0.1.4</em:version>
+    <em:version>0.1.5</em:version>
     <em:description>IAM Fox is a GUI client of AWS Identity and Access Management (IAM)</em:description>
     <em:creator>SUGAWARA Genki</em:creator>
     <em:targetApplication>

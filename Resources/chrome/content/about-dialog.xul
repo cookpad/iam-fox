@@ -22,7 +22,7 @@
       <separator style="width:10px;" />
       <textnode style="font-weight:bold;">IAM Fox</textnode>
       <separator style="width:5px;" />
-      <textnode>version 0.1.4</textnode>
+      <textnode>version 0.1.5</textnode>
     </hbox>
     <vbox style="margin:5px;">
       <textnode>Developer: SUGAWARA Genki</textnode>
