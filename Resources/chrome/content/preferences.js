@@ -1,5 +1,5 @@
 Prefs = {
-  version: '0.1.5',
+  version: '0.1.5-1',
 
   convert: function() {
     var version = nsPreferences.copyUnicharPref('iamfox.version', '').trim();

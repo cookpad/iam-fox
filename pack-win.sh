@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION=0.1.5
+VERSION=0.1.5-1
 SRC_DIR=iam-fox_win
 
 rm -rf $SRC_DIR *setup.exe

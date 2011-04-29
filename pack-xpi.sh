@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION=0.1.5
+VERSION=0.1.5-1
 XPI=iam-fox-${VERSION}.xpi
 
 rm -rf *.xpi
