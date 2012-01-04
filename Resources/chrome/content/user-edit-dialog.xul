@@ -25,7 +25,6 @@
     function userEditDialogOnLoad() {
       var args = window.arguments[0];
       var user = args.user;
-      moveToAlertPosition();
 
       $('user-edit-dialog-user-name').value = user.UserName;
       $('user-edit-dialog-user-path').value = user.Path;
@@ -50,12 +49,12 @@
         userPath += '/';
       }
 
-      window.close();
+      var xhr = null;
 
       protect(function() {
          inProgress(function() {
           var params = [['NewUserName', userName], ['NewPath', userPath], ['UserName', user.UserName]];
-          iamcli.query_or_die('UpdateUser', params);
+          xhr = iamcli.query_or_die('UpdateUser', params);
         });
 
         Prefs.renameUserAccessKeyIdAndSecretAccessKey(user.UserName, userName);
@@ -63,7 +62,7 @@
         view.selectByName(userName);
       });
 
-      return true;
+      return xhr.success();
     }
   ]]></script>
 </dialog>

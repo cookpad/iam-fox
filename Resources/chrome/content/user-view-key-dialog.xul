@@ -5,49 +5,50 @@
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   title="View/Edit Key"
   buttons="accept,cancel"
-  buttonlabelaccept="Update"
-  ondialogaccept="return userViewKeyDialogDoUpdate();"
+  buttonlabelaccept="Add"
+  buttonlabelcancel="Close"
+  ondialogaccept="$view.addKey(); return false;"
   ondialogcancel="return true;"
-  onload="userViewKeyDialogOnLoad();">
+  onload="userViewKeyDialogOnLoad();"
+  width="400" height="300">
 
   <!-- scripts -->
   <script src="chrome://global/content/nsUserSettings.js" />
   <script src="preferences.js" />
   <script src="utils.js" />
+  <script src="user-view-key-tree-view.js" />
 
-  <!-- inputs -->
-  <label control="user-view-key-dialog-access-key-id" value="AWS Access Key ID" />
-  <textbox id="user-view-key-dialog-access-key-id"/>
-  <label control="user-view-key-dialog-secret-access-key" value="AWS Secret Access Key" />
-  <textbox id="user-view-key-dialog-secret-access-key" />
+  <!-- context menu -->
+  <popupset>
+    <menupopup id="user-view-key-tree-contenx-menu">
+      <menuitem label="Copy 'AWS Access Key ID' to Clipboard" oncommand="$view.copyColumnToClipboard(0);" />
+      <menuitem label="Copy 'AWS Secret Access Key' to Clipboard" oncommand="$view.copyColumnToClipboard(1);" />
+      <menuseparator />
+      <menuitem label="Delete" oncommand="$view.deleteKey();" />
+    </menupopup>
+  </popupset>
+
+  <!-- tree -->
+  <tree id="user-view-key-tree" seltype="single" enableColumnDrag="true" flex="1">
+    <treecols>
+      <treecol id="user-view-key-tree.0" label="AWS Access Key ID" flex="1" persist="width ordinal hidden sortDirection" />
+      <splitter class="tree-splitter" />
+      <treecol id="user-view-key-tree.1" label="AWS Secret Access Key" flex="1" persist="width ordinal hidden sortDirection" />
+    </treecols>
+    <treechildren context="user-view-key-tree-contenx-menu" />
+  </tree>
 
   <!-- dialog script -->
   <script><![CDATA[
     function userViewKeyDialogOnLoad() {
       var args = window.arguments[0];
+      var iamcli = args.view.iamcli;
+      var inProgress = args.inProgress;
       var user = args.user;
-      moveToAlertPosition();
 
-      $('user-view-key-dialog-access-key-id').value = Prefs.getUserAccessKeyId(user.UserName) || '';
-      $('user-view-key-dialog-secret-access-key').value = Prefs.getUserSecretAccessKey(user.UserName) || '';
-    }
-
-    function userViewKeyDialogDoUpdate() {
-      var args = window.arguments[0];
-      var user = args.user;
-      var userName = user.UserName;
-
-      var accessKeyId = ($('user-view-key-dialog-access-key-id').value || '').trim();
-      var secretAccessKey = ($('user-view-key-dialog-secret-access-key').value || '').trim();
-
-      if (!accessKeyId || !secretAccessKey) {
-        alert("Please input 'AWS Access Key ID' and 'AWS Secret Access Key'.");
-        return false;
-      } else {
-        Prefs.setUserAccessKeyId(userName, accessKeyId);
-        Prefs.setUserSecretAccessKey(userName, secretAccessKey);
-        return true;
-      }
+      $view = new UserViewKeyTreeView(user, iamcli, inProgress);
+      $('user-view-key-tree').view = $view;
+      $view.refresh();
     }
   ]]></script>
 </dialog>

@@ -1,14 +1,20 @@
-function openExportDialog() {
-  openDialog('chrome://iamfox/content/export-dialog.xul', 'export-dialog', 'chrome,modal', {exportKeys:exportKeys});
+function exportKeysToJson() {
+  var fp = newFilePicker();
+  fp.init(window, 'Export keys', Components.interfaces.nsIFilePicker.modeSave);
+  fp.defaultString = 'awskeys.json';
+  fp.appendFilter('JSON (*.json)', '*.json');
+
+  var result = fp.show();
+
+  switch (result) {
+  case Components.interfaces.nsIFilePicker.returnOK:
+  case Components.interfaces.nsIFilePicker.returnReplace:
+    exportKeys(fp.file);
+    break;
+  }
 }
 
-function exportKeys(path) {
-  var fout = FileIO.open(path);
-
-  if (!fout) {
-    return false;
-  }
-
+function exportKeys(fout) {
   var data = {
     userAccessKeyIds: Prefs.userAccessKeyIds,
     userSecretAccessKeys: Prefs.userSecretAccessKeys
@@ -19,25 +25,36 @@ function exportKeys(path) {
   return rv;
 }
 
+function importJsonToKeys() {
+  var fp = newFilePicker();
+  fp.init(window, 'Import and Merge keys', Components.interfaces.nsIFilePicker.modeOpen);
+  fp.appendFilter('JSON (*.json)', '*.json');
 
-function openImportDialog() {
-  openDialog('chrome://iamfox/content/import-dialog.xul', 'import-dialog', 'chrome,modal', {importKeys:importKeys});
+  var result = fp.show();
+
+  switch (result) {
+  case Components.interfaces.nsIFilePicker.returnOK:
+  case Components.interfaces.nsIFilePicker.returnReplace:
+    importKeys(fp.file);
+    break;
+  }
 }
 
-function importKeys(path) {
-  var fin = FileIO.open(path);
-
-  if (!fin) {
-    return false;
-  }
-
+function importKeys(fin) {
   var new_data = FileIO.read(fin);
 
   if (!new_data) {
+    alert("Cannnot read file.");
     return false;
   }
 
-  new_data = eval(new_data);
+  try {
+    new_data = eval(new_data);
+  } catch (e) {
+    alert(e);
+    return false;
+  }
+
   var newUserAccessKeyIds = new_data.userAccessKeyIds;
   var newUserSecretAccessKeys = new_data.userSecretAccessKeys;
 

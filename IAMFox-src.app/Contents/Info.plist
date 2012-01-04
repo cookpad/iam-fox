@@ -6,8 +6,8 @@
 	<string>xulrunner</string>
 	<key>CFBundleGetInfoString</key>
 	<string>IAMFox</string>
-        <key>CFBundleIconFile</key>
-        <string>IAMFOX.icns</string>
+	<key>CFBundleIconFile</key>
+	<string>IAMFOX.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>xulrunner.iamfox</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>IAMFOX</string>
 	<key>CFBundleVersion</key>
-	<string>0.1.1</string>
+	<string>0.1.5-1</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 </dict>

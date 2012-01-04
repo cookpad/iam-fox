@@ -19,11 +19,11 @@ function serverCertAddWindowDoOK() {
     return false;
   }
 
-  window.close();
-
   if (serverCertPath.charAt(serverCertPath.length - 1) != '/') {
     serverCertPath += '/';
   }
+
+  var xhr = null;
 
   protect(function() {
     inProgress(function() {
@@ -38,7 +38,7 @@ function serverCertAddWindowDoOK() {
         params.push(['CertificateChain', serverCertChain]);
       }
 
-      iamcli.query_or_die('UploadServerCertificate', params);
+      xhr = iamcli.query_or_die('UploadServerCertificate', params);
 
       view.refresh();
       view.selectByName(serverCertName);
@@ -46,5 +46,7 @@ function serverCertAddWindowDoOK() {
   });
   } catch(e) { alert(e); }
 
-  return true;
+  if (xhr.success()) {
+    window.close();
+  }
 }

@@ -11,6 +11,17 @@
     <menupopup id="group-tree-contenx-menu">
       <menuitem label="Policies" oncommand="selectedView().onDblclick();" style="font-weight:bold;" />
       <menuitem label="Edit" oncommand="selectedView().openGroupEditDialog()" />
+      <menuseparator />
+      <menu label="Copy to Clipboard">
+        <menupopup>
+          <menuitem label="Group ID" oncommand="selectedView().copyColumnToClipboard('GroupId');" />
+          <menuitem label="Group Name" oncommand="selectedView().copyColumnToClipboard('GroupName');" />
+          <menuitem label="ARN" oncommand="selectedView().copyColumnToClipboard('Arn');" />
+          <menuitem label="Path" oncommand="selectedView().copyColumnToClipboard('Path');" />
+          <menuitem label="Create Date" oncommand="selectedView().copyColumnToClipboard('CreateDate');" />
+        </menupopup>
+      </menu>
+      <menuseparator />
       <menuitem label="Delete" oncommand="selectedView().deleteGroup()" />
     </menupopup>
   </popupset>
@@ -18,18 +29,30 @@
   <!-- tabpanel -->
   <tabpanel id="group-tabpanel">
     <vbox flex="1">
+      <!-- filter -->
+      <hbox>
+        Path: 
+        <menulist id="group-tree-path-filter" oncommand="selectedView().invalidate();" >
+          <menupopup>
+            <menuitem label="/" value="/" />
+          </menupopup>
+        </menulist>
+        Search:
+        <textbox id="group-tree-filter" oninput="selectedView().invalidate();" />
+        <button label="Clear" oncommand="with($('group-tree-filter')) { value = ''; oninput(); }" class="mini-button" />
+      </hbox>
       <!-- tree -->
       <tree id="group-tree" seltype="single" enableColumnDrag="true" flex="1" ondblclick="this._view.onDblclick(event);">
         <treecols>
-          <treecol id="GroupId" label="Group ID" flex="1" />
+          <treecol id="group-tree.GroupId" label="Group ID" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="GroupName" label="Group Name" flex="1" />
+          <treecol id="group-tree.GroupName" label="Group Name" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="Path" label="Path Name" flex="1" />
+          <treecol id="group-tree.Path" label="Path Name" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="Arn" label="ARN" flex="1" />
+          <treecol id="group-tree.Arn" label="ARN" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="CreateDate" label="Create Date" flex="1" />
+          <treecol id="group-tree.CreateDate" label="Create Date" flex="1" persist="width ordinal hidden sortDirection" />
         </treecols>
         <treechildren context="group-tree-contenx-menu" />
       </tree>

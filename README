@@ -1,22 +1,21 @@
 = IAM Fox
 
-Copyright (c) 2011- SUGAWARA Genki <sgwr_dts@yahoo.co.jp>
-
 == Description
 
 IAM Fox is a GUI client of AWS Identity and Access Management (IAM)
 
 see http://aws.amazon.com/iam/
 
-=== Requires
+== Requires
 
 * OSX
-  * XULRunApplication Bundle contains XULRunner runtime
-  * If the application doesn't start, Please install XULRunner runtime
-  * http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/
+  * Application bundle contains XULRunner runtime
+  * If the application doesn't start, please install XULRunner runtime
+    * http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/
 * Windows
   * Installer contains XULRunner runtime
 
-=== Credit 
+== Credit
+
 * Icon from 'PC 100 Icon Pack'
   * http://pc.de/icons/

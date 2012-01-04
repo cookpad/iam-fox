@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
+
+<overlay id="iam-fox"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml" >
+  <menupopup id="menu_ToolsPopup">
+    <menuitem id="menu_iamfox" class="menuitem-iconic" oncommand="getBrowser().selectedTab = getBrowser().addTab('chrome://iamfox/content/main.xul');" insertafter="javascriptConsole" label="IAM Fox" />
+  </menupopup>
+</overlay>

@@ -26,8 +26,6 @@
   <!-- dialog script -->
   <script><![CDATA[
     function signingCertEditDialogOnLoad() {
-      moveToAlertPosition();
-
       var args = window.arguments[0];
       var status = args.status;
 
@@ -53,18 +51,18 @@
 
       var status = $('signing-cert-add-dialog-cert-status').selectedItem.value;
 
-      window.close();
+      var xhr = null;
 
       protect(function() {
         inProgress(function() {
           var params = [['CertificateId', certId], ['Status', status], ['UserName', userName]];
-          return iamcli.query_or_die('UpdateSigningCertificate', params);
+          xhr = iamcli.query_or_die('UpdateSigningCertificate', params);
         });
 
         refreshUserCert();
       });
 
-      return true;
+      return xhr.success();
     }
   ]]></script>
 </dialog>

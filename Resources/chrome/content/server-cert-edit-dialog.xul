@@ -25,7 +25,6 @@
     function serverCertEditDialogOnLoad() {
       var args = window.arguments[0];
       var cert = args.cert;
-      moveToAlertPosition();
 
       $('server-cert-edit-dialog-server-cert-name').value = cert.ServerCertificateName;
       $('server-cert-edit-dialog-path').value = cert.Path;
@@ -50,7 +49,7 @@
         serverCertPath += '/';
       }
 
-      window.close();
+      var xhr = null;
 
       protect(function() {
          inProgress(function() {
@@ -60,14 +59,14 @@
             ['ServerCertificateName', cert.ServerCertificateName]
             ];
 
-           iamcli.query_or_die('UpdateServerCertificate', params);
+           xhr = iamcli.query_or_die('UpdateServerCertificate', params);
         });
 
         view.refresh();
         view.selectByName(serverCertName);
       });
 
-      return true;
+      return xhr.success();
     }
   ]]></script>
 </dialog>

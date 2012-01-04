@@ -51,19 +51,13 @@ function treeViews() {
 }
 
 function openAccountDialog() {
-  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'chrome,modal',
+  openDialog('chrome://iamfox/content/account-dialog.xul', 'account-dialog', 'chrome,modal,centerscreen',
              {selectedView:selectedView, attachViewsToElements:attachViewsToElements});
 }
 
 function newIAMClient() {
-  if (!Prefs.accessKeyId || !Prefs.secretAccessKey) {
+  if (!Prefs.currentUser) {
     //openAccountDialog();
-    return null;
-  }
-
-  if (!Prefs.accessKeyId || !Prefs.secretAccessKey) {
-    alert("'AWS Access Key ID' or 'AWS Secret Access Key' was not input.");
-    close();
     return null;
   } else {
     var iamcli = new IAMClient(Prefs.accessKeyId, Prefs.secretAccessKey);
@@ -72,7 +66,7 @@ function newIAMClient() {
       var xhr = iamcli.query(action, params);
 
       if (!xhr.success()) {
-        throw xhr.responseText;
+        throw xhr;
       }
 
       return xhr;
@@ -108,7 +102,7 @@ function openModalWindow(xul, name, width, height, args) {
   var uri = 'chrome://iamfox/content/' + xul;
   var left = window.screenX + (window.outerWidth - width) / 2;
   var top = window.screenY + (window.outerHeight - height) / 2;
-  var features = 'chrome,modal,dialog=no,resizable,width=' + width + ',height=' + height + ',left=' + left + ',top=' + top;
+  var features = 'chrome,modal,centerscreen,dialog=no,resizable,width=' + width + ',height=' + height + ',left=' + left + ',top=' + top;
 
   var w = window.openDialog(uri, name, features, args);
 
@@ -117,14 +111,14 @@ function openModalWindow(xul, name, width, height, args) {
 
 function openGroupAddDialog() {
   if (selectedView()) {
-    openDialog('chrome://iamfox/content/group-add-dialog.xul', 'group-add-dialog', 'chrome,modal',
+    openDialog('chrome://iamfox/content/group-add-dialog.xul', 'group-add-dialog', 'chrome,modal,centerscreen',
                {selectedView:selectedView, inProgress:inProgress});
   }
 }
 
 function openUserAddDialog() {
   if (selectedView()) {
-    openDialog('chrome://iamfox/content/user-add-dialog.xul', 'user-add-dialog', 'chrome,modal',
+    openDialog('chrome://iamfox/content/user-add-dialog.xul', 'user-add-dialog', 'chrome,modal,centerscreen',
                {selectedView:selectedView, inProgress:inProgress});
   }
 }
@@ -132,4 +126,8 @@ function openUserAddDialog() {
 function openServerCertAddWindow() {
   openModalWindow('server-cert-add-window.xul', 'server-cert-add-window', 640, 480,
                   {selectedView:selectedView, inProgress:inProgress});
+}
+
+function openAboutDialog() {
+  openDialog('chrome://iamfox/content/about-dialog.xul', 'about-dialog', 'chrome,modal,centerscreen');
 }

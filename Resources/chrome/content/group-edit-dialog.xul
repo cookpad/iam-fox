@@ -25,7 +25,6 @@
     function groupEditDialogOnLoad() {
       var args = window.arguments[0];
       var group = args.group;
-      moveToAlertPosition();
 
       $('group-edit-dialog-group-name').value = group.GroupName;
       $('group-edit-dialog-group-path').value = group.Path;
@@ -50,19 +49,19 @@
         groupPath += '/';
       }
 
-      window.close();
+      var xhr = null;
 
       protect(function() {
         inProgress(function() {
           var params = [['NewGroupName', groupName], ['NewPath', groupPath], ['GroupName', group.GroupName]];
-          iamcli.query_or_die('UpdateGroup', params);
+          xhr = iamcli.query_or_die('UpdateGroup', params);
         });
 
         view.refresh();
         view.selectByName(groupName);
       });
 
-      return true;
+      return xhr.success();
     }
   ]]></script>
 </dialog>

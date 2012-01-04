@@ -1,27 +1,86 @@
 function UserTreeView(iamcli) {
   this.iamcli = iamcli;
   this.rows = [];
+  this.printRows = [];
   this.rowCount = 0;
   this.selection = null;
+  this.sorted = false;
 }
 
 UserTreeView.prototype = {
   getCellText: function(row, column) {
-    return this.rows[row][column.id];
+    var colkey = column.id.toString().split('.');
+
+    if (colkey.length < 1) {
+      return null;
+    }
+
+    colkey = colkey[colkey.length - 1];
+
+    return this.printRows[row][colkey];
   },
 
   setTree: function(tree) {
     this.tree = tree;
   },
 
-  updateRowCount: function() {
-    if (this.rowCount == this.rows.length) {
-      return;
+  isSorted: function() {
+    return this.sorted;
+  },
+
+  cycleHeader: function(column) {
+    var user = this.selectedRow();
+    if (!user) { return; }
+
+    if (sortRowsByColumn(column, this.rows)) {
+      this.invalidate();
+      this.sorted = true;
+
+      if (user) {
+        this.selectByName(user.UserName);
+      }
+    }
+  },
+
+  invalidate: function() {
+    this.printRows.length = 0;
+
+    var pathFilter = $('user-tree-path-filter').selectedItem;
+    var pathValue = pathFilter ? pathFilter.value : '/';
+    var filterValue = ($('user-tree-filter').value || '').trim();
+
+    function filter(elem) {
+      var rp = new RegExp('^' + pathValue);
+      var rv = new RegExp(filterValue);
+
+      if (!rp.test(elem.Path.toString())) {
+        return false;
+      }
+
+      for each (var child in elem.*) {
+        if (rv.test(child.toString())) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    for (var i = 0; i < this.rows.length; i++) {
+      var row =  this.rows[i];
+
+      if (filter(row)) {
+        this.printRows.push(row);
+      }
     }
 
-    this.tree.rowCountChanged(0, -this.rowCount);
-    this.rowCount = this.rows.length;
-    this.tree.rowCountChanged(0, this.rowCount);
+    if (this.rowCount != this.printRows.length) {
+      this.tree.rowCountChanged(0, -this.rowCount);
+      this.rowCount = this.printRows.length;
+      this.tree.rowCountChanged(0, this.rowCount);
+    }
+
+    this.tree.invalidate();
   },
 
   refresh: function(noupdate) {
@@ -32,17 +91,39 @@ UserTreeView.prototype = {
         return this.iamcli.query_or_die('ListUsers');
       }.bind(this));
 
+      var pathList = ['/'];
+
       for each (var member in xhr.xml()..Users.member) {
         this.rows.push(member);
+        pathList.push(member.Path.toString());
       }
 
-      this.updateRowCount();
-      this.tree.invalidate();
+      var pathFilter = $('user-tree-path-filter');
+      pathFilter.removeAllItems();
+      pathList = pathList.uniq().sort();
+
+      for (var i = 0; i < pathList.length; i++) {
+        var path = pathList[i];
+        pathFilter.appendItem(path, path);
+      }
+
+      pathFilter.selectedIndex = 0;
+
+      for (var i = 0; i < this.tree.columns.count; i++) {
+        this.tree.columns.getColumnAt(i).element.setAttribute('sortDirection', 'natural');
+      }
+
+      this.invalidate();
     }.bind(this));
   },
 
   onDblclick: function(event) {
     var user = this.selectedRow();
+
+    if (!user || (event && event.target.tagName != 'treechildren')) {
+      return;
+    }
+
     var userName = user.UserName;
     var xhr = null;
 
@@ -52,20 +133,12 @@ UserTreeView.prototype = {
 
   selectedRow: function() {
     var idx = this.selection.currentIndex;
-    return (idx != -1) ? this.rows[idx] : null;
-  },
-
-  deleteCurrentRow: function() {
-    var idx = this.selection.currentIndex;
-
-    if (idx != -1) {
-      this.rows.splice(idx, 1);
-      this.updateRowCount();
-    }
+    return (idx != -1) ? this.printRows[idx] : null;
   },
 
   openUserCertWindow: function(event) {
     var user = this.selectedRow();
+    if (!user) { return; }
     var userName = user.UserName;
 
     openModalWindow('user-cert-window.xul', 'user-cert-window', 640, 480,
@@ -74,9 +147,10 @@ UserTreeView.prototype = {
 
   deleteUser: function() {
     var user = this.selectedRow();
+    if (!user) { return; }
     var userName = user.UserName;
 
-    if (!confirm("Are you sure you want to delete '" + userName + " ' ?")) {
+    if (!confirm("Are you sure you want to delete '" + userName + "' ?")) {
       return;
     }
 
@@ -112,22 +186,39 @@ UserTreeView.prototype = {
 
         this.iamcli.query_or_die('DeleteUser', [['UserName', userName]]);
 
-        this.deleteCurrentRow();
-        this.tree.invalidate();
+        Prefs.deleteUserAccessKeyId(userName);
+        Prefs.deleteUserSecretAccessKey(userName);
+
+        this.refresh();
       }.bind(this));
     }.bind(this));
   },
 
   openUserEditDialog: function() {
     var user = this.selectedRow();
-    openDialog('chrome://iamfox/content/user-edit-dialog.xul', 'user-edit-dialog', 'chrome,modal',
+    if (!user) { return; }
+    openDialog('chrome://iamfox/content/user-edit-dialog.xul', 'user-edit-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, user:user});
   },
 
   openViewKeyDialog: function() {
     var user = this.selectedRow();
-    openDialog('chrome://iamfox/content/user-view-key-dialog.xul', 'user-edit-dialog', 'chrome,modal',
+    if (!user) { return; }
+    openDialog('chrome://iamfox/content/user-view-key-dialog.xul', 'user-edit-dialog', 'chrome,modal,centerscreen',
                {view:this, inProgress:inProgress, user:user});
+  },
+
+  openUserCreateLoginProfileDialog: function() {
+    var user = this.selectedRow();
+    if (!user) { return; }
+    openDialog('chrome://iamfox/content/user-create-login-profile-dialog.xul', 'user-create-login-profile-dialog', 'chrome,modal,centerscreen',
+               {view:this, inProgress:inProgress, user:user});
+  },
+
+  openUserOpenConsoleDialog: function() {
+    var user = this.selectedRow();
+    if (!user) { return; }
+    openDialog('chrome://iamfox/content/user-open-console-dialog.xul', 'user-open-console-dialog', 'chrome,modal,centerscreen', {user:user});
   },
 
   selectByName: function(name) {
@@ -146,8 +237,32 @@ UserTreeView.prototype = {
 
   openUserGroupWindow: function() {
     var user = this.selectedRow();
-
+    if (!user) { return; }
     openModalWindow('user-group-window.xul', 'user-cert-window', 400, 400,
                     {iamcli:this.iamcli, userName:user.UserName});
   },
+
+  deleteLoginProfile: function() {
+    var user = this.selectedRow();
+    if (!user) { return; }
+    var userName = user.UserName;
+
+    if (!confirm("Are you sure you want to delete '" + userName + "'s login profile' ?")) {
+      return;
+    }
+
+    protect(function() {
+      inProgress(function() {
+        this.iamcli.query_or_die('DeleteLoginProfile', [['UserName', userName]]);
+      }.bind(this));
+    }.bind(this));
+  },
+
+  copyColumnToClipboard: function(name) {
+    var row = this.selectedRow();
+
+    if (row) {
+      copyToClipboard(row[name].toString());
+    }
+  }
 };

@@ -9,26 +9,49 @@
   <!-- context menu -->
   <popupset>
     <menupopup id="server-cert-tree-contenx-menu">
-      <menuitem label="Edit" oncommand="selectedView().openServerCertEditDialog()" />
-      <menuitem label="Delete" oncommand="selectedView().deleteServerCert()" />
+      <menuitem label="Edit" oncommand="selectedView().openServerCertEditDialog();" style="font-weight:bold;" />
+      <menuseparator />
+      <menu label="Copy to Clipboard">
+        <menupopup>
+          <menuitem label="Server Cert ID" oncommand="selectedView().copyColumnToClipboard('ServerCertificateId');" />
+          <menuitem label="Server Cert Name" oncommand="selectedView().copyColumnToClipboard('ServerCertificateName');" />
+          <menuitem label="ARN" oncommand="selectedView().copyColumnToClipboard('Arn');" />
+          <menuitem label="Path" oncommand="selectedView().copyColumnToClipboard('Path');" />
+          <menuitem label="Upload Date" oncommand="selectedView().copyColumnToClipboard('UploadDate');" />
+        </menupopup>
+      </menu>
+      <menuseparator />
+      <menuitem label="Delete" oncommand="selectedView().deleteServerCert();" />
     </menupopup>
   </popupset>
 
   <!-- tabpanel -->
   <tabpanel id="server-cert-tabpanel">
     <vbox flex="1">
+      <!-- filter -->
+      <hbox>
+        Path: 
+        <menulist id="server-cert-tree-path-filter" oncommand="selectedView().invalidate();" >
+          <menupopup>
+            <menuitem label="/" value="/" />
+          </menupopup>
+        </menulist>
+        Search:
+        <textbox id="server-cert-tree-filter" oninput="selectedView().invalidate();" />
+        <button label="Clear" oncommand="with($('server-cert-tree-filter')) { value = ''; oninput(); }" class="mini-button" />
+      </hbox>
       <!-- tree -->
-      <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" flex="1">
+      <tree id="server-cert-tree" seltype="single" enableColumnDrag="true" ondblclick="selectedView().openServerCertEditDialog(event);" flex="1">
         <treecols>
-          <treecol id="ServerCertificateId" label="Server Cert ID" flex="1" />
+          <treecol id="server-cert-tree.ServerCertificateId" label="Server Cert ID" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="ServerCertificateName" label="Server Cert Name" flex="1" />
+          <treecol id="server-cert-tree.ServerCertificateName" label="Server Cert Name" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="Arn" label="ARN ID" flex="1" />
+          <treecol id="server-cert-tree.Arn" label="ARN ID" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="Path" label="Path" flex="1" />
+          <treecol id="server-cert-tree.Path" label="Path" flex="1" persist="width ordinal hidden sortDirection" />
           <splitter class="tree-splitter" />
-          <treecol id="UploadDate" label="Upload Date" flex="1" />
+          <treecol id="server-cert-tree.UploadDate" label="Upload Date" flex="1" persist="width ordinal hidden sortDirection" />
         </treecols>
         <treechildren context="server-cert-tree-contenx-menu" />
       </tree>

@@ -1,53 +1,109 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://iamfox/skin/" type="text/css"?>
 <!DOCTYPE window SYSTEM "chrome://iamfox/locale/main.dtd">
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   title="Account"
-  buttons="accept,cancel"
-  ondialogaccept="return accountDialogDoOK();"
-  ondialogcancel="return true;"
-  onload="accountDialogOnLoad();">
+  buttons="accept"
+  buttonlabelaccept="Close"
+  ondialogaccept="return accountDialogDoClose();"
+  onload="accountDialogOnLoad();"
+  width="500" height="400">
 
   <!-- scripts -->
   <script src="chrome://global/content/nsUserSettings.js" />
   <script src="preferences.js" />
   <script src="utils.js" />
+  <script src="account-tree-view.js" />
+
+  <!-- context menu -->
+  <popupset>
+    <menupopup id="account-tree-contenx-menu">
+      <menuitem label="Delete" oncommand="$view.deleteAccount();" />
+    </menupopup>
+  </popupset>
+
+  <!-- tree -->
+  <tree id="account-tree" seltype="single" flex="1" editable="true" ondblclick="$view.onDblclick(event);">
+    <treecols>
+      <treecol id="account-tree-use" label="Use" type="checkbox" editable="true" />
+      <splitter class="tree-splitter" />
+      <treecol id="account-tree.0" label="User Name" flex="1" />
+      <splitter class="tree-splitter" />
+      <treecol id="account-tree.1" label="AWS Access Key ID" flex="1" />
+    </treecols>
+    <treechildren context="account-tree-contenx-menu" />
+  </tree>
 
   <!-- inputs -->
-  <label control="account-dialog-accessKeyId" value="AWS Access Key ID" />
-  <textbox id="account-dialog-accessKeyId"/>
-  <label control="account-dialog-secretAccessKey" value="AWS Secret Access Key" />
-  <textbox id="account-dialog-secretAccessKey" type="password" />
+  <groupbox>
+    <grid>
+      <columns>
+        <column flex="1" />
+        <column flex="3" />
+      </columns>
+      <rows>
+        <row>
+          <label control="account-dialog-userName" value="User Name" />
+          <textbox id="account-dialog-userName" />
+        </row>
+        <row>
+          <label control="account-dialog-accessKeyId" value="AWS Access Key ID" />
+          <textbox id="account-dialog-accessKeyId" />
+        </row>
+        <row>
+          <label control="account-dialog-secretAccessKey" value="AWS Secret Access Key" />
+          <textbox id="account-dialog-secretAccessKey" type="password" />
+        </row>
+      </rows>
+    </grid>
+
+    <hbox>
+      <spacer flex="1" />
+      <button label="Add / Update" oncommand="accountDialogDoUpdate();" class="mini-button" />
+    </hbox>
+  </groupbox>
 
   <!-- dialog script -->
   <script><![CDATA[
     function accountDialogOnLoad() {
-      moveToAlertPosition();
-      $('account-dialog-accessKeyId').value = Prefs.accessKeyId;
-      $('account-dialog-secretAccessKey').value = Prefs.secretAccessKey;
+      $view = new AccountTreeView(
+        $('account-dialog-userName'),
+        $('account-dialog-accessKeyId'),
+        $('account-dialog-secretAccessKey')
+      );
+
+      $('account-tree').view = $view;
+      $view.refresh();
     }
 
-    function accountDialogDoOK() {
+    function accountDialogDoUpdate() {
+      var userName = ($('account-dialog-userName').value || '').trim();
       var accessKeyId = ($('account-dialog-accessKeyId').value || '').trim();
       var secretAccessKey = ($('account-dialog-secretAccessKey').value || '').trim();
 
-      if (!accessKeyId || !secretAccessKey) {
-        alert("Please input 'AWS Access Key ID' and 'AWS Secret Access Key'.");
-        return false;
-      } else {
-        var attachViewsToElements = window.arguments[0].attachViewsToElements;
-        var selectedView = window.arguments[0].selectedView;
-
-        Prefs.accessKeyId = accessKeyId;
-        Prefs.secretAccessKey = secretAccessKey;
-
-        attachViewsToElements(function() {
-          selectedView().refresh();
-        });
-
-        return true;
+      if (!userName || !accessKeyId || !secretAccessKey) {
+        alert("Please input 'User Name', 'AWS Access Key ID' and 'AWS Secret Access Key'.");
+        return;
       }
+
+      $view.addAccount(userName, accessKeyId, secretAccessKey);
+
+      $('account-dialog-userName').value = '';
+      $('account-dialog-accessKeyId').value = '';
+      $('account-dialog-secretAccessKey').value = '';
+    }
+
+    function accountDialogDoClose() {
+      var attachViewsToElements = window.arguments[0].attachViewsToElements;
+      var selectedView = window.arguments[0].selectedView;
+
+      attachViewsToElements(function() {
+        selectedView().refresh();
+      });
+
+      return true;
     }
   ]]></script>
 </dialog>

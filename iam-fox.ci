@@ -63,7 +63,7 @@
       
    </registry>
    <shcut listview >
-      <_><shpath>prog</><shname>IAM Fox</><tarpath>inst</><tarname>iam-fox.exe</><cmdline></><workpath>inst</><workcust></><icon>chrome\icons\default\main-window.ico</></>
+      <_><shpath>prog</><shname>IAM Fox</><tarpath>inst</><tarname>iam-fox.exe</><cmdline></><workpath>inst</><workcust></><icon>iam-fox.ico</></>
 <_><shpath>desk</><shname>IAM Fox</><tarpath>inst</><tarname>iam-fox.exe</><cmdline></><workpath>inst</><workcust></><icon>iam-fox.ico</></>
 
    </shcut>
