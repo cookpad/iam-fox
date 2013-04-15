@@ -113,20 +113,41 @@ function refreshUserCert() {
   var userName = args.userName;
 
   protect(function() {
-    var xhr = inProgress(function() {
-      return iamcli.query_or_die('ListSigningCertificates', [['UserName', userName]]);
-    });
+    var certificates = [];
+    window.certHash = {};
+
+    var walk = function(marker) {
+      var params = [['UserName', userName]];
+
+      if (marker) {
+        params.push(['Marker', marker])
+      }
+
+      var xhr = inProgress(function() {
+        return iamcli.query_or_die('ListSigningCertificates', params);
+      });
+
+      var xml = xhr.xml();
+
+      for each (var member in xml..Certificates.member) {
+        certificates.push(member);
+        window.certHash[member.CertificateId.toString()] = member;
+      }
+
+      var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+      return isTruncated ? (xml..Marker || '').toString().trim() : null;
+    }.bind(this);
+
+    var marker = null;
+
+    do {
+      marker = walk(marker);
+    } while (marker);
 
     var listbox = $('user-cert-listbox');
     var textbox = $('user-cert-textbox');
     var status = $('user-cert-status-textbox');
-    var certificates = [];
-    window.certHash = {};
-
-    for each (var member in xhr.xml()..Certificates.member) {
-      certificates.push(member);
-      window.certHash[member.CertificateId.toString()] = member;
-    }
 
     listbox.clearSelection();
     textbox.value = null;

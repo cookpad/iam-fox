@@ -134,17 +134,38 @@ function refreshUserPolicy() {
   var userName = args.userName;
 
   protect(function() {
-    var xhr = inProgress(function() {
-      return iamcli.query_or_die('ListUserPolicies', [['UserName', userName]]);
-    });
+    var policyNames = [];
+
+    var walk = function(marker) {
+      var params = [['UserName', userName]];
+
+      if (marker) {
+        params.push(['Marker', marker])
+      }
+
+      var xhr = inProgress(function() {
+        return iamcli.query_or_die('ListUserPolicies', params);
+      });
+
+      var xml = xhr.xml();
+
+      for each (var member in xml..PolicyNames.member) {
+        policyNames.push(member);
+      }
+
+      var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+      return isTruncated ? (xml..Marker || '').toString().trim() : null;
+    }.bind(this);
+
+    var marker = null;
+
+    do {
+      marker = walk(marker);
+    } while (marker);
 
     var listbox = $('user-policy-listbox');
     var textbox = $('user-policy-textbox');
-    var policyNames = [];
-
-    for each (var member in xhr.xml()..PolicyNames.member) {
-      policyNames.push(member);
-    }
 
     listbox.clearSelection();
     textbox.value = null;

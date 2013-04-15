@@ -87,16 +87,36 @@ GroupTreeView.prototype = {
     this.rows.length = 0;
 
     protect(function() {
-      var xhr = inProgress(function() {
-        return this.iamcli.query_or_die('ListGroups');
-      }.bind(this));
-
       var pathList = ['/'];
 
-      for each (var member in xhr.xml()..Groups.member) {
-        this.rows.push(member);
-        pathList.push(member.Path.toString());
-      }
+      var walk = function(marker) {
+        var params = [];
+
+        if (marker) {
+          params.push(['Marker', marker])
+        }
+
+        var xhr = inProgress(function() {
+          return this.iamcli.query_or_die('ListGroups', params);
+        }.bind(this));
+
+        var xml = xhr.xml();
+
+        for each (var member in xml..Groups.member) {
+          this.rows.push(member);
+          pathList.push(member.Path.toString());
+        }
+
+        var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+        return isTruncated ? (xml..Marker || '').toString().trim() : null;
+      }.bind(this);
+
+      var marker = null;
+
+      do {
+        marker = walk(marker);
+      } while (marker);
 
       var pathFilter = $('group-tree-path-filter');
       pathFilter.removeAllItems();
@@ -146,12 +166,31 @@ GroupTreeView.prototype = {
 
     protect(function() {
       inProgress(function() {
-        var xhr = this.iamcli.query_or_die('ListGroupPolicies', [['GroupName', groupName]]);
+        var walk = function(marker) {
+          var params = [['GroupName', groupName]];
 
-        for each (var member in xhr.xml()..PolicyNames.member) {
-          var params = [['GroupName', groupName], ['PolicyName', member]];
-          this.iamcli.query_or_die('DeleteGroupPolicy', params);
-        }
+          if (marker) {
+            params.push(['Marker', marker])
+          }
+
+          var xhr = this.iamcli.query_or_die('ListGroupPolicies', params);
+          var xml = xhr.xml();
+
+          for each (var member in xml..PolicyNames.member) {
+            var params = [['GroupName', groupName], ['PolicyName', member]];
+            this.iamcli.query_or_die('DeleteGroupPolicy', params);
+          }
+
+          var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+          return isTruncated ? (xml..Marker || '').toString().trim() : null;
+        }.bind(this);
+
+        var marker = null;
+
+        do {
+          marker = walk(marker);
+        } while (marker);
 
         this.iamcli.query_or_die('DeleteGroup', [['GroupName', groupName]]);
 

@@ -21,12 +21,31 @@ UserViewKeyTreeView.prototype = {
 
     protect(function() {
       this.inProgress(function() {
-        var xhr = this.iamcli.query_or_die('ListAccessKeys', [['UserName', this.user.UserName]]);
+        var walk = function(marker) {
+          var params = [['UserName', this.user.UserName]];
 
-        for each (var member in xhr.xml()..AccessKeyMetadata.member) {
-          var akid =  member.AccessKeyId.toString();
-          data.push([akid, hash[akid]]);
-        }
+          if (marker) {
+            params.push(['Marker', marker])
+          }
+
+          var xhr = this.iamcli.query_or_die('ListAccessKeys', params);
+          var xml = xhr.xml();
+
+          for each (var member in xml..AccessKeyMetadata.member) {
+            var akid =  member.AccessKeyId.toString();
+            data.push([akid, hash[akid]]);
+          }
+
+          var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+          return isTruncated ? (xml..Marker || '').toString().trim() : null;
+        }.bind(this);
+
+        var marker = null;
+
+        do {
+          marker = walk(marker);
+        } while (marker);
       }.bind(this));
     }.bind(this));
 

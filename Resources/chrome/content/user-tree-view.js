@@ -87,16 +87,36 @@ UserTreeView.prototype = {
     this.rows.length = 0;
 
     protect(function() {
-      var xhr = inProgress(function() {
-        return this.iamcli.query_or_die('ListUsers');
-      }.bind(this));
-
       var pathList = ['/'];
 
-      for each (var member in xhr.xml()..Users.member) {
-        this.rows.push(member);
-        pathList.push(member.Path.toString());
-      }
+      var walk = function(marker) {
+        var params = [];
+
+        if (marker) {
+          params.push(['Marker', marker])
+        }
+
+        var xhr = inProgress(function() {
+          return this.iamcli.query_or_die('ListUsers', params);
+        }.bind(this));
+
+        var xml = xhr.xml();
+
+        for each (var member in xml..Users.member) {
+          this.rows.push(member);
+          pathList.push(member.Path.toString());
+        }
+
+        var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+        return isTruncated ? (xml..Marker || '').toString().trim() : null;
+      }.bind(this);
+
+      var marker = null;
+
+      do {
+        marker = walk(marker);
+      } while (marker);
 
       var pathFilter = $('user-tree-path-filter');
       pathFilter.removeAllItems();
@@ -156,33 +176,109 @@ UserTreeView.prototype = {
 
     protect(function() {
       inProgress(function() {
-        var xhr = this.iamcli.query_or_die('ListAccessKeys', [['UserName', userName]]);
+        var walk = function(marker) {
+          var params = [['UserName', userName]];
 
-        for each (var member in xhr.xml()..AccessKeyMetadata.member) {
-          var params = [['UserName', userName], ['AccessKeyId', member.AccessKeyId]];
-          this.iamcli.query_or_die('DeleteAccessKey', params);
-        }
+          if (marker) {
+            params.push(['Marker', marker])
+          }
 
-        xhr = this.iamcli.query_or_die('ListGroupsForUser', [['UserName', userName]]);
+          var xhr = this.iamcli.query_or_die('ListAccessKeys', params);
+          var xml = xhr.xml();
 
-        for each (var member in xhr.xml()..Groups.member) {
-          var params = [['UserName', userName], ['GroupName', member.GroupName]];
-          this.iamcli.query_or_die('RemoveUserFromGroup', params);
-        }
+          for each (var member in xml..AccessKeyMetadata.member) {
+            var params = [['UserName', userName], ['AccessKeyId', member.AccessKeyId]];
+            this.iamcli.query_or_die('DeleteAccessKey', params);
+          }
 
-        xhr = this.iamcli.query_or_die('ListSigningCertificates', [['UserName', userName]]);
+          var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
 
-        for each (var member in xhr.xml()..Certificates.member) {
-          var params = [['UserName', userName], ['CertificateId', member.CertificateId]];
-          this.iamcli.query_or_die('DeleteSigningCertificate', params);
-        }
+          return isTruncated ? (xml..Marker || '').toString().trim() : null;
+        }.bind(this);
 
-        xhr = this.iamcli.query_or_die('ListUserPolicies', [['UserName', userName]]);
+        var marker = null;
 
-        for each (var member in xhr.xml()..PolicyNames.member) {
-          var params = [['UserName', userName], ['PolicyName', member]];
-          this.iamcli.query_or_die('DeleteUserPolicy', params);
-        }
+        do {
+          marker = walk(marker);
+        } while (marker);
+
+        walk = function(marker) {
+          var params = [['UserName', userName]];
+
+          if (marker) {
+            params.push(['Marker', marker])
+          }
+
+          var xhr = this.iamcli.query_or_die('ListGroupsForUser', params);
+          var xml = xhr.xml();
+
+          for each (var member in xml..Groups.member) {
+            var params = [['UserName', userName], ['GroupName', member.GroupName]];
+            this.iamcli.query_or_die('RemoveUserFromGroup', params);
+          }
+
+          var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+          return isTruncated ? (xml..Marker || '').toString().trim() : null;
+        }.bind(this);
+
+        marker = null;
+
+        do {
+          marker = walk(marker);
+        } while (marker);
+
+        walk = function(marker) {
+          var params = [['UserName', userName]];
+
+          if (marker) {
+            params.push(['Marker', marker])
+          }
+
+          var xhr = this.iamcli.query_or_die('ListSigningCertificates', params);
+          var xml = xhr.xml();
+
+          for each (var member in xml..Certificates.member) {
+            var params = [['UserName', userName], ['CertificateId', member.CertificateId]];
+            this.iamcli.query_or_die('DeleteSigningCertificate', params);
+          }
+
+          var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+          return isTruncated ? (xml..Marker || '').toString().trim() : null;
+        }.bind(this);
+
+        marker = null;
+
+        do {
+          marker = walk(marker);
+        } while (marker);
+
+        walk = function(marker) {
+          var params = [['UserName', userName]];
+
+          if (marker) {
+            params.push(['Marker', marker])
+          }
+
+          var xhr = this.iamcli.query_or_die('ListUserPolicies', params);
+          var xml = xhr.xml();
+
+          for each (var member in xml..PolicyNames.member) {
+            var params = [['UserName', userName], ['PolicyName', member]];
+            this.iamcli.query_or_die('DeleteUserPolicy', params);
+          }
+
+          var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+          return isTruncated ? (xml..Marker || '').toString().trim() : null;
+        }.bind(this);
+
+        marker = null;
+
+        do {
+          marker = walk(marker);
+        } while (marker);
 
         this.iamcli.query_or_die('DeleteUser', [['UserName', userName]]);
 

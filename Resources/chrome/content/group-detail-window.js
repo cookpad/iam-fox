@@ -132,17 +132,38 @@ function refreshGroupPolicy() {
   var groupName = args.groupName;
 
   protect(function() {
-    var xhr = inProgress(function() {
-      return iamcli.query_or_die('ListGroupPolicies', [['GroupName', groupName]]);
-    });
+    var policyNames = [];
+
+    var walk = function(marker) {
+      var params = [['GroupName', groupName]];
+
+      if (marker) {
+        params.push(['Marker', marker])
+      }
+
+      var xhr = inProgress(function() {
+        return iamcli.query_or_die('ListGroupPolicies', params);
+      });
+
+      var xml = xhr.xml();
+
+      for each (var member in xml..PolicyNames.member) {
+        policyNames.push(member);
+      }
+
+      var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+      return isTruncated ? (xml..Marker || '').toString().trim() : null;
+    }.bind(this);
+
+    var marker = null;
+
+    do {
+      marker = walk(marker);
+    } while (marker);
 
     var listbox = $('group-policy-listbox');
     var textbox = $('group-policy-textbox');
-    var policyNames = [];
-
-    for each (var member in xhr.xml()..PolicyNames.member) {
-      policyNames.push(member);
-    }
 
     listbox.clearSelection();
     textbox.value = null;

@@ -93,19 +93,57 @@ function refreshUserGroup() {
     var belongs_to = [];
 
     inProgress(function() {
-      var xhr = iamcli.query_or_die('ListGroups');
+      var walk = function(marker) {
+        var params = [];
 
-      for each (var member in xhr.xml()..Groups.member) {
-        groups.push(member.GroupName.toString());
-      }
+        if (marker) {
+          params.push(['Marker', marker])
+        }
+
+        var xhr = iamcli.query_or_die('ListGroups', params);
+        var xml = xhr.xml();
+
+        for each (var member in xml..Groups.member) {
+          groups.push(member.GroupName.toString());
+        }
+
+        var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+        return isTruncated ? (xml..Marker || '').toString().trim() : null;
+      }.bind(this);
+
+      var marker = null;
+
+      do {
+        marker = walk(marker);
+      } while (marker);
     });
 
     var xhr = inProgress(function() {
-      var xhr = iamcli.query_or_die('ListGroupsForUser', [['UserName', userName]]);
+      var walk = function(marker) {
+        var params = [['UserName', userName]];
 
-      for each (var member in xhr.xml()..Groups.member) {
-        belongs_to.push(member.GroupName.toString());
-      }
+        if (marker) {
+          params.push(['Marker', marker])
+        }
+
+        var xhr = iamcli.query_or_die('ListGroupsForUser', params);
+        var xml = xhr.xml();
+
+        for each (var member in xhr.xml()..Groups.member) {
+          belongs_to.push(member.GroupName.toString());
+        }
+
+        var isTruncated = ((xml..IsTruncated || '').toString().trim().toLowerCase() == 'true');
+
+        return isTruncated ? (xml..Marker || '').toString().trim() : null;
+      }.bind(this);
+
+      var marker = null;
+
+      do {
+        marker = walk(marker);
+      } while (marker);
     });
 
     var listbox = $('user-group-listbox');
